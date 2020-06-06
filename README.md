@@ -12,3 +12,4 @@
 
 
 坑1： 动态引入图片路径要用require()
+坑2:  element-ui中的row的offset要少用

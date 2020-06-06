@@ -1,7 +1,8 @@
 <template>
   <div class="footerBox">
-    <el-row :gutter="20">
-      <el-col :span="8" :offset="4">
+    <el-card>
+    <el-row>
+      <el-col :span="10" >
         <el-breadcrumb separator="|">
           <el-breadcrumb-item>
             <a href="/">服务条款</a>
@@ -34,7 +35,7 @@
           <a href="#">工业和信息化部备案管理系统网站</a>
         </p>
       </el-col>
-      <el-col :span="8" :offset="2">
+      <el-col :span="10" :offset="4">
         <ul>
           <li>
             <a class="span-auth" href="#"></a>
@@ -54,7 +55,7 @@
           </li>
         </ul>
       </el-col>
-    </el-row>
+    </el-row></el-card>
   </div>
 </template>
 
@@ -67,6 +68,10 @@ export default {
 </script>
 <style lang='less' scoped>
 .footerBox {
+  .el-row{
+    width: 1100px;
+    margin:0 auto;
+  }
   ul {
     li {
       float: left;
@@ -125,6 +130,7 @@ export default {
   }
   .el-row {
     .el-breadcrumb {
+      margin-top: 20px;
       .el-breadcrumb__item {
         font-size: 12px;
         .el-breadcrumb__separator {

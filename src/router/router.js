@@ -22,28 +22,28 @@ const routes = [
                 component:Recommend,
                 // redirect:'/recommend',
                 children:[
-                    {
-                        path: '/recommend',
-                        component: Recommend
-                    },
-                    {
-                        path: '/playlist',
-                        component: Playlist
-                    }, {
-                        path: '/djradio',
-                        component: Djradio
-                    }, {
-                        path: '/artist',
-                        component: Artist
-                    }, {
-                        path: '/album',
-                        component: Album
-                    }
+                   
                 ]
             },
             {
                 path: '/toplist',
                 component: Toplist
+            },
+            {
+                path: '/playlist',
+                component: Playlist
+            }, {
+                path: '/recommend',
+                component: Recommend
+            }, {
+                path: '/djradio',
+                component: Djradio
+            }, {
+                path: '/artist',
+                component: Artist
+            }, {
+                path: '/album',
+                component: Album
             }
             // {
             //     path:'/my',

@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <el-row :gutter="16">
-      <el-col :span="4" :offset="4">
+  <div class="toplist">
+    <el-row >
+      <el-col :span="7">
         <LeftBar></LeftBar>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="13">
         <RigthBar></RigthBar>
       </el-col>
     </el-row>
@@ -24,5 +24,9 @@ export default {
   }
 };
 </script>
-<style lang='' scoped>
+<style lang='less' scoped>
+  .toplist{
+    width: 1100px;
+      margin: 0 auto;
+  }
 </style>

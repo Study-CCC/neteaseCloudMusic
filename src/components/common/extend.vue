@@ -1,7 +1,7 @@
 <template>
   <div class="extend">
     <div class="extend-content">
-      <el-row :gutter="12">
+      <el-row>
         <el-col :offset="6">
           <el-menu default-active="1" mode="horizontal" active-text-color="#9B0909">
             <el-menu-item index="1"><router-link to="/recommend">推荐</router-link></el-menu-item>
@@ -30,10 +30,17 @@ export default {
   background-color: #c20c0c;
   height: 35px;
   .extend-content {
+    // .el-row{
+    //   margin: 0 auto;
+    //   width: 70%;
+    // }
     ul {
       background-color: #c20c0c;
-      float: left;
+      // float: left;
+      min-width: 1100px;
+      margin: 0 auto;
       border-bottom: none;
+      
       li {
         color: #fff;
         font-size: 12px;

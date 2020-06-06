@@ -23,8 +23,17 @@
       <div class="listTitle">
         <h3>歌曲列表</h3>
         <span>100首歌</span>
-        <span class="play">播放<strong>5253254234325</strong>次</span>
+        <span class="play">
+          播放
+          <strong>5253254234325</strong>次
+        </span>
       </div>
+      <el-table stripe border style="width: 97%;margin-left:20px">
+        <el-table-column label="#" type="index"></el-table-column>
+        <el-table-column label="歌手"></el-table-column>
+        <el-table-column label="标题"></el-table-column>
+        <el-table-column label="时长"></el-table-column>
+      </el-table>
     </div>
   </div>
 </template>
@@ -38,6 +47,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .rightBox {
+      width: 777px;
   .rightHeader {
     display: flex;
     margin-top: 20px;
@@ -66,23 +76,22 @@ export default {
       }
     }
   }
-  .listTitle{
+  .listTitle {
     display: flex;
     align-items: center;
     margin-left: 20px;
     height: 35px;
     border-bottom: 2px solid #c20c0c;
-    .play{
-       margin-left:auto;
-
+    .play {
+      margin-left: auto;
     }
-    h3{
+    h3 {
       font-size: 20px;
-    line-height: 28px;
+      line-height: 28px;
     }
-    span{
+    span {
       margin: 9px 0 0 20px;
-      color:#666;
+      color: #666;
       font-size: 12px;
     }
   }
