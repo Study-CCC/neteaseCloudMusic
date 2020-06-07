@@ -7,7 +7,13 @@ import  'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 
 Vue.config.productionTip = false
+axios.defaults.baseURL = 'http://localhost:3000' 
 Vue.prototype.$http = axios
+Vue.filter('numFilter',(value)=>{
+  if(value>100000){
+    return parseInt()
+  }
+})
 new Vue({
   router,
   render: h => h(App)

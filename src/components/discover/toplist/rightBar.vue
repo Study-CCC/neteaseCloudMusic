@@ -28,11 +28,21 @@
           <strong>5253254234325</strong>次
         </span>
       </div>
-      <el-table stripe border style="width: 97%;margin-left:20px">
+      <el-table stripe :data="songsList" style="width: 97%;margin-left:20px">
         <el-table-column label="#" type="index"></el-table-column>
-        <el-table-column label="歌手"></el-table-column>
-        <el-table-column label="标题"></el-table-column>
-        <el-table-column label="时长"></el-table-column>
+        <el-table-column prop="name" label="标题">
+          <template v-slot="songData">
+            <div class="songItem">
+              <img class="titImg" :src="songData.row.al.picUrl" alt />
+              <i class="play"></i>
+              <span>{{songData.row.name}}</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop label="时长">
+          <template></template>
+        </el-table-column>
+        <el-table-column prop="ar[0].name" label="歌手"></el-table-column>
       </el-table>
     </div>
   </div>
@@ -41,13 +51,46 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      songsList: []
+    };
+  },
+  created() {
+    this.getData();
+  },
+  methods: {
+    async getData() {
+      const { data, status } = await this.$http.get("/top/list?idx=3");
+      if (status !== 200) return this.$message.error("数据获取错误");
+      //  console.log(data)
+      this.songsList = data.playlist.tracks;
+      console.log(this.songsList);
+    }
   }
 };
 </script>
 <style lang='less' scoped>
+.songItem{
+  display: flex;
+  align-items: center;
+.titImg {
+  width: 50px;
+  height: 50px;
+  margin-right: 5px;
+}
+.play {
+  background: url("../../../assets/table.png");
+  background-position: 0 -103px;
+  width: 17px;
+  height: 17px;
+  display: block;
+  margin-right: 5px;
+}
+}
+
 .rightBox {
-      width: 777px;
+  width: 777px;
+  border-left: 1px solid #d3d3d3;
   .rightHeader {
     display: flex;
     margin-top: 20px;
@@ -93,6 +136,14 @@ export default {
       margin: 9px 0 0 20px;
       color: #666;
       font-size: 12px;
+    }
+  }
+  .el-table {
+    .el-table-column {
+      img {
+        width: 50px;
+        height: 50px;
+      }
     }
   }
 }

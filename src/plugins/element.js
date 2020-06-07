@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {Row,Col,Menu,ButtonGroup,MenuItem,Table,Popover,Pagination,Card,TableColumn,Input,Button,Breadcrumb,BreadcrumbItem,Carousel,CarouselItem} from 'element-ui'
+import {Row,Col,Menu,ButtonGroup,MenuItem,Message,Table,Popover,Pagination,Card,TableColumn,Input,Button,Breadcrumb,BreadcrumbItem,Carousel,CarouselItem} from 'element-ui'
 
 Vue.use(Row)
 Vue.use(Col)
@@ -17,3 +17,4 @@ Vue.use(ButtonGroup)
 Vue.use(Carousel)
 Vue.use(CarouselItem)
 Vue.use(Pagination)
+Vue.prototype.$message = Message
