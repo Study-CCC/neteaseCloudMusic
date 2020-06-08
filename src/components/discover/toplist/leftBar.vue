@@ -2,8 +2,8 @@
   <div class="leftBox">
     <span class="title">云音乐特色榜</span>
     <el-menu default-active="2" class="el-menu-vertical-demo">
-      <el-menu-item v-for="(item,index) in list" :key="index">
-        <img :src="item.coverImgUrl" alt />
+      <el-menu-item v-for="(item,index) in list" :key="index" @click="titClick(item.id)">
+       <img :src="item.coverImgUrl" alt />
         <div class="itemText">
           <p>{{item.name}}</p>
           <p style="color:#999">{{item.updateFrequency}}</p>
@@ -40,7 +40,9 @@ export default {
       if (status !== 200) return this.$message.error("数据获取错误");
       // console.log(data)
       this.list = data.list
-
+    },
+    titClick(id){
+      console.log(id)
     }
   }
 };

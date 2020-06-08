@@ -4,13 +4,28 @@
       <h3>榜单</h3>
       <a href="#" class="more">更多</a>
     </div>
+    <el-row>
+      <el-col :span="8">
+        <ListItem></ListItem>
+      </el-col>
+      <el-col :span="8">
+        <ListItem></ListItem>
+      </el-col>
+      <el-col :span="8">
+        <ListItem></ListItem>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
+import ListItem from './listItem'
 export default {
   data() {
     return {};
+  },
+  components:{
+    ListItem
   }
 };
 </script>

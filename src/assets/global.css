@@ -1,13 +1,23 @@
-body,html{
+body, html {
     margin: 0;
     border: 0;
     width: 100%;
 }
-a{
+
+a {
     text-decoration: none;
 }
-ul,li,p{
+
+ul, li, p,h3 {
     list-style: none;
     margin: 0;
     padding: 0;
+}
+
+.clearFloat:after {
+    display: block;
+    clear: both;
+    content: "";
+    visibility: hidden;
+    height: 0
 }

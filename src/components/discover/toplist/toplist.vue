@@ -4,7 +4,7 @@
       <el-col :span="6">
         <LeftBar></LeftBar>
       </el-col>
-      <el-col :span="18">
+      <el-col class="rightBox" :span="18">
         <RigthBar></RigthBar>
       </el-col>
     </el-row>
@@ -30,5 +30,8 @@ export default {
   margin: 0 auto;
   border-left: 1px solid #d3d3d3;
     border-right: 1px solid #d3d3d3;
+    .rightBox{
+      padding: 20px;
+    }
 }
 </style>

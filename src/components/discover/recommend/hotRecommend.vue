@@ -63,7 +63,7 @@ export default {
     display: flex;
     align-items: center;
     border-bottom: 2px solid #c20c0c;
-
+    height: 35px;
     .more {
       margin-left: auto;
     }
