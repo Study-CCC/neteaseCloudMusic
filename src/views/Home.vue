@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <Header></Header>
+          <Header></Header>
     <Extend></Extend>
-    <router-view></router-view>
-    <Footer></Footer>
+<router-view></router-view>
+        <Footer></Footer>
   </div>
 </template>
 

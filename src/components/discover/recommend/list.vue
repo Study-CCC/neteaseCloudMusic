@@ -6,13 +6,13 @@
     </div>
     <el-row>
       <el-col :span="8">
-        <ListItem></ListItem>
+        <ListItem :id='id[0]'></ListItem>
       </el-col>
       <el-col :span="8">
-        <ListItem></ListItem>
+        <ListItem :id='id[1]'></ListItem>
       </el-col>
       <el-col :span="8">
-        <ListItem></ListItem>
+        <ListItem :id='id[2]'></ListItem>
       </el-col>
     </el-row>
   </div>
@@ -22,7 +22,11 @@
 import ListItem from './listItem'
 export default {
   data() {
-    return {};
+    return {
+      id:[
+        '3','0','2'
+      ]
+    };
   },
   components:{
     ListItem

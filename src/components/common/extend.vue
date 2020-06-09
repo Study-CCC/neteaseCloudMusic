@@ -4,12 +4,12 @@
       <el-row>
         <el-col :offset="6">
           <el-menu default-active="1" mode="horizontal" active-text-color="#9B0909">
-            <el-menu-item index="1"><router-link to="/recommend">推荐</router-link></el-menu-item>
-            <el-menu-item index="2"><router-link to="/toplist">排行榜</router-link></el-menu-item>
-            <el-menu-item index="3"><router-link to="/playlist">歌单</router-link></el-menu-item>
-            <el-menu-item index="4"><router-link to="/djradio">主播电台</router-link></el-menu-item>
-            <el-menu-item index="5"><router-link to="/artist">歌手</router-link></el-menu-item>
-            <el-menu-item index="6"><router-link to="/album">新碟上歌</router-link></el-menu-item>
+            <el-menu-item index="1"><router-link to="recommend">推荐</router-link></el-menu-item>
+            <el-menu-item index="2"><router-link to="toplist">排行榜</router-link></el-menu-item>
+            <el-menu-item index="3"><router-link to="playlist">歌单</router-link></el-menu-item>
+            <el-menu-item index="4"><router-link to="djradio">主播电台</router-link></el-menu-item>
+            <el-menu-item index="5"><router-link to="artist">歌手</router-link></el-menu-item>
+            <el-menu-item index="6"><router-link to="album">新碟上歌</router-link></el-menu-item>
           </el-menu>
         </el-col>
       </el-row>

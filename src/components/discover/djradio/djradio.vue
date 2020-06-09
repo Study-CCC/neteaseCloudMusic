@@ -10,10 +10,13 @@
      </el-col>
    </el-row>
    <ContentBar />
+   <!-- <PlaylistCon></PlaylistCon> -->
   </div>
 </template>
 
 <script>
+// 测试
+// import PlaylistCon from '../../detailPage/playlistCon/playlistCon'
 import TopBar from './topBar'
 import ContentBar from './contentBar'
 import LeftBar from './leftBar'

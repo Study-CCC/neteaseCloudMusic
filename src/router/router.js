@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home'
-// import Friend from '../views/friend'
-// import My from '../views/my'
+import Discover from '../components/discover/discover'
+import My from '../components/my/my'
+import Friend from '../components/friend/friend'
 import Toplist from '../components/discover/toplist/toplist'
 import Recommend from '../components/discover/recommend/recommend'
 import Playlist from '../components/discover/playlist/playlist'
@@ -16,42 +17,47 @@ const routes = [
     {
         path: '/',
         component: Home,
+        redirect: 'discover',
         children: [
             {
-                path:'/discover',
-                component:Recommend,
-                // redirect:'/recommend',
-                children:[
-                   
+                path: 'discover',
+                component: Discover,
+                children: [
+                    {
+                        path:'/',
+                        redirect:'recommend'
+                    },
+                    {
+                        path: 'recommend',
+                        component: Recommend
+                    }, {
+                        path: 'toplist',
+                        component: Toplist
+                    },
+                    {
+                        path: 'playlist',
+                        component: Playlist
+                    }, {
+                        path: 'djradio',
+                        component: Djradio
+                    }, {
+                        path: 'artist',
+                        component: Artist
+                    }, {
+                        path: 'album',
+                        component: Album
+                    }
                 ]
             },
+
             {
-                path: '/toplist',
-                component: Toplist
+                path: '/my',
+                component: My
             },
             {
-                path: '/playlist',
-                component: Playlist
-            }, {
-                path: '/recommend',
-                component: Recommend
-            }, {
-                path: '/djradio',
-                component: Djradio
-            }, {
-                path: '/artist',
-                component: Artist
-            }, {
-                path: '/album',
-                component: Album
+                path: '/friend',
+                component: Friend
             }
-            // {
-            //     path:'/my',
-            //     component:''
-            // },{
-            //     path:'/friend',
-            //     component:''
-            // }
         ]
     }
 ]

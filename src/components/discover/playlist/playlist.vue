@@ -6,23 +6,23 @@
         <!-- 选择分类弹出框 -->
         <el-popover placement="bottom" :offset="250" width="680">
           <h3>
-            <el-button>全部风格</el-button>
+            <el-button size="mini">全部风格</el-button>
           </h3>
           <el-row v-for="(item,index) in categories" :key="index">
             <el-col class="chooseTit" :span="3">
-              <i class="chooseIcon" :style="'backgroundPosition:'+categories[index]"></i>
+              <i class="chooseIcon" :style="{backgroundPosition:categoryImg[index]}"></i>
               {{item}}
             </el-col>
             <el-col class="chooseItem" :span="21">
               <ul>
                 <li v-for="(item1,i) in catlist[index]" :key="i">
-                  <a herf="#">{{item1.name}}</a>
+                  <router-link :to="`playlist?tag=${item1.name}`" @click="getClickData">{{item1.name}}</router-link>
                   <span class="line">|</span>
                 </li>
               </ul>
             </el-col>
           </el-row>
-          <el-button type="primary" slot="reference">
+          <el-button class="chooseBtn" size="small" slot="reference">
             选择分类
             <i class="el-icon-arrow-down el-icon--right"></i>
           </el-button>
@@ -69,8 +69,14 @@ export default {
       offset: 0,
       total: 0,
       catlist: [],
-      categories:[],
-      categoryImg:[' -20px -735px','0 -60px','0 -88px','0 -117px','0 -141px']
+      categories: [],
+      categoryImg: [
+        " -20px -735px",
+        "0 -60px",
+        "0 -88px",
+        "0 -117px",
+        "0 -141px"
+      ]
       // changePage:
     };
   },
@@ -85,15 +91,22 @@ export default {
       this.getListData();
     },
     async getCatData() {
-      const { data, status } = await this.$http.get('/playlist/catlist');
+      const { data, status } = await this.$http.get("/playlist/catlist");
       if (status !== 200) return this.$message.error("数据获取错误");
       // 将sub中的数据分类
-      data.sub.map(item=>{
-        if(!this.catlist[[item.category]]) this.catlist[item.category]=[]
-        this.catlist[item.category].push(item)
-      })
-      this.categories = data.categories
-      console.log(this.catlist)
+      data.sub.map(item => {
+        if (!this.catlist[[item.category]]) this.catlist[item.category] = [];
+        this.catlist[item.category].push(item);
+      });
+      this.categories = data.categories;
+    },
+    async getClickData() {
+      console.log(this.$route)
+      // const { data, status } = await this.$http.get(
+      //   `/playlist/catlist?tag=${tag}`
+      // );
+      // if (status !== 200) return this.$message.error("数据获取错误");
+      // this.categories = data.categories;
     },
     async getListData() {
       const { data, status } = await this.$http.get(
@@ -101,18 +114,28 @@ export default {
       );
 
       if (status !== 200) return this.$message.error("数据获取错误");
-      // console.log(data);
+      console.log(data);
       this.playlists = data.playlists;
       this.total = data.total;
     }
-  }
+  },  
 };
 </script>
 <style lang='less' scoped>
+a:hover {
+  text-decoration: underline;
+}
+.chooseBtn {
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
 .el-popover {
   margin-left: 30px;
   h3 {
     border-bottom: 1px solid #e6e6e6;
+    .el-button {
+      margin-bottom: 5px;
+    }
   }
   .el-row {
     display: flex;
@@ -129,13 +152,20 @@ export default {
     .chooseItem {
       ul {
         display: flex;
-        padding: 16px 15px 0 15px;
+        padding: 10px 15px 2px 15px;
         border-left: 1px solid #e6e6e6;
         flex-wrap: wrap;
         li {
           a {
             color: #333;
             font-size: 12px;
+            // background-color: #fff;
+            &:visited {
+              background: #a7a7a7;
+              color: #fff;
+              padding: 2px 6px;
+            }
+           
           }
           .line {
             margin: 0 8px 0 10px;
@@ -159,6 +189,9 @@ export default {
       display: flex;
       align-items: center;
       border-bottom: 2px solid #c20c0c;
+      h3 {
+        font-size: 24px;
+      }
     }
     .hotContent {
       display: flex;
