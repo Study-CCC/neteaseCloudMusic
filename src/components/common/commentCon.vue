@@ -1,71 +1,131 @@
 <template>
   <div class="commentConBox">
-       <div class="newTit">
-        <span>最新评论(2564832)</span>
-      </div>
-      <div class="newCon">
-        <ul>
-          <li>
-            <div class="newItem clearFloat">
-              <img src="../../assets/TEST.jpg" alt />
+    <div class="hotTit" v-if="hotcommentCount">
+      <span>精彩评论({{hotcommentCount}})</span>
+    </div>
+    <div class="hotCon" v-if="hotcommentCount">
+      <ul>
+        <li v-for="item in hotComments" :key="item.commentId">
+          <div class="newItem clearFloat">
+            <a :href="`/#/user/home?id=`+item.user.userId"><img :src="item.user.avatarUrl" alt /></a>
+            <div class="conBox">
               <div class="itemHead">
-                <a href="#" class="name">KuDou_Shi_Nichi</a>
+                <a :href="`/#/user/home?id=`+item.user.userId" class="name">{{item.user.nickname}}</a>
                 :
-                <span class="itemCon">节奏病没钱刷了？就这？</span>
+                <span class="itemCon">{{item.content}}</span>
               </div>
-              <div class="answer">
-                <a href="#" class="name">KuDou_Shi_Nichi</a>
+              <div class="answer" v-if="item.beReplied.length!=0">
+                <a :href="`/#/user/home?id=`+item.beReplied[0].user.userId" class="name">{{item.beReplied[0].user.nickname}}</a>
                 :
-                <span class="itemCon">节奏病没钱刷了？就这？</span>
+                <span class="itemCon">{{item.beReplied[0].user.content}}</span>
               </div>
               <div class="itemFoot">
-                <span class="time">12:63</span>
+                <span class="time">{{Date(item.time)}}</span>
                 <div class="itemBtn">
                   <a href="#">
                     <i class="like"></i>
+                    <span class="likeCount" v-if="item.likedCount">({{item.likedCount}})</span>
                   </a>
                   <span>|</span>
                   <a href="#">回复</a>
                 </div>
               </div>
             </div>
-          </li>
-        </ul>
-      </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+        <div class="newTit">
+      <span>最新评论({{commentCount}})</span>
+    </div>
+    <div class="newCon">
+      <ul>
+        <li v-for="item in comments" :key="item.commentId">
+          <div class="newItem clearFloat">
+            <a :href="`/#/user/home?id=`+item.user.userId"><img :src="item.user.avatarUrl" alt /></a>
+            <div class="conBox">
+              <div class="itemHead">
+                <a :href="`/#/user/home?id=`+item.user.userId" class="name">{{item.user.nickname}}</a>
+                :
+                <span class="itemCon">{{item.content}}</span>
+              </div>
+              <div class="answer" v-if="item.beReplied.length!=0">
+                <a :href="`/#/user/home?id=`+item.beReplied[0].user.userId" class="name">{{item.beReplied[0].user.nickname}}</a>
+                :
+                <span class="itemCon">{{item.beReplied[0].user.content}}</span>
+              </div>
+              <div class="itemFoot">
+                <span class="time">{{Date(item.time)}}</span>
+                <div class="itemBtn">
+                  <a href="#">
+                    <i class="like"></i>
+                    <span class="likeCount" v-if="item.likedCount">({{item.likedCount}})</span>
+                  </a>
+                  <span>|</span>
+                  <a href="#">回复</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
-
-  export default {
-    data () {
-      return {
-
-      };
-    },
-  }
-
+export default {
+  data() {
+    return {
+      comments:[],
+      hotComments:[],
+      commentCount:0,
+      hotcommentCount:0
+    };
+  },
+  created() {
+    this.getCmts()
+  },
+  methods: {
+    async getCmts(){
+      const {data,status} = await this.$http.get("/comment/playlist?id=4986087000")
+      if(status!==200) return this.$message.error("数据获取错误");
+      this.comments = data.comments
+      this.commentCount = data.total
+      this.hotComments = data.hotComments
+      this.hotcommentCount = data.hotComments.length
+    }
+  },
+  // props:["id"]
+};
 </script>
 <style lang='less' scoped>
- .commentConBox {
-    .newTit {
-      height: 20px;
-      border-bottom: 1px solid #cfcfcf;
-    }
-    .newCon {
-      ul {
-        li {
-          .newItem {
-            border-top: 1px dotted #ccc;
-            padding: 20px 0;
-            img {
-              width: 50px;
-              height: 50px;
-              float: left;
-            }
+a{
+  color: #0c73c2;
+  &:hover{
+    text-decoration:underline;
+  }
+}
+.commentConBox {
+  .newTit,.hotTit {
+    height: 20px;
+    border-bottom: 1px solid #cfcfcf;
+  }
+  .newCon,.hotCon {
+    ul {
+      li {
+        .newItem {
+          border-top: 1px dotted #ccc;
+          padding: 20px 0;
+          img {
+            width: 50px;
+            height: 50px;
+            float: left;
+          }
+          .conBox {
+            margin-left: 60px;
             .itemHead,
             .answer {
-              float: right;
               width: 700px;
               .name {
                 font-size: 12px;
@@ -76,7 +136,7 @@
               }
             }
             .answer {
-                width: 662px;
+              width: 662px;
               background: #f4f4f4;
               border: 1px solid #dedede;
               padding: 8px 19px;
@@ -84,7 +144,6 @@
               line-height: 20px;
             }
             .itemFoot {
-              float: right;
               display: flex;
               width: 700px;
               margin-top: 10px;
@@ -115,4 +174,5 @@
       }
     }
   }
+}
 </style>

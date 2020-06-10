@@ -27,6 +27,8 @@ export default {
 <style lang='less' scoped>
 .playlistConBox{
     padding: 47px 30px 40px 39px;
+    width: 1100px;
+    margin: 0 auto;
 
 }
 </style>

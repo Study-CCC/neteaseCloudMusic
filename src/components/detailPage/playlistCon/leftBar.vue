@@ -1,51 +1,59 @@
 <template>
   <div class="leftBarBox clearFloat">
     <div class="header clearFloat">
-      <img class="authImg" src="../../../assets/TEST.jpg" alt />
+      <div class="authImg">
+        <img :src="detail.coverImgUrl" alt />
+        <span class="msk"></span>
+      </div>
+
       <div class="introduce">
         <div class="headerTit">
-          <el-tag type="danger"></el-tag>
-          <h3>[华语速爆新歌] 最新华语音乐推荐</h3>
+          <i></i>
+          <h3>{{detail.name}}</h3>
         </div>
         <div class="creatTime">
-          <a>
-            <img src="../../../assets/TEST.jpg" alt />
-          </a>
-          <a href="#">网易云音乐</a>
-          <i></i>
-          <span>2017-09-19 创建</span>
+          <img :src="detail.creator.avatarUrl" alt />
+          <p>
+            <a href="#">{{detail.creator.nickname}}</a>
+            <span>{{Date(detail.creator.createTime)}}创建</span>
+          </p>
         </div>
         <div class="headerBtn">
           <el-button-group class="norBtn">
             <el-button size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
             <el-button size="mini" type="primary" icon="el-icon-plus"></el-button>
           </el-button-group>
-          <el-button class="norBtn" size="mini" icon="el-icon-folder-add"></el-button>
-          <el-button class="norBtn" size="mini" icon="el-icon-folder-opened"></el-button>
-          <el-button class="norBtn" size="mini" icon="el-icon-download"></el-button>
+          <el-button class="norBtn" size="mini" icon="el-icon-folder-add">({{detail.subscribedCount}})</el-button>
+          <el-button class="norBtn" size="mini" icon="el-icon-folder-opened">({{detail.shareCount}})</el-button>
+          <el-button class="norBtn" size="mini" icon="el-icon-download">下载</el-button>
           <el-button class="norBtn" size="mini" icon="el-icon-chat-line-square"></el-button>
         </div>
-        <div class="tag">
-          标签:
-          <el-tag>华语</el-tag>
+        <div class="desc">
+          <div class="tag">
+            标签:
+            <el-tag v-for="(item,i) in detail.tags" :key="i" size="mini" type="info">
+              <a :href="'/#/discover/playlist/?cat='+item+'&order=hot'">{{item}}</a></el-tag>
+          </div>
+          <div class="descCon">介绍: {{detail.description}}</div>
         </div>
-        <p class="desc">
-          介绍： 优质华语新歌，网易云音乐每周二精选推荐。
-          本周封面：李荣浩
-        </p>
       </div>
     </div>
     <div class="songlist"></div>
-    <SongCon />
+    <SongCon :songsList="songList" />
+    <div class="seeMore">
+      <h3>查看更多内容，请下载客户端</h3>
+      <el-button type="danger">立即下载</el-button>
+    </div>
     <div class="commendTit">
       <h3>评论</h3>
       <span class="total">
         共
-        <strong>5253254234325</strong>条
+        <strong>{{detail.commentCount}}</strong>条
       </span>
     </div>
-    <Comment />
-    <CommentCon />
+
+    <Comment  />
+    <CommentCon :commentCount="detail.commentCount" />
   </div>
 </template>
 
@@ -55,7 +63,29 @@ import CommentCon from "../../common/commentCon";
 import SongCon from "../../common/songCon";
 export default {
   data() {
-    return {};
+    return {
+      detail: {
+        creator: {},
+        tags: []
+      },
+      songList:{
+      }
+    };
+  },
+  created() {
+    this.getData();
+  },
+  methods: {
+    async getData() {
+      const { data, status } = await this.$http.get(
+        "/playlist/detail?id=4986087000"
+      );
+      if (status !== 200) return this.$message.error("数据获取错误");
+      this.detail = data.playlist;
+       const {tracks,trackCount, playCount} = data.playlist
+      this.songList = {tracks,trackCount, playCount}
+      
+    }
   },
   components: {
     Comment,
@@ -68,38 +98,81 @@ export default {
 .leftBarBox {
   .header {
     .authImg {
-      width: 208px;
-      height: 208px;
+      width: 177px;
+      height: 177px;
       float: left;
+      position: relative;
+      img {
+        height: 100%;
+        width: 100%;
+      }
+      .msk {
+        width: 209px;
+        height: 177px;
+        background: url("../../../assets/coverall.png");
+        background-position: 0 -986px;
+        top: 0;
+        left: 0;
+        position: absolute;
+      }
     }
+
     .introduce {
       float: left;
+      margin-left: 50px;
       .headerTit {
+        i {
+          display: inline-block;
+          background: url("../../../assets/icon.png");
+          width: 54px;
+          background-position: 0 -243px;
+          height: 24px;
+        }
+        h3 {
+          font-size: 20px;
+          color: #333;
+          display: inline-block;
+          font-weight: normal;
+        }
       }
       .creatTime {
-        // float: left;
+        height: 35px;
+        margin-top: 20px;
         img {
-          width: 35px;
           height: 35px;
+          vertical-align: middle;
+          width: 35px;
+        }
+        p {
+          display: inline-block;
+          margin-left: 10px;
+          font-size: 12px;
+          color: #666;
+          span {
+            margin-left: 10px;
+          }
+        }
+      }
+      .desc {
+        color: #666;
+        font-size: 12px;
+        white-space: pre-line;
+        .el-tag {
+          border-radius: 50%;
+          margin: 15px 5px 15px 0;
+          a{
+            color:#666
+          }
         }
       }
     }
     .headerBtn {
-      float: left;
+      margin-top: 20px;
       .norBtn {
-        margin-right: 20px;
+        margin-right: 10px;
       }
     }
-    .tag{
-      float: left;
-    }
-    .desc{
-      font-size: 12px;
-      color:#666;
-    }
-
   }
-
   .commendTit {
     height: 35px;
     display: flex;
@@ -113,6 +186,14 @@ export default {
     .total {
       color: #666;
       font-size: 12px;
+    }
+  }
+  .seeMore {
+    text-align: center;
+    h3 {
+      font-size: 13px;
+      color: #333;
+      margin: 20px 0;
     }
   }
 }

@@ -2,13 +2,13 @@
   <div class="songConBox">
     <div class="listTitle">
       <h3>歌曲列表</h3>
-      <span>100首歌</span>
+      <span>{{songsList.trackCount}}首歌</span>
       <span class="play">
         播放
-        <strong>5253254234325</strong>次
+        <strong>{{songsList.playCount}}</strong>次
       </span>
     </div>
-    <el-table stripe :data="songsList" style="width: 97%;margin-left:20px;">
+    <el-table :cell-style="{'padding':0,'line-height':'30px','height':'30px'}"  row-class-name="rowClass" stripe :data="songsList.tracks" style="width: 97%;margin-left:20px;">
       <el-table-column label="#" type="index" width="77"></el-table-column>
       <el-table-column prop="name" label="标题" width="327">
         <template v-slot="songData">
@@ -28,29 +28,29 @@
       </el-table-column>
       <el-table-column prop label="时长" width="110">
         <template v-slot="songData">
-          <div class="iconGroup">
-            <el-tooltip class="item" effect="light" content="添加到播放列表" placement="bottom-start">
+          <div class="iconGroup btnShow">
+            <el-tooltip :open-delay="200" class="item" effect="light" content="添加到播放列表" placement="bottom-start">
               <a>
                 <i class="add"></i>
               </a>
             </el-tooltip>
-            <el-tooltip class="item" effect="light" content="收藏" placement="bottom-start">
+            <el-tooltip :open-delay="200" class="item" effect="light" content="收藏" placement="bottom-start">
               <a>
                 <i class="collect"></i>
               </a>
             </el-tooltip>
-            <el-tooltip class="item" effect="light" content="分享" placement="bottom-start">
+            <el-tooltip :open-delay="200" class="item" effect="light" content="分享" placement="bottom-start">
               <a>
                 <i class="share"></i>
               </a>
             </el-tooltip>
-            <el-tooltip class="item" effect="light" content="下载" placement="bottom-start">
+            <el-tooltip :open-delay="200" class="item" effect="light" content="下载" placement="bottom-start">
               <a href="#">
                 <i class="download"></i>
               </a>
             </el-tooltip>
           </div>
-          <span>{{songData.row.dt}}</span>
+          <span class="dtShow">{{songData.row.dt}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="ar[0].name" label="歌手"></el-table-column>
@@ -62,25 +62,47 @@
 export default {
   data() {
     return {
-      songsList: []
+      // songsList: []
     };
   },
   created() {
-    this.getData();
+    // this.getData();
   },
   methods: {
-    async getData() {
-      const { data, status } = await this.$http.get("/top/list?idx=3");
-      if (status !== 200) return this.$message.error("数据获取错误");
-      //  console.log(data)
-      data.playlist.tracks.length = 10;
-      this.songsList = data.playlist.tracks;
-      // console.log(this.songsList);
-    }
-  }
+    // async getData() {
+    //   // const { data, status } = await this.$http.get("/top/list?idx=3");
+    //   // if (status !== 200) return this.$message.error("数据获取错误");
+    //   //  console.log(data)
+    //   // data.playlist.tracks.length = 10;
+    //   this.tracks.length = 10
+    //   this.songsList = tracks;
+    //   console.log(this.songsList);
+    // }
+  },
+  props:["songsList"]
 };
 </script>
 <style lang='less' scoped>
+.btnShow{
+  display: none;
+}
+.dtShow{
+  display: inline-block;
+}
+.rowClass{
+  td{
+    padding: 0;
+    line-height: 30px;
+  }
+  &:hover{
+    .btnShow{
+      display: block;
+    }
+    .dtShow{
+      display: none;
+    }
+  }
+}
 .songConBox {
   .listTitle {
     display: flex;

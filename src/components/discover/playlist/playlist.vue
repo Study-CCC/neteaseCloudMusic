@@ -16,7 +16,7 @@
             <el-col class="chooseItem" :span="21">
               <ul>
                 <li v-for="(item1,i) in catlist[index]" :key="i">
-                  <router-link :to="`playlist?tag=${item1.name}`" @click="getClickData">{{item1.name}}</router-link>
+                  <router-link :to="`playlist?tag=${item1.name}`">{{item1.name}}</router-link>
                   <span class="line">|</span>
                 </li>
               </ul>
@@ -30,18 +30,19 @@
       </div>
       <!-- 歌单列表 -->
       <ul class="hotContent">
-        <li v-for="(item) in playlists" :key="item.id">
+        <li v-for="(item) in playlists" :key="item.id"> 
           <div class="hotImg">
             <img :src="item.coverImgUrl" alt />
-            <a href="#" class="hotClick"></a>
+            <a href="/#/playlist" class="hotClick"></a>
             <div class="itemBottom">
               <span class="headset"></span>
+              <!-- 以听人数 -->
               <span>{{parseInt(item.playCount/10000)}}万</span>
-              <span class="video-play"></span>
+              <router-link class="video-play" to="/playlist"></router-link>
             </div>
           </div>
           <p class="hotp1">
-            <a class="itemTit" href="#">{{item.name}}</a>
+            <a class="itemTit" href="/#/playlist">{{item.name}}</a>
           </p>
           <p class="hotp2">
             by
@@ -100,13 +101,15 @@ export default {
       });
       this.categories = data.categories;
     },
-    async getClickData() {
-      console.log(this.$route)
-      // const { data, status } = await this.$http.get(
-      //   `/playlist/catlist?tag=${tag}`
-      // );
-      // if (status !== 200) return this.$message.error("数据获取错误");
-      // this.categories = data.categories;
+    // 点击类别标签获取数据
+    async getClickData(tag) {
+      const { data, status } = await this.$http.get(
+        `/top/playlist?cat=${tag}&limit=35&order=hot`
+      );
+      if (status !== 200) return this.$message.error("数据获取错误");
+       this.playlists = data.playlists;
+      this.total = data.total;
+      // console.log(data)
     },
     async getListData() {
       const { data, status } = await this.$http.get(
@@ -114,11 +117,17 @@ export default {
       );
 
       if (status !== 200) return this.$message.error("数据获取错误");
-      console.log(data);
+      // console.log(data);
       this.playlists = data.playlists;
       this.total = data.total;
     }
   },  
+  watch: {
+    $route(to,from){
+      // console.log(to.query)
+      this.getClickData(to.query.tag)
+    }
+  },
 };
 </script>
 <style lang='less' scoped>
@@ -159,7 +168,7 @@ a:hover {
           a {
             color: #333;
             font-size: 12px;
-            // background-color: #fff;
+            background-color: #fff;
             &:visited {
               background: #a7a7a7;
               color: #fff;
@@ -255,6 +264,9 @@ a:hover {
             background-position: 0 0px;
             width: 16px;
             height: 17px;
+            &:hover{
+                  background-position: 0 -60px;
+            }
           }
         }
       }
