@@ -2,10 +2,10 @@
   <div class="playlistConBox">
     <el-row>
       <el-col :span="19">
-        <LeftBar />
+        <LeftBar v-if="playlist.trackCount" :playlist="playlist" />
       </el-col>
       <el-col :span="5">
-        <RightBar />
+        <RightBar v-if="playlist.trackCount" :playlist="playlist" />
       </el-col>
     </el-row>
   </div>
@@ -16,7 +16,27 @@ import LeftBar from "./leftBar";
 import RightBar from "./rightBar";
 export default {
   data() {
-    return {};
+    return {
+      playlist:{}
+    };
+  },
+  created() {
+    this.getData();
+  },
+  methods: {
+  
+    async getData() {
+      const id = this.$route.query.id;
+      // console.log(id)
+      const { data, status } = await this.$http.get(
+        `/playlist/detail?id=${id}`
+      );
+      if (status !== 200) return this.$message.error("数据获取错误");
+      // this.detail = data.playlist;
+      // const { tracks, trackCount, playCount } = data.playlist;
+      // this.songList = { tracks, trackCount, playCount };
+      this.playlist = data.playlist
+    }
   },
   components: {
     LeftBar,
@@ -25,10 +45,9 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-.playlistConBox{
-    padding: 47px 30px 40px 39px;
-    width: 1100px;
-    margin: 0 auto;
-
+.playlistConBox {
+  padding: 47px 30px 40px 39px;
+  width: 1100px;
+  margin: 0 auto;
 }
 </style>

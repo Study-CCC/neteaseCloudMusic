@@ -95,6 +95,7 @@ export default {
   },
   methods: {
     async getData() {
+      // const idx = this.$route.query.
       const { data, status } = await this.$http.get("/top/list?idx=3");
       if (status !== 200) return this.$message.error("数据获取错误");
       //  console.log(data)

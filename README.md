@@ -43,7 +43,8 @@ data() {
     return {
       detail:{},
     }
-
+坑9: 父组件中异步获取的数据直接传给子组件的话,可能还没获取到，子组件就已经渲染出来了。父组件异步传给子组件的方法：
+   <childCom v-if="data" :data="data"></childCom>
 
 后续修改: 添加common组件playlistItem替换歌单和推荐里的item
           封装axios

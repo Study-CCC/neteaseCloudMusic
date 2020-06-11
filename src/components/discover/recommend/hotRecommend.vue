@@ -25,14 +25,14 @@
       <li v-for="item in playlists" :key="item.id">
         <div class="hotImg">
           <img :src="item.picUrl" alt />
-          <a href="#" class="hotClick"></a>
+          <a :href="'/#/playlist?id='+item.id" class="hotClick"></a>
           <div class="itemBottom">
             <span class="el-icon-headset"></span>
-            <span>{{item.playCount}}}</span>
+            <span>{{item.playCount}}</span>
             <span class="el-icon-video-play"></span>
           </div>
         </div>
-        <a class="itemTit" href="#">{{item.name}}</a>
+        <a class="itemTit" :href="'/#/playlist?id='+item.id">{{item.name}}</a>
       </li>
     </ul>
   </div>
@@ -82,6 +82,7 @@ export default {
         vertical-align: middle;
         font-size: 14px;
         width: 100%;
+        word-break: break-all;
       }
       .hotImg {
         width: 140px;

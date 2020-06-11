@@ -13,8 +13,8 @@
       <el-table-column prop="name" label="标题" width="327">
         <template v-slot="songData">
           <div class="songItem">
-            <i class="play"></i>
-            <span>{{songData.row.name}}</span>
+            <a href="#" class="playIcon"></a>
+            <a href="#">{{songData.row.name}}</a>
             <span class="origin">{{songData.row.alia[0]}}</span>
             <i class="mvPlay" v-if="songData.row.mv!=0"></i>
           </div>
@@ -61,8 +61,7 @@
 <script>
 export default {
   data() {
-    return {
-      // songsList: []
+    return {      
     };
   },
   created() {
@@ -83,6 +82,13 @@ export default {
 };
 </script>
 <style lang='less' scoped>
+a{
+  color:#666;
+  &:hover{
+    text-decoration: underline;
+  }
+}
+
 .btnShow{
   display: none;
 }
@@ -132,13 +138,16 @@ export default {
       height: 50px;
       margin-right: 5px;
     }
-    .play {
+    .playIcon {
       background: url("../../assets/table.png");
       background-position: 0 -103px;
       width: 17px;
       height: 17px;
       display: block;
       margin-right: 5px;
+       &:hover{
+    background-position: 0 -128px;
+  }
     }
     .origin {
       color: #aeaeae;

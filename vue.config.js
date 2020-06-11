@@ -17,5 +17,8 @@ module.exports = {
         config.resolve.symlinks(true);
         
         }
+    // devServer:{
+    //     disableHostCheck: true
+    // }
         
 }

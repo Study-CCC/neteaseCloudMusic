@@ -2,7 +2,11 @@
   <div class="likeBox">
       <h3>喜欢这个歌单的人</h3>
       <ul>
-          <li v-for="item in 8" :key="item"><img src="../../assets/TEST.jpg" alt=""></li>
+          <li v-for="item in subscribers" :key="item.userId">
+                <el-tooltip effect="light" :content="item.nickname" placement="bottom" :open-delay="200">
+                             <a :href="'/#/user/home?id='+item.userId"> <img :src="item.avatarUrl" alt=""></a>
+                </el-tooltip>
+            </li>
       </ul>
   </div>
 </template>
@@ -15,6 +19,13 @@
 
       };
     },
+    created() {
+      
+    },
+    methods: {
+      
+    },
+    props:['subscribers']
   }
 
 </script>

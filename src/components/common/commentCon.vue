@@ -7,7 +7,9 @@
       <ul>
         <li v-for="item in hotComments" :key="item.commentId">
           <div class="newItem clearFloat">
-            <a :href="`/#/user/home?id=`+item.user.userId"><img :src="item.user.avatarUrl" alt /></a>
+            <a :href="`/#/user/home?id=`+item.user.userId">
+              <img :src="item.user.avatarUrl" alt />
+            </a>
             <div class="conBox">
               <div class="itemHead">
                 <a :href="`/#/user/home?id=`+item.user.userId" class="name">{{item.user.nickname}}</a>
@@ -15,7 +17,10 @@
                 <span class="itemCon">{{item.content}}</span>
               </div>
               <div class="answer" v-if="item.beReplied.length!=0">
-                <a :href="`/#/user/home?id=`+item.beReplied[0].user.userId" class="name">{{item.beReplied[0].user.nickname}}</a>
+                <a
+                  :href="`/#/user/home?id=`+item.beReplied[0].user.userId"
+                  class="name"
+                >{{item.beReplied[0].user.nickname}}</a>
                 :
                 <span class="itemCon">{{item.beReplied[0].user.content}}</span>
               </div>
@@ -35,14 +40,16 @@
         </li>
       </ul>
     </div>
-        <div class="newTit">
+    <div class="newTit">
       <span>最新评论({{commentCount}})</span>
     </div>
     <div class="newCon">
       <ul>
         <li v-for="item in comments" :key="item.commentId">
           <div class="newItem clearFloat">
-            <a :href="`/#/user/home?id=`+item.user.userId"><img :src="item.user.avatarUrl" alt /></a>
+            <a :href="`/#/user/home?id=`+item.user.userId">
+              <img :src="item.user.avatarUrl" alt />
+            </a>
             <div class="conBox">
               <div class="itemHead">
                 <a :href="`/#/user/home?id=`+item.user.userId" class="name">{{item.user.nickname}}</a>
@@ -50,7 +57,10 @@
                 <span class="itemCon">{{item.content}}</span>
               </div>
               <div class="answer" v-if="item.beReplied.length!=0">
-                <a :href="`/#/user/home?id=`+item.beReplied[0].user.userId" class="name">{{item.beReplied[0].user.nickname}}</a>
+                <a
+                  :href="`/#/user/home?id=`+item.beReplied[0].user.userId"
+                  class="name"
+                >{{item.beReplied[0].user.nickname}}</a>
                 :
                 <span class="itemCon">{{item.beReplied[0].user.content}}</span>
               </div>
@@ -77,41 +87,46 @@
 export default {
   data() {
     return {
-      comments:[],
-      hotComments:[],
-      commentCount:0,
-      hotcommentCount:0
+      comments: [],
+      hotComments: [],
+      commentCount: 0,
+      hotcommentCount: 0
     };
   },
   created() {
-    this.getCmts()
+    this.getCmts();
   },
   methods: {
-    async getCmts(){
-      const {data,status} = await this.$http.get("/comment/playlist?id=4986087000")
-      if(status!==200) return this.$message.error("数据获取错误");
-      this.comments = data.comments
-      this.commentCount = data.total
-      this.hotComments = data.hotComments
-      this.hotcommentCount = data.hotComments.length
+    async getCmts() {
+      const id = this.$route.query.id;
+      const { data, status } = await this.$http.get(
+        `/comment/playlist?id=${id}`
+      );
+      if (status !== 200) return this.$message.error("数据获取错误");
+      this.comments = data.comments;
+      this.commentCount = data.total;
+      this.hotComments = data.hotComments;
+      this.hotcommentCount = data.hotComments.length;
     }
-  },
+  }
   // props:["id"]
 };
 </script>
 <style lang='less' scoped>
-a{
+a {
   color: #0c73c2;
-  &:hover{
-    text-decoration:underline;
+  &:hover {
+    text-decoration: underline;
   }
 }
 .commentConBox {
-  .newTit,.hotTit {
+  .newTit,
+  .hotTit {
     height: 20px;
     border-bottom: 1px solid #cfcfcf;
   }
-  .newCon,.hotCon {
+  .newCon,
+  .hotCon {
     ul {
       li {
         .newItem {

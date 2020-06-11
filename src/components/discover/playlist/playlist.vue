@@ -33,20 +33,20 @@
         <li v-for="(item) in playlists" :key="item.id"> 
           <div class="hotImg">
             <img :src="item.coverImgUrl" alt />
-            <a href="/#/playlist" class="hotClick"></a>
+            <a :href="'/#/playlist?id='+item.id" class="hotClick"></a>
             <div class="itemBottom">
               <span class="headset"></span>
-              <!-- 以听人数 -->
+              <!-- 已听人数 -->
               <span>{{parseInt(item.playCount/10000)}}万</span>
               <router-link class="video-play" to="/playlist"></router-link>
             </div>
           </div>
           <p class="hotp1">
-            <a class="itemTit" href="/#/playlist">{{item.name}}</a>
+            <a class="itemTit" :href="'/#/playlist?id='+item.id">{{item.name}}</a>
           </p>
           <p class="hotp2">
             by
-            <a href="#">{{item.creator.nickname}}</a>
+            <a :href="'/#/user/home?id='+item.userId">{{item.creator.nickname}}</a>
             <span class="el-icon-star-off"></span>
           </p>
         </li>
@@ -131,9 +131,11 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-a:hover {
+a{
+  color: #666;
+&:hover {
   text-decoration: underline;
-}
+}}
 .chooseBtn {
   margin-bottom: 10px;
   margin-left: 10px;

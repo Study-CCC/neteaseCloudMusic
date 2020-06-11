@@ -12,9 +12,9 @@
           <h3>{{detail.name}}</h3>
         </div>
         <div class="creatTime">
-          <img :src="detail.creator.avatarUrl" alt />
+           <a :href="'/#/user/home?id='+detail.creator.userId"><img :src="detail.creator.avatarUrl" alt /></a>
           <p>
-            <a href="#">{{detail.creator.nickname}}</a>
+            <a :href="'/#/user/home?id='+detail.creator.userId">{{detail.creator.nickname}}</a>
             <span>{{Date(detail.creator.createTime)}}创建</span>
           </p>
         </div>
@@ -23,7 +23,11 @@
             <el-button size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
             <el-button size="mini" type="primary" icon="el-icon-plus"></el-button>
           </el-button-group>
-          <el-button class="norBtn" size="mini" icon="el-icon-folder-add">({{detail.subscribedCount}})</el-button>
+          <el-button
+            class="norBtn"
+            size="mini"
+            icon="el-icon-folder-add"
+          >({{detail.subscribedCount}})</el-button>
           <el-button class="norBtn" size="mini" icon="el-icon-folder-opened">({{detail.shareCount}})</el-button>
           <el-button class="norBtn" size="mini" icon="el-icon-download">下载</el-button>
           <el-button class="norBtn" size="mini" icon="el-icon-chat-line-square"></el-button>
@@ -32,7 +36,8 @@
           <div class="tag">
             标签:
             <el-tag v-for="(item,i) in detail.tags" :key="i" size="mini" type="info">
-              <a :href="'/#/discover/playlist/?cat='+item+'&order=hot'">{{item}}</a></el-tag>
+              <a :href="'/#/discover/playlist/?cat='+item+'&order=hot'">{{item}}</a>
+            </el-tag>
           </div>
           <div class="descCon">介绍: {{detail.description}}</div>
         </div>
@@ -52,7 +57,7 @@
       </span>
     </div>
 
-    <Comment  />
+    <Comment />
     <CommentCon :commentCount="detail.commentCount" />
   </div>
 </template>
@@ -65,33 +70,42 @@ export default {
   data() {
     return {
       detail: {
-        creator: {},
-        tags: []
+        creator: {
+          coverImgUrl:'',
+          avatarUrl:'1'
+        }
       },
-      songList:{
-      }
+      songList: {}
     };
   },
   created() {
     this.getData();
   },
   methods: {
-    async getData() {
-      const { data, status } = await this.$http.get(
-        "/playlist/detail?id=4986087000"
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.detail = data.playlist;
-       const {tracks,trackCount, playCount} = data.playlist
-      this.songList = {tracks,trackCount, playCount}
-      
+    getData() {
+      // const id = this.$route.query.id
+      // // console.log(id)
+      // const { data, status } = await this.$http.get(
+      //   `/playlist/detail?id=${id}`
+      // );
+      // if (status !== 200) return this.$message.error("数据获取错误");
+      // this.detail = data.playlist;
+      //  const {tracks,trackCount, playCount} = data.playlist
+      // this.songList = {tracks,trackCount, playCount}
+      this.detail =  this.playlist;
+      const { tracks, trackCount, playCount } =  this.playlist;
+      this.songList = { tracks, trackCount, playCount };
+      console.log(this.detail)
+
     }
   },
+
   components: {
     Comment,
     CommentCon,
     SongCon
-  }
+  },
+  props: ["playlist"]
 };
 </script>
 <style lang='less' scoped>
@@ -160,8 +174,8 @@ export default {
         .el-tag {
           border-radius: 50%;
           margin: 15px 5px 15px 0;
-          a{
-            color:#666
+          a {
+            color: #666;
           }
         }
       }
