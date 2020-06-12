@@ -29,20 +29,26 @@
         </span>
       </div>
       <!-- 排行榜数据 -->
-      <el-table stripe :data="songsList" style="width: 97%;margin-left:20px;">
+      <el-table
+        stripe
+        :data="songsList"
+        row-class-name="rowClass"
+        :cell-style="{'padding':0,'line-height':'30px','height':'30px'}"
+        style="width: 97%;margin-left:20px;"
+      >
         <el-table-column label="#" type="index" width="77"></el-table-column>
         <el-table-column prop="name" label="标题" width="327">
           <template v-slot="songData">
             <div class="songItem" v-if="songData.$index>2">
               <i class="play"></i>
-              <span>{{songData.row.name}}</span>
+              <a :href="'/#/song?id='+songData.row.id"><span>{{songData.row.name}}</span></a>
               <span class="origin">{{songData.row.alia[0]}}</span>
               <i class="mvPlay" v-if="songData.row.mv!=0"></i>
             </div>
             <div class="songItem" v-else>
               <img class="titImg" :src="songData.row.al.picUrl" alt />
               <i class="play"></i>
-              <span>{{songData.row.name}}</span>
+              <a :href="'/#/song?id='+songData.row.id"><span>{{songData.row.name}}</span></a>
               <span class="origin">{{songData.row.alia[0]}}</span>
             </div>
           </template>
@@ -50,31 +56,37 @@
         <el-table-column prop label="时长" width="110">
           <template v-slot="songData">
             <div class="iconGroup">
-              <el-tooltip class="item" effect="light" content="添加到播放列表" placement="bottom-start">
-                <a>
-                  <i class="add"></i>
-                </a>
-              </el-tooltip>
-              <el-tooltip class="item" effect="light" content="收藏" placement="bottom-start">
-                <a>
-                  <i class="collect"></i>
-                </a>
-              </el-tooltip>
-              <el-tooltip class="item" effect="light" content="分享" placement="bottom-start">
-                <a>
-                  <i class="share"></i>
-                </a>
-              </el-tooltip>
-              <el-tooltip class="item" effect="light" content="下载" placement="bottom-start">
-                <a href="#">
-                  <i class="download"></i>
-                </a>
-              </el-tooltip>
+              <div class="btnShow">
+                <el-tooltip class="item" effect="light" content="添加到播放列表" placement="bottom-start">
+                  <a>
+                    <i class="add"></i>
+                  </a>
+                </el-tooltip>
+                <el-tooltip class="item" effect="light" content="收藏" placement="bottom-start">
+                  <a>
+                    <i class="collect"></i>
+                  </a>
+                </el-tooltip>
+                <el-tooltip class="item" effect="light" content="分享" placement="bottom-start">
+                  <a>
+                    <i class="share"></i>
+                  </a>
+                </el-tooltip>
+                <el-tooltip class="item" effect="light" content="下载" placement="bottom-start">
+                  <a href="#">
+                    <i class="download"></i>
+                  </a>
+                </el-tooltip>
+              </div>
             </div>
-            <span>{{songData.row.dt}}</span>
+            <span class="timeShow">{{songData.row.dt}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="ar[0].name" label="歌手"></el-table-column>
+        <el-table-column label="歌手">
+          <template v-slot="songData">
+           <a :href="'/#/artist?id='+songData.row.ar[0].id">{{songData.row.ar[0].name}}</a>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <Commend></Commend>
@@ -82,7 +94,7 @@
 </template>
 
 <script>
-import Commend from './commend'
+import Commend from "./commend";
 export default {
   data() {
     return {
@@ -100,16 +112,33 @@ export default {
       if (status !== 200) return this.$message.error("数据获取错误");
       //  console.log(data)
       this.songsList = data.playlist.tracks;
-      // console.log(this.songsList);
+      console.log(this.songsList);
     }
   },
-  components:{
+  components: {
     Commend
-  }
+  },
+  props:['idx']
 };
 </script>
 <style lang='less' scoped>
+.btnShow {
+  display: none;
+}
+.rowClass{
+  &:hover{
+    .btnShow{
+      display: block;
+    }
+    .timeShow{
+      display: none;
+    }
+  }
+}
 .iconGroup {
+  .timeShow {
+    display: none;
+  }
   i {
     background: url("../../../assets/table.png");
     width: 18px;

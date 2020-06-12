@@ -3,97 +3,80 @@
     <div class="header clearFloat">
       <div class="imgBox">
         <img :src="titData.coverImgUrl" alt />
-        <a :href ="'/#/discover/toplist?id='+titData.id" class="msk"></a>
+        <a :href="'/#/discover/toplist?id='+titData.id" class="msk"></a>
       </div>
       <div class="tit">
-        <a :href="'/#/discover/toplist?id='+titData.id"><h3>{{titData.name}}</h3></a>
+        <a :href="'/#/discover/toplist?id='+titData.id">
+          <h3>{{titData.name}}</h3>
+        </a>
         <div class="headerBtn">
-            <el-tooltip
-                  :open-delay="300"
-                  class="item"
-                  effect="light"
-                  content="播放"
-                  placement="bottom-start"
-                >
-          <a href="#"><i class="play"></i></a></el-tooltip>
-           <el-tooltip
-                  :open-delay="300"
-                  class="item"
-                  effect="light"
-                  content="收藏"
-                  placement="bottom-start"
-                > <a href="#"><i class="collect"></i></a></el-tooltip>
+          <el-tooltip
+            :open-delay="300"
+            class="item"
+            effect="light"
+            content="播放"
+            placement="bottom-start"
+          >
+            <a href="#">
+              <i class="play"></i>
+            </a>
+          </el-tooltip>
+          <el-tooltip
+            :open-delay="300"
+            class="item"
+            effect="light"
+            content="收藏"
+            placement="bottom-start"
+          >
+            <a href="#">
+              <i class="collect"></i>
+            </a>
+          </el-tooltip>
         </div>
       </div>
     </div>
     <div class="content">
-      <el-table
-        :cell-style="{'padding':0,'line-height':'30px','height':'30px'}"
-        :data="listData"
-        stripe
-        style="width: 100%"
-      >
-        <el-table-column>
-          <template v-slot="program">
-            <div class="conItem">
-              <div class="rank">
-                <span>{{program.$index+1}}</span>
-              </div>
-              <div class="itemText">
-               <a href="#"> <span>{{program.row.name}}</span></a>
-              </div>
-              <div class="conBtn">
-                <el-tooltip
-                  :open-delay="300"
-                  class="item"
-                  effect="light"
-                  content="播放"
-                  placement="bottom-start"
-                >
-                  <a href="#">
-                    <i class="play"></i>
-                  </a>
-                </el-tooltip>
-                <el-tooltip
-                  :open-delay="300"
-                  class="item"
-                  effect="light"
-                  content="添加到播放列表"
-                  placement="bottom-start"
-                >
-                  <a href="#">
-                    <i class="add"></i>
-                  </a>
-                </el-tooltip>
-                <el-tooltip
-                  :open-delay="300"
-                  class="item"
-                  effect="light"
-                  content="收藏"
-                  placement="bottom-start"
-                >
-                  <a href="#">
-                    <i class="collect"></i>
-                  </a>
-                </el-tooltip>
-              </div>
-            </div>
-          </template>
-        </el-table-column>
-      </el-table>
-      <!-- <ul>
-        <li>
-          <div class="conItem">
-            <span>1</span>
-            <span>海底</span>
-            <div class="conBtn">
-              <i class="play"></i>
-              <i class="add"></i>
-              <i class="collect"></i>
-            </div>
+      <ul>
+        <li v-for="(item,i) in listData" :key="i">
+          <span class="rank">{{i+1}}</span>
+          <a :href="'/#/song?id='+item.id" class="name">{{item.name}}</a>
+          <div class="btn">
+            <el-tooltip
+              :open-delay="300"
+              class="item"
+              effect="light"
+              content="播放"
+              placement="bottom-start"
+            >
+              <a href="#">
+                <i class="play"></i>
+              </a>
+            </el-tooltip>
+            <el-tooltip
+              :open-delay="300"
+              class="item"
+              effect="light"
+              content="添加到播放列表"
+              placement="bottom-start"
+            >
+              <a href="#">
+                <i class="add"></i>
+              </a>
+            </el-tooltip>
+            <el-tooltip
+              :open-delay="300"
+              class="item"
+              effect="light"
+              content="收藏"
+              placement="bottom-start"
+            >
+              <a href="#">
+                <i class="collect"></i>
+              </a>
+            </el-tooltip>
           </div>
         </li>
-      </ul>-->
+      </ul>
     </div>
     <div class="more clearFloat">
       <a href="#">查看更多>></a>
@@ -120,7 +103,7 @@ export default {
       // console.log(data);
       this.titData.coverImgUrl = data.playlist.coverImgUrl;
       this.titData.name = data.playlist.name;
-      this.titData.id = data.playlist.id
+      this.titData.id = data.playlist.id;
       data.playlist.tracks.length = 10;
       this.listData = data.playlist.tracks;
       // console.log(data.playlist)
@@ -155,10 +138,10 @@ export default {
       float: left;
       width: 116px;
       margin: 6px 0 0 10px;
-      a{
+      a {
         color: #333;
         font-size: 12px;
-        &:hover{
+        &:hover {
           text-decoration: underline;
         }
       }
@@ -191,46 +174,66 @@ export default {
     }
   }
   .content {
-    .conItem {
+    ul {
       display: flex;
-      .itemText {
-        a{
-          color:#333;
-          &:hover{
-            text-decoration: underline;
+      flex-wrap: wrap;
+      margin-top: 22px;
+      li {
+        display: flex;
+        width: 100%;
+        height: 32px;
+        align-items: center;
+        &:hover {
+          .btn {
+            display: block;
+            width: 81px;
+          }
+          .name {
+            width: 124px;
           }
         }
-        span {
-          color: #000;
+        .btn {
+          margin-left: auto;
+          display: none;
+          i {
+            display: inline-block;
+            width: 17px;
+            height: 17px;
+            margin-right: 10px;
+            background: url("../../../assets/index.png");
+          }
+          .play {
+            background-position: -267px -268px;
+            &:hover {
+              background-position: -267px -288px;
+            }
+          }
+          .add {
+            background: url("../../../assets/icon.png");
+            background-position: 0 -700px;
+            &:hover {
+              background-position: -22px -700px;
+            }
+          }
+          .collect {
+            background-position: -297px -268px;
+            &:hover {
+              background-position: -297px -288px;
+            }
+          }
+        }
+        .rank {
           font-size: 12px;
         }
-      }
-      .conBtn {
-        margin-left: auto;
-        i {
-          display: inline-block;
-          width: 17px;
-          height: 17px;
-          margin-right: 10px;
-          background: url("../../../assets/index.png");
-        }
-        .play {
-          background-position: -267px -268px;
+        .name {
+          color: #333;
+          margin-left: 10px;
+          font-size: 12px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
           &:hover {
-            background-position: -267px -288px;
-          }
-        }
-        .add {
-          background: url("../../../assets/icon.png");
-          background-position: 0 -700px;
-          &:hover {
-            background-position: -22px -700px;
-          }
-        }
-        .collect {
-          background-position: -297px -268px;
-          &:hover {
-            background-position: -297px -288px;
+            text-decoration: underline;
           }
         }
       }
@@ -240,8 +243,8 @@ export default {
     a {
       float: right;
       font-size: 12px;
-      color:#333;
-      &:hover{
+      color: #333;
+      &:hover {
         text-decoration: underline;
       }
     }

@@ -8,14 +8,20 @@
         <strong>{{songsList.playCount}}</strong>次
       </span>
     </div>
-    <el-table :cell-style="{'padding':0,'line-height':'30px','height':'30px'}"  row-class-name="rowClass" stripe :data="songsList.tracks" style="width: 97%;margin-left:20px;">
+    <el-table
+      stripe
+      row-class-name="rowClass"
+      :cell-style="{'padding':0,'line-height':'30px','height':'30px'}"
+      :data="songsList.tracks"
+      style="width: 97%;margin-left:20px;"
+    >
       <el-table-column label="#" type="index" width="77"></el-table-column>
-      <el-table-column prop="name" label="标题" width="327">
+      <el-table-column label="标题" width="327">
         <template v-slot="songData">
-          <div class="songItem">
+          <div class="songItem noWrap">
             <a href="#" class="playIcon"></a>
-            <a href="#">{{songData.row.name}}</a>
-            <span class="origin">{{songData.row.alia[0]}}</span>
+            <a  :href="'/#/song?id='+songData.row.id">{{songData.row.name}}</a>
+            <span class="origin" v-if="songData.row.alia.length!=0">-{{songData.row.alia[0]}}</span>
             <i class="mvPlay" v-if="songData.row.mv!=0"></i>
           </div>
           <!-- <div class="songItem">
@@ -29,22 +35,46 @@
       <el-table-column prop label="时长" width="110">
         <template v-slot="songData">
           <div class="iconGroup btnShow">
-            <el-tooltip :open-delay="200" class="item" effect="light" content="添加到播放列表" placement="bottom-start">
+            <el-tooltip
+              :open-delay="200"
+              class="item"
+              effect="light"
+              content="添加到播放列表"
+              placement="bottom-start"
+            >
               <a>
                 <i class="add"></i>
               </a>
             </el-tooltip>
-            <el-tooltip :open-delay="200" class="item" effect="light" content="收藏" placement="bottom-start">
+            <el-tooltip
+              :open-delay="200"
+              class="item"
+              effect="light"
+              content="收藏"
+              placement="bottom-start"
+            >
               <a>
                 <i class="collect"></i>
               </a>
             </el-tooltip>
-            <el-tooltip :open-delay="200" class="item" effect="light" content="分享" placement="bottom-start">
+            <el-tooltip
+              :open-delay="200"
+              class="item"
+              effect="light"
+              content="分享"
+              placement="bottom-start"
+            >
               <a>
                 <i class="share"></i>
               </a>
             </el-tooltip>
-            <el-tooltip :open-delay="200" class="item" effect="light" content="下载" placement="bottom-start">
+            <el-tooltip
+              :open-delay="200"
+              class="item"
+              effect="light"
+              content="下载"
+              placement="bottom-start"
+            >
               <a href="#">
                 <i class="download"></i>
               </a>
@@ -53,7 +83,17 @@
           <span class="dtShow">{{songData.row.dt}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="ar[0].name" label="歌手"></el-table-column>
+      <el-table-column label="歌手">
+        <template v-slot="songData">
+          <a :href="'/#/artist?id='+songData.row.ar[0].id">{{songData.row.ar[0].name}}</a>
+        </template>
+      </el-table-column>
+      <el-table-column label="专辑" v-if="isShow">
+        <template v-slot="songData">
+          <a class="noWrap" :href="'/#/album?id='+songData.row.al.id">{{songData.row.al.name}}</a>
+        </template>
+
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -61,13 +101,21 @@
 <script>
 export default {
   data() {
-    return {      
+    return {
+      url:'',
+      isShow:true
     };
   },
   created() {
-    // this.getData();
+    this.getData();
   },
   methods: {
+    getData(){
+      this.url = this.$route.path
+      if(this.url=='/album'){
+        this.isShow = false
+      }
+    }
     // async getData() {
     //   // const { data, status } = await this.$http.get("/top/list?idx=3");
     //   // if (status !== 200) return this.$message.error("数据获取错误");
@@ -78,40 +126,40 @@ export default {
     //   console.log(this.songsList);
     // }
   },
-  props:["songsList"]
+  props: ["songsList"]
 };
 </script>
 <style lang='less' scoped>
-a{
-  color:#666;
-  &:hover{
+a {
+  color: #666;
+  &:hover {
     text-decoration: underline;
   }
 }
+.noWrap{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 
-.btnShow{
+.btnShow {
   display: none;
 }
-.dtShow{
+.dtShow {
   display: inline-block;
 }
-.rowClass{
-  td{
-    padding: 0;
-    line-height: 30px;
-  }
-  &:hover{
-    .btnShow{
+.rowClass {
+  &:hover {
+    .btnShow {
       display: block;
     }
-    .dtShow{
+    .dtShow {
       display: none;
     }
   }
 }
 .songConBox {
   .listTitle {
-    display: flex;
     align-items: center;
     height: 35px;
     border-bottom: 2px solid #c20c0c;
@@ -144,10 +192,11 @@ a{
       width: 17px;
       height: 17px;
       display: block;
-      margin-right: 5px;
-       &:hover{
-    background-position: 0 -128px;
-  }
+      margin-right: 10px;
+      float: left;
+      &:hover {
+        background-position: 0 -128px;
+      }
     }
     .origin {
       color: #aeaeae;

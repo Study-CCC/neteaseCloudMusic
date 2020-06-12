@@ -1,20 +1,31 @@
 <template>
   <div class="songConBox">
-      <el-row>
+    <el-row>
       <el-col :span="19">
-        <LeftBar v-if="playlist.trackCount" :playlist="playlist" />
+        <LeftBar />
       </el-col>
       <el-col :span="5">
-        <RightBar v-if="playlist.trackCount" :playlist="playlist" />
+        <RightBar />
       </el-col>
-      </el-row>
+    </el-row>
   </div>
 </template>
 
 <script>
+import LeftBar from "./leftBar";
+import RightBar from "./rightBar";
 export default {
   data() {
-    return {};
+    return {
+
+    };
+  },
+  created() {},
+  methods: {
+  },
+  components: {
+    LeftBar,
+    RightBar
   }
 };
 </script>

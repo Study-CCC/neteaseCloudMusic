@@ -47,6 +47,7 @@
     </div>
     <Comment />
     <CommentCon />
+    <SongCon />
   </div>
 </template>
 

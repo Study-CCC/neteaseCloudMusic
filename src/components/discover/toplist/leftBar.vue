@@ -1,26 +1,20 @@
 <template>
   <div class="leftBox">
-    <span class="title">云音乐特色榜</span>
-    <el-menu default-active="2" class="el-menu-vertical-demo">
-      <el-menu-item v-for="(item,index) in list" :key="index" @click="titClick(item.id)">
-       <img :src="item.coverImgUrl" alt />
-        <div class="itemText">
-          <p>{{item.name}}</p>
-          <p style="color:#999">{{item.updateFrequency}}</p>
-        </div>
-      </el-menu-item>
-      
-    </el-menu>
-    
-    <!-- <el-menu default-active="2" class="el-menu-vertical-demo">
-      <el-menu-item index="1">
-        <img src="../../../assets/TEST.jpg" alt />
-        <div class="itemText">
-          <p>云音乐飙升</p>
-          <p style="color:#999">每天更新</p>
-        </div>
-      </el-menu-item> 
-    </el-menu>-->
+    <h2 class="title">云音乐特色榜</h2>
+    <ul>
+      <li v-for="(item,i) in list" :key="i">
+        <a :href="'/#/discover/toplist?id='+item.id">
+          <div class="itemBox">
+            <img :src="item.coverImgUrl" alt />
+            <div class="itemText">
+              <p>{{item.name}}</p>
+              <p style="color:#999">{{item.updateFrequency}}</p>
+            </div>
+          </div>
+        </a>
+        <h2 v-if="i==3" class="title">全球媒体榜</h2>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -39,10 +33,10 @@ export default {
       const { data, status } = await this.$http.get("/toplist");
       if (status !== 200) return this.$message.error("数据获取错误");
       // console.log(data)
-      this.list = data.list
+      this.list = data.list;
     },
-    titClick(id){
-      console.log(id)
+    titClick(id) {
+      console.log(id);
     }
   }
 };
@@ -50,15 +44,19 @@ export default {
 <style lang='less' scoped>
 .leftBox {
   width: 243px;
+  border-right: 1px solid #d3d3d3;
+
   .title {
     font-size: 14px;
     margin-top: 25px;
     color: #000;
+    margin-left: 10px;
   }
-  .el-menu-item {
+  .itemBox {
     display: flex;
-    height: 42px;
-    margin-top: 10px;
+    height: 62px;
+    padding: 6px 0 6px 20px;
+    align-items: center;
     img {
       height: 40px;
       width: 40px;
@@ -69,7 +67,11 @@ export default {
         font-size: 12px;
         line-height: 20px;
         margin: 0;
+        color: #000;
       }
+    }
+    &:hover {
+      background-color: #f4f2f2;
     }
   }
 }

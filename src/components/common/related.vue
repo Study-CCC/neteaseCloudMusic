@@ -1,6 +1,6 @@
 <template>
-  <div class="relatedBox">
-    <h3 class="tit">热门歌单</h3>
+  <div class="relatedBox" v-if="playlists.length!=0">
+    <h3 class="tit">{{tit}}</h3>
     <ul>
       <li v-for="item in playlists" :key="item.id">
         <a :href="'/#/playlist?id='+item.id">
@@ -24,7 +24,10 @@
 export default {
   data() {
     return {
-        playlists:[]
+        playlists:[],
+        id:'',
+        url:'',
+        tit:''
     };
   },
   created() {
@@ -32,12 +35,23 @@ export default {
   },
   methods: {
     async getData() {
-      const id = this.$route.query.id;
-      // console.log(id)
-      const { data, status } = await this.$http.get(
-        `/related/playlist?id=${id}`
-      );
+      this.id = this.$route.query.id;
+     this.path = this.$route.path;
+      if (this.path == "/playlist") {
+       
+         this.url =  `/related/playlist?id=${this.id}`
+         this.tit='热门歌单'
+       
+      } else if (this.path == "/song") {
+         this.url=  `/simi/playlist?id=${this.id}`
+         this.tit = '包含这首歌的歌单'
+      } else if(this.path == "/artist"){
+         this.url=  `/simi/playlist?id=${this.id}`
+         this.tit = '热门歌手'
+      }
+       const { data, status } = await this.$http.get(this.url)
       if (status !== 200) return this.$message.error("数据获取错误");
+      // console.log(id)
       this.playlists = data.playlists
       // console.log(this.playlists)
     }
@@ -52,6 +66,7 @@ a {
   }
 }
 .relatedBox {
+  margin-bottom: 20px;
   .tit {
     height: 23px;
     margin-bottom: 20px;

@@ -4,7 +4,7 @@
       <h3>榜单</h3>
       <a href="#" class="more">更多</a>
     </div>
-    <el-row>
+    <el-row class="bill">
       <el-col :span="8">
         <ListItem :id='id[0]'></ListItem>
       </el-col>
@@ -35,6 +35,10 @@ export default {
 </script>
 <style lang='less' scoped>
 .listBox {
+  .bill{
+    margin-top: 20px;
+    background: url('../../../assets/index_bill.png');
+  }
   .listTit {
     display: flex;
     align-items: center;

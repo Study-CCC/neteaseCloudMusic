@@ -6,6 +6,7 @@ import My from '../components/my/my'
 import Friend from '../components/friend/friend'
 import PlaylistCon from '../components/detailPage/playlistCon/playlistCon'
 import SongCon from '../components/detailPage/songCon/songCon'
+import AlbumCon from '../components/detailPage/albumCon/albumCon'
 import Toplist from '../components/discover/toplist/toplist'
 import Recommend from '../components/discover/recommend/recommend'
 import Playlist from '../components/discover/playlist/playlist'
@@ -66,6 +67,9 @@ const routes = [
             },{
                 path:'/song',
                 component:SongCon
+            },{
+                path:'/album',
+                component:AlbumCon
             }
         ]
     },

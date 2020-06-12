@@ -12,7 +12,9 @@
           <h3>{{detail.name}}</h3>
         </div>
         <div class="creatTime">
-           <a :href="'/#/user/home?id='+detail.creator.userId"><img :src="detail.creator.avatarUrl" alt /></a>
+          <a :href="'/#/user/home?id='+detail.creator.userId">
+            <img :src="detail.creator.avatarUrl" alt />
+          </a>
           <p>
             <a :href="'/#/user/home?id='+detail.creator.userId">{{detail.creator.nickname}}</a>
             <span>{{Date(detail.creator.createTime)}}创建</span>
@@ -49,16 +51,7 @@
       <h3>查看更多内容，请下载客户端</h3>
       <el-button type="danger">立即下载</el-button>
     </div>
-    <div class="commendTit">
-      <h3>评论</h3>
-      <span class="total">
-        共
-        <strong>{{detail.commentCount}}</strong>条
-      </span>
-    </div>
-
-    <Comment />
-    <CommentCon :commentCount="detail.commentCount" />
+    <CommentCon />
   </div>
 </template>
 
@@ -71,8 +64,8 @@ export default {
     return {
       detail: {
         creator: {
-          coverImgUrl:'',
-          avatarUrl:'1'
+          coverImgUrl: "",
+          avatarUrl: "1"
         }
       },
       songList: {}
@@ -92,11 +85,10 @@ export default {
       // this.detail = data.playlist;
       //  const {tracks,trackCount, playCount} = data.playlist
       // this.songList = {tracks,trackCount, playCount}
-      this.detail =  this.playlist;
-      const { tracks, trackCount, playCount } =  this.playlist;
+      this.detail = this.playlist;
+      const { tracks, trackCount, playCount } = this.playlist;
       this.songList = { tracks, trackCount, playCount };
-      console.log(this.detail)
-
+      // console.log(this.detail)
     }
   },
 
@@ -105,11 +97,17 @@ export default {
     CommentCon,
     SongCon
   },
+  watch: {
+    playlist(){
+      this.getData()
+    }
+  },
   props: ["playlist"]
 };
 </script>
 <style lang='less' scoped>
 .leftBarBox {
+
   .header {
     .authImg {
       width: 177px;
@@ -134,6 +132,7 @@ export default {
     .introduce {
       float: left;
       margin-left: 50px;
+      width: 530px;
       .headerTit {
         i {
           display: inline-block;
@@ -185,21 +184,6 @@ export default {
       .norBtn {
         margin-right: 10px;
       }
-    }
-  }
-  .commendTit {
-    height: 35px;
-    display: flex;
-    align-items: center;
-    border-bottom: 2px solid #c20c0c;
-    h3 {
-      font-size: 20px;
-      line-height: 28px;
-      font-weight: normal;
-    }
-    .total {
-      color: #666;
-      font-size: 12px;
     }
   }
   .seeMore {
