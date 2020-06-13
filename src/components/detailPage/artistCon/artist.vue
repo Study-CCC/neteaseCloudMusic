@@ -1,6 +1,6 @@
 <template>
   <div class="artistBox">
-       <el-row>
+    <el-row>
       <el-col :span="19">
         <LeftBar />
       </el-col>
@@ -12,18 +12,22 @@
 </template>
 
 <script>
-import LeftBar from './leftBar'
-  export default {
-    data () {
-      return {
-
-      };
-    },
+import LeftBar from "./leftBar";
+import RightBar from "./rightBar";
+export default {
+  data() {
+    return {};
+  },
+  components: {
+    LeftBar,
+    RightBar
   }
-
+};
 </script>
 <style lang='less' scoped>
-.artistBox{
-
+.artistBox {
+  padding: 47px 30px 40px 39px;
+  width: 1100px;
+  margin: 0 auto;
 }
 </style>

@@ -7,6 +7,10 @@ import Friend from '../components/friend/friend'
 import PlaylistCon from '../components/detailPage/playlistCon/playlistCon'
 import SongCon from '../components/detailPage/songCon/songCon'
 import AlbumCon from '../components/detailPage/albumCon/albumCon'
+import ArtistCon from '../components/detailPage/artistCon/artist'
+import AllAlbum from '../components/detailPage/artistCon/allAlbum'
+import HotWork from '../components/detailPage/artistCon/hotWork'
+import UserHome from '../components/detailPage/user/Home/home'
 import Toplist from '../components/discover/toplist/toplist'
 import Recommend from '../components/discover/recommend/recommend'
 import Playlist from '../components/discover/playlist/playlist'
@@ -49,6 +53,9 @@ const routes = [
                     }, {
                         path: 'album',
                         component: Album
+                    }, {
+                        path:'user/home',
+                        component: UserHome
                     }
                 ]
             },
@@ -70,6 +77,20 @@ const routes = [
             },{
                 path:'/album',
                 component:AlbumCon
+            },{
+                path: '/artist',
+                component:ArtistCon,
+                redirect:'/artist/album',
+                children:[
+                    {
+                        path:'/artist/album',
+                        component:AllAlbum
+                    },
+                    {
+                        path:'/artist/song',
+                        components:HotWork
+                    }
+                ]
             }
         ]
     },

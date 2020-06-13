@@ -107,7 +107,7 @@
 </template>
 
 <script>
-import Comment from '../common/comment'
+import Comment from "../common/comment";
 export default {
   data() {
     return {
@@ -144,6 +144,9 @@ export default {
       } else if (this.path == "/song") {
         this.url = `/comment/music?id=${this.id}`;
         this.pageSize = 20;
+      } else if (this.path == "/discover/toplist") {
+        this.url = `/comment/playlist?id=${this.id}`;
+        this.pageSize = 20;
       }
       const { data, status } = await this.$http.get(this.url);
       if (status !== 200) return this.$message.error("数据获取错误");
@@ -162,9 +165,14 @@ export default {
       this.comments = data.comments;
     }
   },
-  components:{
+  components: {
     Comment
-  }
+  },
+  watch: {
+    $route(){
+      this.getCmts()
+    }
+  },
 };
 </script>
 <style lang='less' scoped>

@@ -24,15 +24,9 @@
             <span class="origin" v-if="songData.row.alia.length!=0">-{{songData.row.alia[0]}}</span>
             <i class="mvPlay" v-if="songData.row.mv!=0"></i>
           </div>
-          <!-- <div class="songItem">
-            <img class="titImg" :src="songData.row.al.picUrl" alt />
-            <i class="play"></i>
-            <span>{{songData.row.name}}</span>
-            <span class="origin">{{songData.row.alia[0]}}</span>
-          </div>-->
         </template>
       </el-table-column>
-      <el-table-column prop label="时长" width="110">
+      <el-table-column  label="时长" width="110">
         <template v-slot="songData">
           <div class="iconGroup btnShow">
             <el-tooltip

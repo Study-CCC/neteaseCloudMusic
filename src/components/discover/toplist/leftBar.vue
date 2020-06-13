@@ -2,7 +2,7 @@
   <div class="leftBox">
     <h2 class="title">云音乐特色榜</h2>
     <ul>
-      <li v-for="(item,i) in list" :key="i">
+      <li v-for="(item,i) in list" :visited="item.id" :key="i">
         <a :href="'/#/discover/toplist?id='+item.id">
           <div class="itemBox">
             <img :src="item.coverImgUrl" alt />
@@ -42,6 +42,9 @@ export default {
 };
 </script>
 <style lang='less' scoped>
+li{
+  
+}
 .leftBox {
   width: 243px;
   border-right: 1px solid #d3d3d3;

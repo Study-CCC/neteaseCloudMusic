@@ -2,30 +2,30 @@
   <div class="rightBox">
     <div class="rightHeader">
       <div class="rightImg">
-        <img src="../../../assets/TEST.jpg" alt />
+        <img :src="coverImgUrl" alt />
       </div>
       <div class="headerText">
-        <p class="title">云音乐飙升榜</p>
-        <p>最近更新：06月05日 （每天更新）</p>
+        <p class="title">{{tit}}</p>
+        <p>最近更新：{{updataTime}}</p>
         <div class="headerBtn">
           <el-button-group class="norBtn">
             <el-button size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
             <el-button size="mini" type="primary" icon="el-icon-plus"></el-button>
           </el-button-group>
-          <el-button class="norBtn" size="mini" icon="el-icon-folder-add"></el-button>
-          <el-button class="norBtn" size="mini" icon="el-icon-folder-opened"></el-button>
+          <el-button class="norBtn" size="mini" icon="el-icon-folder-add">({{subscribedCount}})</el-button>
+          <el-button class="norBtn" size="mini" icon="el-icon-folder-opened">({{shareCount}})</el-button>
           <el-button class="norBtn" size="mini" icon="el-icon-download"></el-button>
-          <el-button class="norBtn" size="mini" icon="el-icon-chat-line-square"></el-button>
+          <el-button class="norBtn" size="mini" icon="el-icon-chat-line-square">({{commentCount}})</el-button>
         </div>
       </div>
     </div>
     <div class="rightList">
       <div class="listTitle">
         <h3>歌曲列表</h3>
-        <span>100首歌</span>
+        <span>{{trackCount}}首歌</span>
         <span class="play">
           播放
-          <strong>5253254234325</strong>次
+          <strong>{{playCount}}</strong>次
         </span>
       </div>
       <!-- 排行榜数据 -->
@@ -41,19 +41,21 @@
           <template v-slot="songData">
             <div class="songItem" v-if="songData.$index>2">
               <i class="play"></i>
-              <a :href="'/#/song?id='+songData.row.id"><span>{{songData.row.name}}</span></a>
-              <span class="origin">{{songData.row.alia[0]}}</span>
-              <i class="mvPlay" v-if="songData.row.mv!=0"></i>
+              <div class="itemText"><a :href="'/#/song?id='+songData.row.id"><span>{{songData.row.name}}</span></a>
+              <span class="origin" v-if="songData.row.alia.length!=0">-({{songData.row.alia[0]}})</span>
+              </div>
+              <a href="#"><i class="mvPlay" v-if="songData.row.mv!=0"></i></a>
             </div>
             <div class="songItem" v-else>
-              <img class="titImg" :src="songData.row.al.picUrl" alt />
-              <i class="play"></i>
-              <a :href="'/#/song?id='+songData.row.id"><span>{{songData.row.name}}</span></a>
-              <span class="origin">{{songData.row.alia[0]}}</span>
+              <a :href="'/#/song?id='+songData.row.id"><img class="titImg" :src="songData.row.al.picUrl" alt /></a>
+              <a href="#"><i class="play"></i></a>
+              <div class="itemText"><a :href="'/#/song?id='+songData.row.id"><span>{{songData.row.name}}</span></a>
+              <span class="origin" v-if="songData.row.alia.length!=0">-1({{songData.row.alia[0]}})</span>
+              </div><i class="mvPlay" v-if="songData.row.mv!=0"></i>
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop label="时长" width="110">
+        <el-table-column prop label="时长" width="140">
           <template v-slot="songData">
             <div class="iconGroup">
               <div class="btnShow">
@@ -89,17 +91,25 @@
         </el-table-column>
       </el-table>
     </div>
-    <Commend></Commend>
+    <CommentCon />
   </div>
 </template>
 
 <script>
-import Commend from "./commend";
+import CommentCon from "../../common/commentCon";
 export default {
   data() {
     return {
       songsList: [],
-      index: 0
+      index: 0,
+      tit:'',
+      updataTime:'',
+      playCount:0,
+      coverImgUrl:'',
+      trackCount:0,
+      subscribedCount:0,
+      shareCount:0,
+      commentCount:0
     };
   },
   created() {
@@ -107,21 +117,39 @@ export default {
   },
   methods: {
     async getData() {
-      // const idx = this.$route.query.
-      const { data, status } = await this.$http.get("/top/list?idx=3");
+      const id = this.$route.query.id|19723756
+      const { data, status } = await this.$http.get(`/top/list?id=${id}`);
       if (status !== 200) return this.$message.error("数据获取错误");
       //  console.log(data)
       this.songsList = data.playlist.tracks;
-      console.log(this.songsList);
+      this.tit = data.playlist.name
+      this.updataTime = data.playlist.trackNumberUpdateTime
+      this.playCount = data.playlist.playCount
+      this.coverImgUrl = data.playlist.coverImgUrl
+      this.trackCount = data.playlist.trackCount
+      this.subscribedCount = data.playlist.subscribedCount
+      this.shareCount = data.playlist.shareCount
+      this.commentCount = data.playlist.commentCount
+
     }
   },
   components: {
-    Commend
+    CommentCon
   },
-  props:['idx']
+  watch: {
+    $route(){
+      this.getData()
+    }
+  },
 };
 </script>
 <style lang='less' scoped>
+a{
+  color: #333;
+  &:hover{
+    text-decoration: underline;
+  }
+}
 .btnShow {
   display: none;
 }
@@ -135,7 +163,11 @@ export default {
     }
   }
 }
+.headerBtn{
+  margin-top: 20px;
+}
 .iconGroup {
+ 
   .timeShow {
     display: none;
   }
@@ -164,6 +196,12 @@ export default {
   display: flex;
   align-items: center;
   font-size: 12px;
+  .itemText{
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
   .titImg {
     width: 50px;
     height: 50px;
@@ -176,6 +214,9 @@ export default {
     height: 17px;
     display: block;
     margin-right: 5px;
+    &:hover{
+      background-position: 0 -128px;
+    }
   }
   .origin {
     color: #aeaeae;
