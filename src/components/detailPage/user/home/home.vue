@@ -34,9 +34,7 @@
         <p>社交网络:</p>
       </div>
     </div>
-    <div class="listenList"></div>
-    <div class="created"></div>
-    <div class="collect"></div>
+<router-view :fansNum = "profile.followeds" :followsNum = "profile.follows"></router-view>
   </div>
 </template>
 

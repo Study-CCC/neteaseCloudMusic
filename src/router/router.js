@@ -11,6 +11,9 @@ import ArtistCon from '../components/detailPage/artistCon/artist'
 import AllAlbum from '../components/detailPage/artistCon/allAlbum'
 import HotWork from '../components/detailPage/artistCon/hotWork'
 import UserHome from '../components/detailPage/user/Home/home'
+import Fans from '../components/detailPage/user/Home/fans'
+import EventCon from '../components/detailPage/user/Home/event'
+import Default from '../components/detailPage/user/Home/default'
 import Toplist from '../components/discover/toplist/toplist'
 import Recommend from '../components/discover/recommend/recommend'
 import Playlist from '../components/discover/playlist/playlist'
@@ -31,8 +34,8 @@ const routes = [
                 component: Discover,
                 children: [
                     {
-                        path:'/',
-                        redirect:'recommend'
+                        path: '/',
+                        redirect: 'recommend'
                     },
                     {
                         path: 'recommend',
@@ -53,47 +56,66 @@ const routes = [
                     }, {
                         path: 'album',
                         component: Album
+                    }
+                    ,
+
+                    {
+                        path: '/my',
+                        component: My
+                    },
+                    {
+                        path: '/friend',
+                        component: Friend
+                    },
+                    {
+                        path: '/playlist',
+                        component: PlaylistCon
                     }, {
-                        path:'user/home',
-                        component: UserHome
+                        path: '/song',
+                        component: SongCon
+                    }, {
+                        path: '/album',
+                        component: AlbumCon
+                    }, {
+                        path: '/artist',
+                        component: ArtistCon,
+                        redirect: '/artist/album',
+                        children: [
+                            {
+                                path: '/artist/album',
+                                component: AllAlbum
+                            },
+                            {
+                                path: '/artist/song',
+                                components: HotWork
+                            }
+                        ]
                     }
                 ]
             },
 
             {
-                path: '/my',
-                component: My
-            },
-            {
-                path: '/friend',
-                component: Friend
-            },
-            {
-                path:'/playlist',
-                component:PlaylistCon
-            },{
-                path:'/song',
-                component:SongCon
-            },{
-                path:'/album',
-                component:AlbumCon
-            },{
-                path: '/artist',
-                component:ArtistCon,
-                redirect:'/artist/album',
-                children:[
+                path: '/user',
+                component: UserHome,
+                redirect:'/home',
+                children: [
                     {
-                        path:'/artist/album',
-                        component:AllAlbum
+                        path: 'home',
+                        component: Default
                     },
                     {
-                        path:'/artist/song',
-                        components:HotWork
+                        path: 'fans',
+                        component: Fans
+                    },{
+                        path:'follows',
+                        component:Fans
+                    },{
+                        path:'event',
+                        component:EventCon
                     }
                 ]
-            }
-        ]
-    },
+            }]
+    }
 
 ]
 const router = new VueRouter({
