@@ -7,7 +7,7 @@
         <div class="userInfo">
           <p class="userName">
             <a :href="'/#/user/home?id='+item.userId">{{item.nickname}}</a>
-            <i :class="['sex',item.gender==0?'woman':'man']"></i>
+            <i  v-if="item.gender!=0" :class="['sex',item.gender==0?'woman':'man']"></i>
           </p>
           <p class="userText">
             <a :href="'/#/user/event?id='+item.userId">
@@ -73,7 +73,7 @@ export default {
       const { data, status } = await this.$http.get(this.url);
       if (status !== 200) return this.$message.error("数据获取错误");
       this.followeds = data.followeds || data.follow;
-      //   console.log(this.followeds);
+        // console.log(this.followeds);
     }
   },
   props: ["fansNum", "followsNum"],

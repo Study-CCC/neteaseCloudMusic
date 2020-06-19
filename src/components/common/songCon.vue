@@ -1,12 +1,14 @@
 <template>
   <div class="songConBox">
     <div class="listTitle">
-      <h3>歌曲列表</h3>
-      <span>{{songsList.trackCount}}首歌</span>
-      <span class="play">
-        播放
-        <strong>{{songsList.playCount}}</strong>次
-      </span>
+      <h3>
+        歌曲列表
+        <span>{{songsList.trackCount}}首歌</span>
+        <span v-if="!songsList.taste" class="play">
+          播放
+          <strong>{{songsList.playCount}}</strong>次
+        </span>
+      </h3>
     </div>
     <el-table
       stripe
@@ -15,18 +17,32 @@
       :data="songsList.tracks"
       style="width: 97%;margin-left:20px;"
     >
-      <el-table-column label="#" type="index" width="77"></el-table-column>
-      <el-table-column label="标题" width="327">
+      <el-table-column label="#" type="index" width="77">
         <template v-slot="songData">
+          <span class="rankNum">
+            <span>{{songData.$index+1}}</span>
+            <a href="#" class="playIcon"></a>
+          </span>
+        </template>
+      </el-table-column>
+      <el-table-column label="标题" :width="songsList.width||327">
+        <template v-if="!songsList.taste" v-slot="songData">
           <div class="songItem noWrap">
             <a href="#" class="playIcon"></a>
-            <a  :href="'/#/song?id='+songData.row.id">{{songData.row.name}}</a>
+            <a :href="'/#/song?id='+songData.row.id">{{songData.row.name}}</a>
             <span class="origin" v-if="songData.row.alia.length!=0">-{{songData.row.alia[0]}}</span>
             <i class="mvPlay" v-if="songData.row.mv!=0"></i>
           </div>
         </template>
+        <template v-else v-slot="songData">
+          <div class="songItem noWrap">
+            <a :href="'/#/song?id='+songData.row.id">{{songData.row.name}}</a>
+            <span class="origin" v-if="songData.row.alias.length!=0">-{{songData.row.alias[0]}}</span>
+            <i class="mvPlay" v-if="songData.row.mvid!=0"></i>
+          </div>
+        </template>
       </el-table-column>
-      <el-table-column  label="时长" width="110">
+      <el-table-column label="时长" width="110">
         <template v-slot="songData">
           <div class="iconGroup btnShow">
             <el-tooltip
@@ -74,19 +90,37 @@
               </a>
             </el-tooltip>
           </div>
-          <span class="dtShow">{{songData.row.dt}}</span>
+          <span v-if="!songsList.taste" class="dtShow">{{songData.row.dt}}</span>
+          <span v-else class="dtShow">{{songData.row.duration}}</span>
         </template>
       </el-table-column>
       <el-table-column label="歌手">
         <template v-slot="songData">
-          <a :href="'/#/artist?id='+songData.row.ar[0].id">{{songData.row.ar[0].name}}</a>
+          <a
+            class="noWrap"
+            v-if="!songsList.taste"
+            :href="'/#/artist?id='+songData.row.ar[0].id"
+          >{{songData.row.ar[0].name}}</a>
+          <a
+            class="noWrap"
+            v-else
+            :href="'/#/artist?id='+songData.row.artists[0].id"
+          >{{songData.row.artists[0].name}}</a>
         </template>
       </el-table-column>
       <el-table-column label="专辑" v-if="isShow">
         <template v-slot="songData">
-          <a class="noWrap" :href="'/#/album?id='+songData.row.al.id">{{songData.row.al.name}}</a>
+          <a
+            v-if="!songsList.taste"
+            class="noWrap"
+            :href="'/#/album?id='+songData.row.al.id"
+          >{{songData.row.al.name}}</a>
+          <a
+            v-else
+            class="noWrap"
+            :href="'/#/album?id='+songData.row.album.id"
+          >{{songData.row.album.name}}</a>
         </template>
-
       </el-table-column>
     </el-table>
   </div>
@@ -96,18 +130,20 @@
 export default {
   data() {
     return {
-      url:'',
-      isShow:true
+      url: "",
+      isShow: true
     };
   },
   created() {
     this.getData();
   },
   methods: {
-    getData(){
-      this.url = this.$route.path
-      if(this.url=='/album'){
-        this.isShow = false
+    getData() {
+      this.url = this.$route.path;
+      console.log(111);
+      console.log(this.songsList);
+      if (this.url == "/album") {
+        this.isShow = false;
       }
     }
     // async getData() {
@@ -130,7 +166,28 @@ a {
     text-decoration: underline;
   }
 }
-.noWrap{
+.rankNum {
+  span {
+    font-size: 12px;
+    color: #333;
+    display: inline-block;
+    width: 30px;
+  }
+  .playIcon {
+    background: url("../../assets/table.png");
+    background-position: 0 -103px;
+    width: 17px;
+    height: 17px;
+    display: inline-block;
+    vertical-align: middle;
+    // margin-left: 20px;
+    &:hover {
+      background-position: 0 -128px;
+    }
+  }
+}
+
+.noWrap {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -158,7 +215,7 @@ a {
     height: 35px;
     border-bottom: 2px solid #c20c0c;
     .play {
-      margin-left: auto;
+      float: right;
     }
     h3 {
       font-size: 20px;
@@ -180,18 +237,7 @@ a {
       height: 50px;
       margin-right: 5px;
     }
-    .playIcon {
-      background: url("../../assets/table.png");
-      background-position: 0 -103px;
-      width: 17px;
-      height: 17px;
-      display: block;
-      margin-right: 10px;
-      float: left;
-      &:hover {
-        background-position: 0 -128px;
-      }
-    }
+
     .origin {
       color: #aeaeae;
     }

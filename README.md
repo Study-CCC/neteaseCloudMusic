@@ -46,6 +46,10 @@ data() {
 坑9: 父组件中异步获取的数据直接传给子组件的话,可能还没获取到，子组件就已经渲染出来了。父组件异步传给子组件的方法：
    <childCom v-if="data" :data="data"></childCom>
 坑10: 在router.js中填写路由信息,不能写components,要写component
+坑11: 通过axios发送请求会发送两次,一次为option,一次为正常请求
+坑12: 通过watch观察对象,newValue和oldValue一样,因为它们索引同一个对象,vue不会保留修改之前的副本
+坑13: 通过使用了elementUI组件,使用按键监听keyup之类的要用.native加在后缀才有用
+坑14: 直接通过a[1]这种下标形式对数组进行操作不具有响应式,除了通过js中数组提供的方法来操作,可以实现js数组的响应式操作外, 在vue 模块中也为我们提供了方法, 通过这个方法,我们在vue中对数组的增删改查都可以实现响应式的效果
 后续修改: 添加common组件playlistItem替换歌单和推荐里的item
           封装axios
           过滤器

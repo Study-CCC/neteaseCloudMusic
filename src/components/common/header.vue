@@ -34,16 +34,31 @@
         <!-- 按钮 -->
         <el-button size="mini" round>创作者中心</el-button>
         <!-- 登录a标签 -->
-        <a>登录</a>
+        <span class="login" @click="loginShow()">登录</span>
       </el-col>
     </el-row>
+    <LogResBox @close="close" v-if="show" />
   </div>
 </template>
 
 <script>
+import LogResBox from  './logResBox'
 export default {
   data() {
-    return {};
+    return {
+      show:false
+    };
+  },
+  methods: {
+    loginShow(){
+      this.show = true
+    },
+    close(){
+      this.show = false
+    }
+  },
+  components:{
+    LogResBox
   }
 };
 </script>
@@ -91,6 +106,14 @@ export default {
       color: #787878;
       width: 28px;
     //   margin-left: 19px;
+    }
+    .login{
+      font-size: 12px;
+      color:#999;
+      cursor: pointer;
+      &:hover{
+        text-decoration: underline;
+      }
     }
   }
 }

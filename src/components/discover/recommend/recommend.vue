@@ -1,18 +1,20 @@
 <template>
   <div>
     <!-- 轮播图 -->
-    <Carousel></Carousel>
+    <Carousel />
     <div class="reContent">
       <el-card class="leftBox">
         <!-- 热门推荐 -->
-        <HotRecommend></HotRecommend>
+        <HotRecommend />
+        <!-- 个性化 -->
+        <Personal />
         <!-- 新碟上架 -->
-        <New></New>
+        <New />
         <!-- 榜单 -->
-        <List></List>
+        <List />
         <!-- 右侧栏 -->
       </el-card>
-      <RightBar></RightBar>
+      <RightBar />
     </div>
   </div>
 </template>
@@ -23,6 +25,7 @@ import HotRecommend from "./hotRecommend";
 import List from "./list";
 import New from "./new";
 import RightBar from "./rightBar";
+import Personal from './personal'
 export default {
   data() {
     return {};
@@ -32,7 +35,8 @@ export default {
     HotRecommend,
     List,
     New,
-    RightBar
+    RightBar,
+    Personal
   }
 };
 </script>

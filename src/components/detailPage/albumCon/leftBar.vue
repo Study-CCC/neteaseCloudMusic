@@ -9,7 +9,7 @@
       <div class="introduce">
         <div class="headerTit">
           <i></i>
-          <h3>[华语速爆新歌] 最新华语音乐推荐</h3>
+          <span>[华语速爆新歌] 最新华语音乐推荐</span>
         </div>
         <div class="creatTime">
           <p>
@@ -29,13 +29,12 @@
           <el-button class="norBtn" size="mini" icon="el-icon-download"></el-button>
           <el-button class="norBtn" size="mini" icon="el-icon-chat-line-square"></el-button>
         </div>
-        
       </div>
     </div>
     <div class="desc">
-          <h3>专辑介绍</h3>
-          <p>Track 03《遇到》</p>
-        </div>
+      <h3>专辑介绍</h3>
+      <p>Track 03《遇到》</p>
+    </div>
     <div class="songlist"></div>
     <SongCon />
     <div class="commendTit">
@@ -59,6 +58,15 @@ export default {
   data() {
     return {};
   },
+  created() {},
+  methods: {
+    async getData() {
+      this.id = this.$route.query.id;
+      const { data, status } = await this.$http.get(
+        `/song/detail?ids=${this.id}`
+      );
+    }
+  },
   components: {
     Comment,
     CommentCon,
@@ -68,13 +76,14 @@ export default {
 </script>
 <style lang='less' scoped>
 .leftBarBox {
+  width: 100%;
   .header {
     .authImg {
       width: 177px;
       height: 177px;
       float: left;
       position: relative;
-      img{
+      img {
         height: 100%;
         width: 100%;
       }
@@ -92,6 +101,7 @@ export default {
     .introduce {
       float: left;
       margin-left: 50px;
+      width: 410px;
       .headerTit {
         i {
           display: inline-block;
@@ -100,17 +110,17 @@ export default {
           height: 24px;
           background-position: 0 -186px;
         }
-        h3 {
-          font-size: 30px;
-          color:#333;
-          display: inline-block;
+        span {
+          font-size: 24px;
+          color: #333;
         }
       }
       .creatTime {
-        p{
+        margin-top: 10px;
+        p {
           font-size: 12px;
           color: #666;
-         line-height: 24px;
+          line-height: 24px;
         }
       }
     }
@@ -120,20 +130,20 @@ export default {
         margin-right: 10px;
       }
     }
-  
   }
-  .desc{
+  .desc {
     margin-top: 20px;
-    h3{
+    h3 {
       font-size: 12px;
-      color:#333;
+      color: #333;
     }
-    p{
+    p {
       font-size: 12px;
       color: #666;
       line-height: 24px;
+      text-indent: 2em;
     }
-    }
+  }
   .commendTit {
     height: 35px;
     display: flex;

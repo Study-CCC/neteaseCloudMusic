@@ -95,7 +95,7 @@ export default {
       if (status !== 200) return this.$message.error("数据获取错误");
       this.eventNum = data.size;
       this.events = data.events;
-      console.log(this.events[0]);
+      // console.log(this.events[0]);
     }
   }
 };

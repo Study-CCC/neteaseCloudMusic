@@ -2,8 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home'
 import Discover from '../components/discover/discover'
-import My from '../components/my/my'
-import Friend from '../components/friend/friend'
+import myLogin from '../components/my/myLogin'
+import myMusic from '../components/my/myMusic'
+import FriendLogin from '../components/friend/friendLogin'
 import PlaylistCon from '../components/detailPage/playlistCon/playlistCon'
 import SongCon from '../components/detailPage/songCon/songCon'
 import AlbumCon from '../components/detailPage/albumCon/albumCon'
@@ -16,6 +17,7 @@ import EventCon from '../components/detailPage/user/Home/event'
 import Default from '../components/detailPage/user/Home/default'
 import Toplist from '../components/discover/toplist/toplist'
 import Recommend from '../components/discover/recommend/recommend'
+import Taste from '../components/discover/taste/taste'
 import Playlist from '../components/discover/playlist/playlist'
 import Djradio from '../components/discover/djradio/djradio'
 import Artist from '../components/discover/artist/artist'
@@ -40,6 +42,7 @@ const routes = [
                     {
                         path: 'recommend',
                         component: Recommend
+                        // component:Taste
                     }, {
                         path: 'toplist',
                         component: Toplist
@@ -58,15 +61,6 @@ const routes = [
                         component: Album
                     }
                     ,
-
-                    {
-                        path: '/my',
-                        component: My
-                    },
-                    {
-                        path: '/friend',
-                        component: Friend
-                    },
                     {
                         path: '/playlist',
                         component: PlaylistCon
@@ -93,7 +87,15 @@ const routes = [
                     }
                 ]
             },
-
+            {
+                path: '/my',
+                // component: myLogin
+                component:myMusic
+            },
+            {
+                path: '/friend',
+                component: FriendLogin
+            },
             {
                 path: '/user',
                 component: UserHome,

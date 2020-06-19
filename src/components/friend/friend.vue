@@ -1,13 +1,13 @@
 <template>
   <div class="myBox">
       <Header />
-      <DefaultPage />
+      <!-- <DefaultPage /> -->
       <Footer />
   </div>
 </template>
 
 <script>
-import DefaultPage from './defaultPage'
+// import DefaultPage from './defaultPage'
 // import Header from '../common/header'
 // import Footer from '../common/footer'
   export default {
@@ -17,7 +17,7 @@ import DefaultPage from './defaultPage'
       };
     },
     components:{
-        DefaultPage
+        // DefaultPage
     }
   }
 

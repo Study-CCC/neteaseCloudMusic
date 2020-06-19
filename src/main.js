@@ -8,6 +8,12 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 axios.defaults.baseURL = 'http://localhost:3000' 
+// axios.interceptors.response.use(function (response) {
+//   return response;
+// }, function (error) {
+// // console.log(111)
+//   return Promise.reject(error);
+// })
 Vue.prototype.$http = axios
 Vue.filter('numFilter',(value)=>{
   if(value>100000){

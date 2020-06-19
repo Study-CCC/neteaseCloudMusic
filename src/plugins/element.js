@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {Row,Col,Menu,Tooltip,DropdownItem,Dropdown,DropdownMenu,Tag,ButtonGroup,MenuItem,Message,Table,Popover,Pagination,Card,TableColumn,Input,Button,Breadcrumb,BreadcrumbItem,Carousel,CarouselItem} from 'element-ui'
+import {Row,Col,Menu,Tooltip,Form,FormItem,DropdownItem,Dropdown,DropdownMenu,Tag,ButtonGroup,MenuItem,Message,Table,Popover,Pagination,Card,TableColumn,Input,Button,Breadcrumb,BreadcrumbItem,Carousel,CarouselItem} from 'element-ui'
 
 Vue.use(Row)
 Vue.use(Col)
@@ -13,6 +13,8 @@ Vue.use(TableColumn)
 Vue.use(Breadcrumb)
 Vue.use(BreadcrumbItem)
 Vue.use(Popover)
+Vue.use(Form)
+Vue.use(FormItem)
 Vue.use(Card)
 Vue.use(ButtonGroup)
 Vue.use(Carousel)

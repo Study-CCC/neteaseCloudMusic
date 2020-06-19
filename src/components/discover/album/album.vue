@@ -58,7 +58,7 @@ export default {
       if (status !== 200) return this.$message.error("数据获取错误");
       this.allAlbums = data.albums
       this.total = data.total
-      // console.log(this.total)
+      console.log(this.total)
     }
   }
 };

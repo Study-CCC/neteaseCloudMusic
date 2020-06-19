@@ -41,52 +41,42 @@
           <template v-slot="songData">
             <div class="songItem" v-if="songData.$index>2">
               <i class="play"></i>
-              <div class="itemText"><a :href="'/#/song?id='+songData.row.id"><span>{{songData.row.name}}</span></a>
-              <span class="origin" v-if="songData.row.alia.length!=0">-({{songData.row.alia[0]}})</span>
+              <div class="itemText">
+                <a :href="'/#/song?id='+songData.row.id">
+                  <span>{{songData.row.name}}</span>
+                </a>
+                <span class="origin" v-if="songData.row.alia.length!=0">-({{songData.row.alia[0]}})</span>
               </div>
-              <a href="#"><i class="mvPlay" v-if="songData.row.mv!=0"></i></a>
+              <a href="#">
+                <i class="mvPlay" v-if="songData.row.mv!=0"></i>
+              </a>
             </div>
             <div class="songItem" v-else>
-              <a :href="'/#/song?id='+songData.row.id"><img class="titImg" :src="songData.row.al.picUrl" alt /></a>
-              <a href="#"><i class="play"></i></a>
-              <div class="itemText"><a :href="'/#/song?id='+songData.row.id"><span>{{songData.row.name}}</span></a>
-              <span class="origin" v-if="songData.row.alia.length!=0">-1({{songData.row.alia[0]}})</span>
-              </div><i class="mvPlay" v-if="songData.row.mv!=0"></i>
+              <a :href="'/#/song?id='+songData.row.id">
+                <img class="titImg" :src="songData.row.al.picUrl" alt />
+              </a>
+              <a href="#">
+                <i class="play"></i>
+              </a>
+              <div class="itemText">
+                <a :href="'/#/song?id='+songData.row.id">
+                  <span>{{songData.row.name}}</span>
+                </a>
+                <span class="origin" v-if="songData.row.alia.length!=0">-1({{songData.row.alia[0]}})</span>
+              </div>
+              <i class="mvPlay" v-if="songData.row.mv!=0"></i>
             </div>
           </template>
         </el-table-column>
         <el-table-column prop label="时长" width="140">
           <template v-slot="songData">
-            <div class="iconGroup">
-              <div class="btnShow">
-                <el-tooltip class="item" effect="light" content="添加到播放列表" placement="bottom-start">
-                  <a>
-                    <i class="add"></i>
-                  </a>
-                </el-tooltip>
-                <el-tooltip class="item" effect="light" content="收藏" placement="bottom-start">
-                  <a>
-                    <i class="collect"></i>
-                  </a>
-                </el-tooltip>
-                <el-tooltip class="item" effect="light" content="分享" placement="bottom-start">
-                  <a>
-                    <i class="share"></i>
-                  </a>
-                </el-tooltip>
-                <el-tooltip class="item" effect="light" content="下载" placement="bottom-start">
-                  <a href="#">
-                    <i class="download"></i>
-                  </a>
-                </el-tooltip>
-              </div>
-            </div>
+            <BtnGroup class="btnShow" />
             <span class="timeShow">{{songData.row.dt}}</span>
           </template>
         </el-table-column>
         <el-table-column label="歌手">
           <template v-slot="songData">
-           <a :href="'/#/artist?id='+songData.row.ar[0].id">{{songData.row.ar[0].name}}</a>
+            <a :href="'/#/artist?id='+songData.row.ar[0].id">{{songData.row.ar[0].name}}</a>
           </template>
         </el-table-column>
       </el-table>
@@ -97,19 +87,20 @@
 
 <script>
 import CommentCon from "../../common/commentCon";
+import BtnGroup from "../../common/btnGroup";
 export default {
   data() {
     return {
       songsList: [],
       index: 0,
-      tit:'',
-      updataTime:'',
-      playCount:0,
-      coverImgUrl:'',
-      trackCount:0,
-      subscribedCount:0,
-      shareCount:0,
-      commentCount:0
+      tit: "",
+      updataTime: "",
+      playCount: 0,
+      coverImgUrl: "",
+      trackCount: 0,
+      subscribedCount: 0,
+      shareCount: 0,
+      commentCount: 0
     };
   },
   created() {
@@ -117,86 +108,61 @@ export default {
   },
   methods: {
     async getData() {
-      const id = this.$route.query.id|19723756
+      console.log(this.$route);
+      const id = this.$route.query.id || 19723756;
       const { data, status } = await this.$http.get(`/top/list?id=${id}`);
       if (status !== 200) return this.$message.error("数据获取错误");
-      //  console.log(data)
       this.songsList = data.playlist.tracks;
-      this.tit = data.playlist.name
-      this.updataTime = data.playlist.trackNumberUpdateTime
-      this.playCount = data.playlist.playCount
-      this.coverImgUrl = data.playlist.coverImgUrl
-      this.trackCount = data.playlist.trackCount
-      this.subscribedCount = data.playlist.subscribedCount
-      this.shareCount = data.playlist.shareCount
-      this.commentCount = data.playlist.commentCount
-
+      this.tit = data.playlist.name;
+      this.updataTime = data.playlist.trackNumberUpdateTime;
+      this.playCount = data.playlist.playCount;
+      this.coverImgUrl = data.playlist.coverImgUrl;
+      this.trackCount = data.playlist.trackCount;
+      this.subscribedCount = data.playlist.subscribedCount;
+      this.shareCount = data.playlist.shareCount;
+      // console.log(this.songsList)
     }
   },
   components: {
-    CommentCon
+    CommentCon,
+    BtnGroup
   },
   watch: {
-    $route(){
-      this.getData()
+    $route() {
+      this.getData();
     }
-  },
+  }
 };
 </script>
 <style lang='less' scoped>
-a{
+a {
   color: #333;
-  &:hover{
+  &:hover {
     text-decoration: underline;
   }
 }
 .btnShow {
   display: none;
 }
-.rowClass{
-  &:hover{
-    .btnShow{
+.rowClass {
+  &:hover {
+    .btnShow {
       display: block;
     }
-    .timeShow{
+    .timeShow {
       display: none;
     }
   }
 }
-.headerBtn{
+.headerBtn {
   margin-top: 20px;
 }
-.iconGroup {
- 
-  .timeShow {
-    display: none;
-  }
-  i {
-    background: url("../../../assets/table.png");
-    width: 18px;
-    height: 16px;
-    margin: 2px 0 0 4px;
-    display: inline-block;
-  }
-  .add {
-    background: url("../../../assets/icon.png");
-    background-position: 0 -700px;
-  }
-  .collect {
-    background-position: 0 -174px;
-  }
-  .share {
-    background-position: 0 -195px;
-  }
-  .download {
-    background-position: -81px -174px;
-  }
-}
+
 .songItem {
   display: flex;
   align-items: center;
   font-size: 12px;
-  .itemText{
+  .itemText {
     display: inline-block;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -214,7 +180,7 @@ a{
     height: 17px;
     display: block;
     margin-right: 5px;
-    &:hover{
+    &:hover {
       background-position: 0 -128px;
     }
   }
