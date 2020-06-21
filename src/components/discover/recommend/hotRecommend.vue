@@ -23,22 +23,14 @@
     </div>
     <ul class="hotContent">
       <li v-for="item in playlists" :key="item.id">
-        <div class="hotImg">
-          <img :src="item.picUrl" alt />
-          <a :href="'/#/playlist?id='+item.id" class="hotClick"></a>
-          <div class="itemBottom">
-            <span class="el-icon-headset"></span>
-            <span>{{item.playCount}}</span>
-            <span class="el-icon-video-play"></span>
-          </div>
-        </div>
-        <a class="itemTit" :href="'/#/playlist?id='+item.id">{{item.name}}</a>
+        <PlaylistItem :item="item" />
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import PlaylistItem from '../../common/playlistItem'
 export default {
   data() {
     return {
@@ -56,6 +48,9 @@ export default {
       data.result.length = 8;
       this.playlists = data.result;
     }
+  },
+  components:{
+    PlaylistItem
   }
 };
 </script>
@@ -77,45 +72,6 @@ export default {
     li {
       margin-right: 32px;
       width: 140px;
-      .itemTit {
-        color: #000;
-        vertical-align: middle;
-        font-size: 14px;
-        width: 100%;
-        word-break: break-all;
-      }
-      .hotImg {
-        width: 140px;
-        height: 140px;
-        position: relative;
-      }
-      .hotClick {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        left: 0;
-      }
-      img {
-        width: 100%;
-        height: 100%;
-      }
-      .itemBottom {
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-        display: flex;
-        background: url("../../../assets/coverall.png");
-        background-position: 0 -537px;
-        font-size: 12px;
-        color: #ccc;
-        .el-icon-headset {
-          margin-left: 10px;
-        }
-        .el-icon-video-play {
-          margin-left: auto;
-          margin-right: 10px;
-        }
-      }
     }
   }
 }

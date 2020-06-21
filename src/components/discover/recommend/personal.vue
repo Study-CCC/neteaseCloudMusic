@@ -3,9 +3,9 @@
     <h3>个性化推荐</h3>
     <ul>
       <li>
-        <div class="data boxItm">
+        <div class="data boxItem">
           <div class="week">星期五</div>
-          <div class="day">19</div>
+          <div class="day">20</div>
           <span class="msk"></span>
         </div>
         <p class="tit">每日歌曲推荐</p>
@@ -14,15 +14,35 @@
           每天6:00更新
         </p>
       </li>
-      <li></li>
+      <li v-for="item in playlist" :key="item.id">
+               <PlaylistItem :item="item" :personal="personal" />
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
+import PlaylistItem from '../../common/playlistItem'
 export default {
   data() {
-    return {};
+    return {
+      playlist:[],
+      personal:true
+    };
+  },
+  created() {
+    this.getData()
+  },
+  methods: {
+    async getData(){
+        const { data, status } = await this.$http.get("/recommend/resource");
+      if (status !== 200) return this.$message.error("数据获取错误");
+        this.playlist=data.recommend
+        this.playlist.length = 3
+    }
+  },
+   components:{
+    PlaylistItem
   }
 };
 </script>
@@ -35,14 +55,14 @@ export default {
     display: flex;
     li {
       width: 140px;
-      .boxItm {
-        width: 140px;
+        margin-right: 32px;
+        margin-top: 20px;
+      .boxItem {
         height: 140px;
       }
       .data {
         position: relative;
         background: url("../../../assets/date.png");
-        margin-top: 20px;
         background-position: 0px 0px;
         width: 140px;
         height: 140px;

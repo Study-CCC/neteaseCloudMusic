@@ -15,6 +15,7 @@ import UserHome from '../components/detailPage/user/Home/home'
 import Fans from '../components/detailPage/user/Home/fans'
 import EventCon from '../components/detailPage/user/Home/event'
 import Default from '../components/detailPage/user/Home/default'
+import Category from '../components/detailPage/category/category'
 import Toplist from '../components/discover/toplist/toplist'
 import Recommend from '../components/discover/recommend/recommend'
 import Taste from '../components/discover/taste/taste'
@@ -50,9 +51,19 @@ const routes = [
                     {
                         path: 'playlist',
                         component: Playlist
-                    }, {
+                    },{
+                        path:'djradio/category',
+                        component:Category
+                    },
+                     {
                         path: 'djradio',
-                        component: Djradio
+                        component: Djradio,
+                        children:[
+                            {
+                                path:'category',
+                                component:Category
+                            }
+                        ]
                     }, {
                         path: 'artist',
                         component: Artist

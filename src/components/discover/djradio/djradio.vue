@@ -1,31 +1,32 @@
 <template>
   <div class="djradioBox">
-   <TopBar />
-   <el-row>
-     <el-col :span='10'>
-       <LeftBar />
-     </el-col>
-     <el-col :span='10' :offset="2">
-       <RightBar />
-     </el-col>
-   </el-row>
-   <ContentBar />
-   <!-- <PlaylistCon></PlaylistCon> -->
+    <TopBar />
+    <el-row>
+      <el-col :span="11">
+        <LeftBar />
+      </el-col>
+      <el-col :span="11" :offset="2">
+        <RightBar />
+      </el-col>
+    </el-row>
+    <ContentBar />
   </div>
+  <!-- <PlaylistCon></PlaylistCon> -->
 </template>
 
 <script>
 // 测试
 // import PlaylistCon from '../../detailPage/playlistCon/playlistCon'
-import TopBar from './topBar'
-import ContentBar from './contentBar'
-import LeftBar from './leftBar'
-import RightBar from './rightBar'
+import TopBar from "./topBar";
+import ContentBar from "./contentBar";
+import LeftBar from "./leftBar";
+import RightBar from "./rightBar";
 export default {
   data() {
     return {};
   },
-  components:{
+
+  components: {
     TopBar,
     ContentBar,
     LeftBar,
@@ -34,8 +35,8 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-.djradioBox{
-   width: 1100px;
+.djradioBox {
+  width: 900px;
   margin: 0 auto;
   padding: 40px;
 }

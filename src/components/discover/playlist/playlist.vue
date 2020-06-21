@@ -14,9 +14,9 @@
               {{item}}
             </el-col>
             <el-col class="chooseItem" :span="21">
-              <ul>
+                <ul>
                 <li v-for="(item1,i) in catlist[index]" :key="i">
-                  <router-link :to="`playlist?tag=${item1.name}`">{{item1.name}}</router-link>
+                  <a @click="tagCli(item1.name)" :class="item1.name==tagFlag?'tagBg':''" :to="`playlist?tag=${item1.name}`">{{item1.name}}</a>
                   <span class="line">|</span>
                 </li>
               </ul>
@@ -71,6 +71,7 @@ export default {
       total: 0,
       catlist: [],
       categories: [],
+      tagFlag:'',
       categoryImg: [
         " -20px -735px",
         "0 -60px",
@@ -120,6 +121,9 @@ export default {
       // console.log(data);
       this.playlists = data.playlists;
       this.total = data.total;
+    },
+    tagCli(i){
+      this.tagFlag = i
     }
   },  
   watch: {
@@ -171,13 +175,12 @@ a{
             color: #333;
             font-size: 12px;
             background-color: #fff;
-            &:visited {
+          }
+           .tagBg {
               background: #a7a7a7;
               color: #fff;
               padding: 2px 6px;
             }
-           
-          }
           .line {
             margin: 0 8px 0 10px;
             color: #d8d8d8;
