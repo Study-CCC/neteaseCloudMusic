@@ -7,7 +7,7 @@
       <ul>
         <el-button>热门</el-button>
         <li v-for="item in Alph" :key="item">
-          <a href="#" @click="sele(item)">{{item}}</a>
+          <a :href="'/artist/list?limit=100&initial='+item">{{item}}</a>
           <i></i>
         </li>
       </ul>
@@ -15,7 +15,7 @@
     <div class="singerList">
       <ul>
         <li v-for="(item,index) in singerList" :key="index">
-          <div class="top" v-if="index<=7">
+          <div class="top" v-if="index<=9">
             <img :src="item.img1v1Url" alt />
             <p>
               <a href="#">{{item.name}}</a>
@@ -64,7 +64,8 @@ export default {
         "Y",
         "Z",
         "其他"
-      ]
+      ],id:0,
+      initial:-1
     };
   },
   created() {
@@ -72,18 +73,20 @@ export default {
   },
   methods: {
     async getData() {
-      const { data, status } = await this.$http.get("/artist/list?limit=100");
+      this.id = this.$route.query.id
+      const { data, status } = await this.$http.get(`/artist/list?limit=100&type=${this.id}&initial=${this.initial}`);
       if (status !== 200) return this.$message.error("数据获取错误");
       // console.log(data);
       this.singerList = data.artists;
     },
-    async sele(a){
-         const { data, status } = await this.$http.get(`/artist/list?limit=100&initial=${a}`);
-      if (status !== 200) return this.$message.error("数据获取错误");
-    //   console.log(data);
-      this.singerList = data.artists;
+  },
+  watch: {
+    $route(){
+      const id = this.$route.query.id
+      const initial = this.$route.query.initial||-1
+      this.getData()
     }
-  }
+  },
 };
 </script>
 <style lang='less' scoped>
@@ -101,6 +104,9 @@ export default {
       li {
         width: 45px;
         height: 24px;
+        a{
+
+        }
       }
     }
   }

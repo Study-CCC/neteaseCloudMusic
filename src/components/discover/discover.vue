@@ -1,6 +1,5 @@
 <template>
   <div class="discoverBox">
-
     <router-view></router-view>
   </div>
 </template>
@@ -16,6 +15,6 @@
   }
 
 </script>
-<style lang='' scoped>
+<style lang='less' scoped>
 
 </style>

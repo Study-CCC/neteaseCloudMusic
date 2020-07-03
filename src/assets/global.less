@@ -3,9 +3,31 @@ body, html {
     border: 0;
     width: 100%;
 }
+.rightPad{
+    padding: 20px 0 40px 30px;
+}
+.leftPad{
+    padding: 47px 30px 40px 39px; 
+    border-right: 1px solid #E1E1E1;
 
+}
+i{
+    display: inline-block;
+}
+.textOver{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.page{
+    text-align: center;
+    margin-top: 20px;
+}
 a {
     text-decoration: none;
+    &:hover{
+        text-decoration: underline;
+    }
 }
 
 ul, li, p,h3 {
@@ -13,7 +35,13 @@ ul, li, p,h3 {
     margin: 0;
     padding: 0;
 }
-
+.tit{
+    height: 40px;
+    border-bottom: 2px solid #c20c0c;
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: normal;
+}
 .clearFloat:after {
     display: block;
     clear: both;

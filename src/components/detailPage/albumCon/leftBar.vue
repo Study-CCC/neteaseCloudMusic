@@ -2,51 +2,32 @@
   <div class="leftBarBox clearFloat">
     <div class="header clearFloat">
       <div class="authImg">
-        <img src="../../../assets/TEST.jpg" alt />
+        <img :src="leftData.album.picUrl" alt />
         <span class="msk"></span>
       </div>
 
       <div class="introduce">
         <div class="headerTit">
           <i></i>
-          <span>[华语速爆新歌] 最新华语音乐推荐</span>
+          <span>{{leftData.album.name}}</span>
         </div>
         <div class="creatTime">
           <p>
             歌手:
-            <a href="#">颜人中</a>
+            <a :href="'/#/artist?id='+leftData.album.artists[0].id">{{leftData.album.artists[0].name}}</a>
           </p>
-          <p>发行时间:2020-05-23</p>
-          <p>发行公司： 智慧大狗 × 网易云音乐</p>
+          <p>发行时间:{{leftData.album.publishTime}}</p>
+          <p>发行公司： {{leftData.album.company}}</p>
         </div>
-        <div class="headerBtn">
-          <el-button-group class="norBtn">
-            <el-button size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
-            <el-button size="mini" type="primary" icon="el-icon-plus"></el-button>
-          </el-button-group>
-          <el-button class="norBtn" size="mini" icon="el-icon-folder-add"></el-button>
-          <el-button class="norBtn" size="mini" icon="el-icon-folder-opened"></el-button>
-          <el-button class="norBtn" size="mini" icon="el-icon-download"></el-button>
-          <el-button class="norBtn" size="mini" icon="el-icon-chat-line-square"></el-button>
-        </div>
-      </div>
-    </div>
+      <HeaderBtn :commentCount="leftData.btnValue[0]" :shareCount="leftData.btnValue[1]" />
+    </div></div>
     <div class="desc">
       <h3>专辑介绍</h3>
-      <p>Track 03《遇到》</p>
+      <p>{{leftData.album.description}}</p>
     </div>
     <div class="songlist"></div>
-    <SongCon />
-    <div class="commendTit">
-      <h3>评论</h3>
-      <span class="total">
-        共
-        <strong>5253254234325</strong>条
-      </span>
-    </div>
-    <Comment />
+    <SongCon v-if="leftData.songsList.trackCount" :songsList="leftData.songsList"/>
     <CommentCon />
-    <SongCon />
   </div>
 </template>
 
@@ -54,23 +35,19 @@
 import Comment from "../../common/comment";
 import CommentCon from "../../common/commentCon";
 import SongCon from "../../common/songCon";
+import HeaderBtn from '../../common/headerBtn'
 export default {
   data() {
-    return {};
+    return {
+    };
   },
-  created() {},
-  methods: {
-    async getData() {
-      this.id = this.$route.query.id;
-      const { data, status } = await this.$http.get(
-        `/song/detail?ids=${this.id}`
-      );
-    }
-  },
+props:['leftData'],
+ 
   components: {
     Comment,
     CommentCon,
-    SongCon
+    SongCon,
+    HeaderBtn
   }
 };
 </script>
@@ -122,14 +99,12 @@ export default {
           color: #666;
           line-height: 24px;
         }
+        a{
+          color: #0c73c2;
+        }
       }
     }
-    .headerBtn {
-      margin-top: 20px;
-      .norBtn {
-        margin-right: 10px;
-      }
-    }
+
   }
   .desc {
     margin-top: 20px;
@@ -142,6 +117,7 @@ export default {
       color: #666;
       line-height: 24px;
       text-indent: 2em;
+      white-space: pre-line;
     }
   }
   .commendTit {

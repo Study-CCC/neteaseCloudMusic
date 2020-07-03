@@ -1,0 +1,226 @@
+<template>
+  <div class="musicList" v-if="isShow">
+    <div class="listhd">
+      <el-row>
+        <el-col :span="14">
+          <span class="playItem">播放列表(18)</span>
+          <a href>
+            <i class="clear"></i>清除
+          </a>
+          <a href>
+            <i class="collect"></i>收藏全部
+          </a>
+        </el-col>
+        <el-col :span="10">
+          <span class="musicName">局1外人</span>
+          <i class="colse" @click="close"></i>
+        </el-col>
+      </el-row>
+    </div>
+    <div class="listbd">
+      <el-row>
+        <el-col :span="14">
+          <ul>
+            <li v-for="i in 10" :key="i">
+              <el-row>
+                <el-col :span="12">
+                  <i class="playing"></i>
+                  <span class="musicName textOver">动心</span>
+                </el-col>
+                <el-col :span="5">
+                  <div class="icnBox">
+                    <div class="icns">
+                      <i class="collect"></i>
+                      <i class="share"></i>
+                      <i class="download"></i>
+                      <i class="clear"></i>
+                    </div>
+                  </div>
+                </el-col>
+                <el-col :span="3">
+                  <a href="#" class="musicAuth">mile</a>
+                </el-col>
+                <el-col :span="4">
+                  <span class="musicTime">03.19</span>
+                </el-col>
+              </el-row>
+            </li>
+          </ul>
+        </el-col>
+        <el-col :span="10"></el-col>
+      </el-row>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      isUp: false
+    };
+  },
+  methods: {
+    close() {
+      this.$emit("close");
+    }
+  },
+  props: ["isShow"]
+};
+</script>
+<style lang='less' scoped>
+.musicList {
+  z-index: -1;
+  position: absolute;
+  left: 50%;
+  bottom: 45px;
+  width: 986px;
+  transform: translate(-50%);
+  a {
+    font-size: 12px;
+    color: #e8e8e8;
+  }
+  i {
+    height: 16px;
+    background: url("../../../assets/playlist.png");
+  }
+  .collect {
+    width: 16px;
+    background-position: -24px 0;
+    &:hover {
+      background-position: -24px -20px;
+    }
+  }
+  .clear {
+    width: 13px;
+    background-position: -51px 0;
+    &:hover {
+      background-position: -51px -20px;
+    }
+  }
+  .listhd,
+  .listbd {
+    background: url("../../../assets/playbar.png");
+    //   position: absolute;
+    width: 976px;
+  }
+  .listhd {
+    background-position: 0 0;
+    height: 41px;
+    span {
+      line-height: 39px;
+      font-size: 14px;
+      color: #e2e2e2;
+    }
+    .playItem {
+      margin: 0 10px;
+    }
+    a {
+      float: right;
+      line-height: 39px;
+    }
+    i {
+      vertical-align: middle;
+      margin: 0 10px;
+    }
+    .musicName {
+      display: inline-block;
+      color: #fff;
+      width: 356px;
+      text-align: center;
+      line-height: 39px;
+    }
+    .colse {
+      width: 30px;
+      height: 30px;
+      background-position: -195px -21px;
+      cursor: pointer;
+      // float: right;
+    }
+  }
+  .listbd {
+    background: url("../../../assets/playlist_bg.png");
+    background-position: -1016px 0;
+    height: 260px;
+
+    ul {
+      height: 260px;
+      overflow-y: auto;
+      &::-webkit-scrollbar {
+        /*滚动条整体样式*/
+        width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+      }
+      &::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        border-radius: 10px;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        background: #535353;
+      }
+      &::-webkit-scrollbar-track {
+        /*滚动条里面轨道*/
+        // -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        background: #252525;
+      }
+      li {
+        height: 28px;
+        cursor: pointer;
+        &:hover {
+          span,
+          a {
+            color: #fff;
+          }
+          .icns {
+            display: inline-block;
+          }
+        }
+        .icnBox {
+          width: 100px;
+          height: 23px;
+        }
+        .icns {
+          display: none;
+          width: 100px;
+          height: 23px;
+          .share {
+            background-position: 0 0;
+            margin: 7px 0 0 10px;
+            width: 14px;
+            &:hover {
+              background-position: 0 -20px;
+            }
+          }
+          .download {
+            width: 14px;
+            background-position: -57px -50px;
+            margin: 7px 0 0 10px;
+            &:hover {
+              background-position: -80px -50px;
+            }
+          }
+          .clear {
+            margin: 7px 0 0 10px;
+          }
+        }
+        .musicName {
+          width: 246px;
+        }
+        .playing {
+          width: 10px;
+          height: 13px;
+          background: url("../../../assets/playlist.png");
+          background-position: -182px 0;
+          margin: 0 10px 0 10px;
+        }
+        span,
+        a {
+          display: inline-block;
+          color: #ccc;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+</style>

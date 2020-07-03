@@ -140,11 +140,10 @@ export default {
   methods: {
     getData() {
       this.url = this.$route.path;
-      console.log(111);
-      console.log(this.songsList);
       if (this.url == "/album") {
         this.isShow = false;
       }
+      // console.log(this.songsList.trackCount,1)
     }
     // async getData() {
     //   // const { data, status } = await this.$http.get("/top/list?idx=3");

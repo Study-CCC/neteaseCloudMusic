@@ -23,20 +23,8 @@
             <span>{{Date(detail.creator.createTime)}}创建</span>
           </p>
         </div>
-        <div class="headerBtn">
-          <el-button-group class="norBtn">
-            <el-button size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
-            <el-button size="mini" type="primary" icon="el-icon-plus"></el-button>
-          </el-button-group>
-          <el-button
-            class="norBtn"
-            size="mini"
-            icon="el-icon-folder-add"
-          >({{detail.subscribedCount}})</el-button>
-          <el-button class="norBtn" size="mini" icon="el-icon-folder-opened">({{detail.shareCount}})</el-button>
-          <el-button class="norBtn" size="mini" icon="el-icon-download">下载</el-button>
-          <el-button class="norBtn" size="mini" icon="el-icon-chat-line-square"></el-button>
-        </div>
+        <HeaderBtn :shareCount="detail.shareCount" :commentCount="detail.subscribedCount"/>
+       
         <!-- 列表描述 -->
         <div class="desc">
           <div class="tag">
@@ -45,19 +33,32 @@
               <a :href="'/#/discover/playlist/?cat='+item+'&order=hot'">{{item}}</a>
             </el-tag>
           </div>
-          <div class="descCon">介绍: {{detail.description}}</div>
-        </div>
+          <div v-if="detail.description">
+          <div :class="['descCon',openFlag?'':'close']">介绍: {{detail.description}}</div>
+           <a href="javascript:void(0)" @click="isOpen">{{openFlag?'收起':'展开'}}<i :class="openFlag?'closeIcon':'openIcon'"></i></a>
+        </div></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import HeaderBtn from './headerBtn'
 export default {
   data() {
-    return {};
+    return {
+      openFlag:false
+    };
   },
-  props:['detail']
+  methods: {
+      isOpen(){
+      this.openFlag = !this.openFlag
+    }
+  },
+  props:['detail'],
+  components:{
+    HeaderBtn
+  }
 };
 </script>
 <style lang='less' scoped>
@@ -86,7 +87,7 @@ export default {
     .introduce {
       float: left;
       margin-left: 50px;
-      width: 530px;
+      width: 430px;
       .headerTit {
         i {
           display: inline-block;
@@ -137,12 +138,24 @@ export default {
             color: #666;
           }
         }
+        .close{height: 318px;overflow: hidden;}
+              a{
+          font-size: 12px;
+          color: #0c73c2;
+        }
+      i{
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-top: 2px solid #999;
+        border-left: 2px solid #999;
       }
-    }
-    .headerBtn {
-      margin-top: 20px;
-      .norBtn {
-        margin-right: 10px;
+      .openIcon{
+        transform: rotate(-135deg)
+        }
+      .closeIcon{
+        transform: rotate(45deg)
+      }
       }
     }
   }

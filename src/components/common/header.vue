@@ -65,6 +65,8 @@ export default {
 <style lang='less' scoped>
 .headerBox {
   background-color: #242424;
+      min-width: 980px;
+
   height: 70px;
   .el-row {
     width: 1100px;

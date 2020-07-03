@@ -2,29 +2,23 @@
   <div class="leftBarBox">
     <h3>
       {{artist.name}}
-      <!-- <span v-if="artist.transNames.length!=0">{{artist.transNames[0]}}</span> -->
+      <span v-if="artist.alias[0]">{{artist.alias[0]}}</span>
     </h3>
     <div class="imgBox">
       <img :src="artist.img1v1Url" alt />
-      <a :href="'/#/user/home?id='+artist.accountId" class="home"></a>
+      <a v-if="artist.accountId" :href="'/#/user/home?id='+artist.accountId" class="home"></a>
       <a href="#" class="collect"></a>
       <div class="msk"></div>
     </div>
-    <el-menu class="el-menu-demo" mode="horizontal">
+    <el-menu class="el-menu-demo" mode="horizontal" default-active="1">
       <el-menu-item index="1"><a :href="'/#/artist/song?id='+id">热门作品</a></el-menu-item>
       <el-menu-item index="2"><a :href="'/#/artist/album?id='+id">所有专辑</a></el-menu-item>
       <el-menu-item index="3"><a :href="'/#/artist/mv?id='+id">相关MV</a></el-menu-item>
       <el-menu-item index="4"><a :href="'/#/artist/desc?id='+id">艺人介绍</a></el-menu-item>
     </el-menu>
 
-    <div class="btn">
-      <el-button-group>
-        <el-button size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
-        <el-button size="mini" type="primary" icon="el-icon-plus"></el-button>
-      </el-button-group>
-      <el-button size="mini" class="norBtn" icon="el-icon-folder-add">收藏热门50</el-button>
-    </div>
-    <router-view :hotSongs="hotSongs"></router-view>
+  
+    <router-view :hotSongs="hotSongs" :total="mvSize"  :authName="artist.name"></router-view>
   </div>
 </template>
 
@@ -33,10 +27,12 @@ export default {
   data() {
     return {
       artist: {
+        alias:[]
       },
       hotSongs: [
       
       ],
+      mvSize:0,
       id:0
     };
   },
@@ -50,7 +46,8 @@ export default {
       if (status !== 200) return this.$message.error("数据获取错误");
       this.artist = data.artist;
       this.hotSongs = data.hotSongs;
-      console.log(data)
+      this.mvSize = data.artist.mvSize
+      // console.log(data)
     }
   },
   watch: {
@@ -68,7 +65,10 @@ export default {
       text-decoration: underline;
     }
   }
-
+h3{
+  font-size: 24px;
+  font-weight: normal;
+}
  
   
   .play {
@@ -137,22 +137,14 @@ export default {
       width: 25%;
       height: 100%;
       line-height: 36px;
+      a{
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
     }
   }
-  .btn {
-    display: flex;
-    width: 640px;
-    margin-top: 20px;
-    .norBtn {
-      width: 105px;
-      height: 31px;
-      text-align: center;
-      margin-left: 5px;
-    }
-    .el-dropdown {
-      margin-left: auto;
-    }
-  }
+ 
 
 }
 </style>

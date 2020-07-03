@@ -1,5 +1,12 @@
 <template>
   <div class="hotWorkBox">
+    <div class="btn">
+      <el-button-group>
+        <el-button size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
+        <el-button size="mini" type="primary" icon="el-icon-plus"></el-button>
+      </el-button-group>
+      <el-button size="mini" class="norBtn" icon="el-icon-folder-add">收藏热门50</el-button>
+    </div>
     <ul class="ulItem">
       <li v-for="(item,index) in hotSongs" :key="item.id">
         <el-row>
@@ -67,6 +74,20 @@ export default {
 </script>
 <style lang='less' scoped>
 .hotWorkBox {
+  .btn {
+    display: flex;
+    width: 640px;
+    margin-top: 20px;
+    .norBtn {
+      width: 105px;
+      height: 31px;
+      text-align: center;
+      margin-left: 5px;
+    }
+    .el-dropdown {
+      margin-left: auto;
+    }
+  }
   a {
     color: #333;
     &:hover {

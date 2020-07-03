@@ -8,7 +8,7 @@
         </div>
         <ul>
           <li class="itemCon" v-for="item1 in djPlaylist[i]"  :key="item1.id">
-            <img :src="item1.picUrl" alt />
+            <a :href="'/#/djradio?id='+item1.id"><img :src="item1.picUrl" alt /></a>
             <a :href="'/#/djradio?id='+item1.id">{{item1.name}}</a>
           </li>
         </ul>

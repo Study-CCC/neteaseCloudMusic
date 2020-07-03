@@ -25,6 +25,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .moreDownBox {
+  margin-top: 20px;
   h3 {
     height: 23px;
     margin-bottom: 20px;

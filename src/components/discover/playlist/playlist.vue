@@ -16,7 +16,7 @@
             <el-col class="chooseItem" :span="21">
                 <ul>
                 <li v-for="(item1,i) in catlist[index]" :key="i">
-                  <a @click="tagCli(item1.name)" :class="item1.name==tagFlag?'tagBg':''" :to="`playlist?tag=${item1.name}`">{{item1.name}}</a>
+                  <a :href="'/#/discover/playlist/?cat='+item1.name" :class="item1.name==cat?'tagBg':''" :to="`playlist?tag=${item1.name}`">{{item1.name}}</a>
                   <span class="line">|</span>
                 </li>
               </ul>
@@ -33,6 +33,7 @@
         <li v-for="(item) in playlists" :key="item.id"> 
           <div class="hotImg">
             <img :src="item.coverImgUrl" alt />
+
             <a :href="'/#/playlist?id='+item.id" class="hotClick"></a>
             <div class="itemBottom">
               <span class="headset"></span>
@@ -71,7 +72,7 @@ export default {
       total: 0,
       catlist: [],
       categories: [],
-      tagFlag:'',
+      cat:'',
       categoryImg: [
         " -20px -735px",
         "0 -60px",
@@ -121,15 +122,12 @@ export default {
       // console.log(data);
       this.playlists = data.playlists;
       this.total = data.total;
-    },
-    tagCli(i){
-      this.tagFlag = i
     }
   },  
   watch: {
-    $route(to,from){
-      // console.log(to.query)
-      this.getClickData(to.query.tag)
+    $route(){
+     this.cat = this.$route.query.cat
+      this.getClickData(this.cat)
     }
   },
 };
@@ -137,6 +135,7 @@ export default {
 <style lang='less' scoped>
 a{
   color: #666;
+  cursor: pointer;
 &:hover {
   text-decoration: underline;
 }}
@@ -215,6 +214,7 @@ a{
       li {
         width: 140px;
         margin-right: 40px;
+        margin-top: 20px;
         .hotp1 {
           margin: 8px 0 3px;
           text-overflow: ellipsis;
@@ -240,6 +240,7 @@ a{
           width: 100%;
           height: 100%;
           left: 0;
+          background: url('../../../assets/coverall.png');
         }
         img {
           width: 100%;

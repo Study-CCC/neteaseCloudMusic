@@ -1,10 +1,10 @@
 <template>
   <div class="commentBox">
     <el-row>
-      <el-col :span="3">
+      <el-col :span="2">
         <img src="../../assets/default_avatar.jpg" alt />
       </el-col>
-      <el-col :span="19">
+      <el-col :span="21" >
         <el-input type="textarea" :rows="2"></el-input>
         <div class="commendBtn">
           <i class="simle"></i>
@@ -56,7 +56,7 @@ export default {
   img {
     width: 50px;
     height: 50px;
-    margin-left: 40px;
+    margin-left: 10px;
   }
 }
 </style>

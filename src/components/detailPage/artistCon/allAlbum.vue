@@ -13,12 +13,13 @@
         <span>{{item.publishTime}}</span>
       </li>
     </ul>
+    <div class="page">
     <el-pagination
       layout="prev, pager, next"
       :total="total"
       @current-change="handleCurrentChange"
       :page-size="12"
-    ></el-pagination>
+    ></el-pagination></div>
   </div>
 </template>
 
@@ -53,6 +54,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .allAlumBox {
+  margin-top: 20px;
   ul {
       width: 640px;
       display: flex;

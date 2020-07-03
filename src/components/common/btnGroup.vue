@@ -1,22 +1,22 @@
 <template>
   <div class="btnGroupBox">
         <div class="iconGroup">
-                <el-tooltip class="item" effect="light" content="添加到播放列表" placement="bottom-start">
+                <el-tooltip class="item"  :open-delay="1000"  effect="light" content="添加到播放列表" placement="bottom-start">
                   <a>
                     <i class="add"></i>
                   </a>
                 </el-tooltip>
-                <el-tooltip class="item" effect="light" content="收藏" placement="bottom-start">
+                <el-tooltip class="item"  :open-delay="1000"  effect="light" content="收藏" placement="bottom-start">
                   <a>
                     <i class="collect"></i>
                   </a>
                 </el-tooltip>
-                <el-tooltip class="item" effect="light" content="分享" placement="bottom-start">
+                <el-tooltip class="item"  :open-delay="1000"  effect="light" content="分享" placement="bottom-start">
                   <a>
                     <i class="share"></i>
                   </a>
                 </el-tooltip>
-                <el-tooltip class="item" effect="light" content="下载" placement="bottom-start">
+                <el-tooltip class="item"  :open-delay="1000"  effect="light" content="下载" placement="bottom-start">
                   <a href="#">
                     <i class="download"></i>
                   </a>

@@ -1,6 +1,6 @@
 <template>
   <div class="relatedBox" v-if="playlists.length!=0">
-    <h3 class="tit">{{tit}}</h3>
+    <h3 class="hotTit">{{tit}}</h3>
     <ul>
       <li v-for="item in playlists" :key="item.id">
         <a :href="'/#/playlist?id='+item.id">
@@ -48,6 +48,9 @@ export default {
       } else if(this.path == "/artist"){
          this.url=  `/simi/playlist?id=${this.id}`
          this.tit = '热门歌手'
+      } else if(this,path == "/djradio"){
+        // this.url = `/dj/radio/hot?cateId=${}&limit=10`
+        this.tit = '你可能也喜欢'
       }
        const { data, status } = await this.$http.get(this.url)
       if (status !== 200) return this.$message.error("数据获取错误");
@@ -67,7 +70,7 @@ a {
 }
 .relatedBox {
   margin-bottom: 20px;
-  .tit {
+  .hotTit {
     height: 23px;
     margin-bottom: 20px;
     border-bottom: 1px solid #ccc;

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {Row,Col,Menu,Tooltip,Form,FormItem,DropdownItem,Dropdown,DropdownMenu,Tag,ButtonGroup,MenuItem,Message,Table,Popover,Pagination,Card,TableColumn,Input,Button,Breadcrumb,BreadcrumbItem,Carousel,CarouselItem} from 'element-ui'
+import {Row,Col,Menu,Tooltip,Slider,Form,FormItem,DropdownItem,Dropdown,DropdownMenu,Tag,ButtonGroup,MenuItem,Message,Table,Popover,Pagination,Card,TableColumn,Input,Button,Breadcrumb,BreadcrumbItem,Carousel,CarouselItem} from 'element-ui'
 
 Vue.use(Row)
 Vue.use(Col)
@@ -22,6 +22,7 @@ Vue.use(CarouselItem)
 Vue.use(Pagination)
 Vue.use(Tooltip)
 Vue.use(Dropdown)
+Vue.use(Slider)
 Vue.use(DropdownItem)
 Vue.use(DropdownMenu)
 Vue.prototype.$message = Message

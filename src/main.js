@@ -17,8 +17,19 @@ axios.defaults.baseURL = 'http://localhost:3000'
 Vue.prototype.$http = axios
 Vue.filter('numFilter',(value)=>{
   if(value>100000){
-    return parseInt()
+    return parseInt(value)
   }
+})
+Vue.filter('timeFilter',(value)=>{
+  let time = ''
+  if(value>1000){
+    var minutes = parseInt((value % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = (value % (1000 * 60)) / 1000;
+  }
+  else return '00:00'
+  // console.log(value)
+  time = '0'+minutes+":"+seconds
+  return time
 })
 new Vue({
   router,

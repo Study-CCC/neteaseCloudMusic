@@ -76,7 +76,7 @@
                     class="name"
                   >{{item.beReplied[0].user.nickname}}</a>
                   :
-                  <span class="itemCon">{{item.beReplied[0].user.content}}</span>
+                  <span class="itemCon">{{item.beReplied[0].content}}</span>
                 </div>
                 <div class="itemFoot">
                   <span class="time">{{Date(item.time)}}</span>
@@ -94,14 +94,14 @@
           </li>
         </ul>
       </div>
-      <el-pagination
+     <div class="page"> <el-pagination
         v-if="total>pageSize"
         background
         layout="prev, pager, next"
         @current-change="handleCurrentChange"
         :page-size="pageSize"
         :total="total"
-      ></el-pagination>
+      ></el-pagination></div>
     </div>
   </div>
 </template>
@@ -121,7 +121,7 @@ export default {
       path: "",
       url: "",
       isShow: true,
-      pageSize: 0
+      pageSize: 20
     };
   },
   created() {
@@ -130,7 +130,7 @@ export default {
   methods: {
     //处理当前页码
     handleCurrentChange(e) {
-      this.offset = (e - 1) * 20;
+      this.offset = (e - 1) *this.pageSize;
       this.isShow = false;
       this.getNext();
     },
@@ -143,10 +143,14 @@ export default {
         this.pageSize = 35;
       } else if (this.path == "/song") {
         this.url = `/comment/music?id=${this.id}`;
-        this.pageSize = 20;
       } else if (this.path == "/discover/toplist") {
         this.url = `/comment/playlist?id=${this.id}`;
-        this.pageSize = 20;
+      }else if(this.path == "/program"){
+        this.url=`/comment/dj?id=${this.id}`
+      }else if(this.path == "/album"){
+        this.url = `/comment/album?id=${this.id}`
+      }else if(this.path=="/mv"){
+        this.url = `/comment/mv?id=${this.id}`
       }
       const { data, status } = await this.$http.get(this.url);
       if (status !== 200) return this.$message.error("数据获取错误");
@@ -201,8 +205,15 @@ a {
   .commentCon {
     .newTit,
     .hotTit {
-      height: 20px;
+      height: 30px;
       border-bottom: 1px solid #cfcfcf;
+        line-height: 30px;
+      span{
+        font-size: 12px;
+        color:#333;
+        font-weight: bold;
+      
+      }
     }
     .newCon,
     .hotCon {
@@ -220,7 +231,7 @@ a {
               margin-left: 60px;
               .itemHead,
               .answer {
-                width: 700px;
+                width: 620px;
                 .name {
                   font-size: 12px;
                 }
@@ -230,7 +241,7 @@ a {
                 }
               }
               .answer {
-                width: 662px;
+                width: 572px;
                 background: #f4f4f4;
                 border: 1px solid #dedede;
                 padding: 8px 19px;
@@ -239,7 +250,7 @@ a {
               }
               .itemFoot {
                 display: flex;
-                width: 700px;
+                width: 620px;
                 margin-top: 10px;
                 span {
                   color: #999;

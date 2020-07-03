@@ -40,7 +40,7 @@
         <el-table-column prop="name" label="标题" width="327">
           <template v-slot="songData">
             <div class="songItem" v-if="songData.$index>2">
-              <i class="play"></i>
+              <a class="play"></a>
               <div class="itemText">
                 <a :href="'/#/song?id='+songData.row.id">
                   <span>{{songData.row.name}}</span>
@@ -63,8 +63,8 @@
                   <span>{{songData.row.name}}</span>
                 </a>
                 <span class="origin" v-if="songData.row.alia.length!=0">-1({{songData.row.alia[0]}})</span>
+                <i class="mvPlay" v-if="songData.row.mv!=0"></i>
               </div>
-              <i class="mvPlay" v-if="songData.row.mv!=0"></i>
             </div>
           </template>
         </el-table-column>

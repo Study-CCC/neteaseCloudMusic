@@ -14,7 +14,9 @@
         <List />
         <!-- 右侧栏 -->
       </el-card>
+      <el-card :body-style="{padding:0}">
       <RightBar />
+      </el-card>
     </div>
   </div>
 </template>
@@ -45,8 +47,12 @@ export default {
   display: flex;
   margin: 0 auto;
   width: 986px;
+  background-color: #fff;
   .leftBox {
     width: 730px;
+  }
+  .rightBox{
+    padding: -20px;
   }
 }
 </style>

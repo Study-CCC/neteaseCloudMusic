@@ -1,11 +1,11 @@
 <template>
   <div class="artistBox">
     <el-row>
-      <el-col :span="19">
-        <LeftBar />
+      <el-col :span="18">
+        <LeftBar class="leftPad" />
       </el-col>
-      <el-col :span="5">
-        <RightBar />
+      <el-col :span="6">
+        <RightBar class="rightPad" />
       </el-col>
     </el-row>
   </div>
@@ -26,8 +26,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .artistBox {
-  padding: 47px 30px 40px 39px;
-  width: 1100px;
+  width: 980px;
   margin: 0 auto;
 }
 </style>

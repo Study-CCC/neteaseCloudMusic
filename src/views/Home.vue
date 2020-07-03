@@ -1,22 +1,24 @@
 <template>
   <div class="home">
-          <Header></Header>
-    <Extend></Extend>
-<router-view></router-view>
-        <Footer></Footer>
+          <Header />
+    <Extend />
+<router-view />
+        <Footer />
+        <MusicPlay />
   </div>
 </template>
-
 <script>
 import Header from '../components/common/header'
 import Extend from '../components/common/extend'
 import Footer from '../components/common/footer'
+import MusicPlay from '../components/detailPage/musicPlay/musicPlay'
 export default {
   name: 'Home',
   components: {
     Header,
     Footer,
-    Extend
+    Extend,
+    MusicPlay
   }
 }
 </script>

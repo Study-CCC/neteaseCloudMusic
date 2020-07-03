@@ -42,7 +42,12 @@ export default {
       this.songs = data.songs;
       //   console.log(this.songs);
     }
-  }
+  },
+  watch: {
+    $route(){
+      this.getData()
+    }
+  },
 };
 </script>
 <style lang='less' scoped>

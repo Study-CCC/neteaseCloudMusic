@@ -1,10 +1,10 @@
 <template>
   <div class="playlistConBox">
     <el-row>
-      <el-col :span="19">
+      <el-col :span="18">
         <LeftBar v-if="playlist.trackCount" :playlist="playlist" />
       </el-col>
-      <el-col :span="5">
+      <el-col :span="5" :offset="1">
         <RightBar v-if="playlist.trackCount" :playlist="playlist" />
       </el-col>
     </el-row>
@@ -28,7 +28,7 @@ export default {
   
     async getData() {
       const id = this.$route.query.id;
-      console.log(id)
+      // console.log(id)
       const { data, status } = await this.$http.get(
         `/playlist/detail?id=${id}`
       );
@@ -54,7 +54,7 @@ export default {
 <style lang='less' scoped>
 .playlistConBox {
   padding: 47px 30px 40px 39px;
-  width: 1100px;
+  width: 980px;
   margin: 0 auto;
 }
 </style>

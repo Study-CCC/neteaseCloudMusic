@@ -10,6 +10,7 @@
         <div class="headerTit">
           <i></i>
           <h3>{{detail.name}}</h3>
+          <p v-if="detail.alia[0]">{{detail.alia[0]}}</p>
         </div>
         <div class="creatTime">
           <p>
@@ -21,37 +22,17 @@
             <a :href="'/#/album?id='+detail.al.id">{{detail.al.name}}</a>
           </p>
         </div>
-        <div class="headerBtn">
-          <el-button-group class="norBtn">
-            <el-button size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
-            <el-button size="mini" type="primary" icon="el-icon-plus"></el-button>
-          </el-button-group>
-          <el-button class="norBtn" size="mini" icon="el-icon-folder-add">收藏</el-button>
-          <el-button class="norBtn" size="mini" icon="el-icon-folder-opened">分享</el-button>
-          <el-button class="norBtn" size="mini" icon="el-icon-download">下载</el-button>
-          <el-button class="norBtn" size="mini" icon="el-icon-chat-line-square">
-            <span>()</span>
-          </el-button>
-        </div>
+        <HeaderBtn />
         <div class="lyric" v-if="lyric">
-          <div class="userInfo">
-            <span>
-              贡献歌词:
-              <a :href="'/#/user/home?id='+lyricUser.id">{{lyricUser.nickname}}</a>
-            </span>
-            <span>
-              贡献翻译:
-              <a :href="'/#/user/home?id='+transUser.id">{{transUser.nickname}}</a>
-            </span>
-          </div>
+          <div :class="['userInfo',openFlag?'':'close']">{{lyric}}</div>
+          <a href="javascript:void(0)" @click="isOpen">{{openFlag?'收起':'展开'}}<i :class="openFlag?'closeIcon':'openIcon'"></i></a>
         </div>
         <div v-else class="noLyric">
           暂时没有歌词
-          <a href="#">求歌词</a>
+          <a href="javascript:void(0)">求歌词</a>
         </div>
       </div>
     </div>
-
     <CommentCon />
   </div>
 </template>
@@ -59,7 +40,7 @@
 <script>
 import Comment from "../../common/comment";
 import CommentCon from "../../common/commentCon";
-
+import HeaderBtn from "../../common/headerBtn";
 export default {
   data() {
     return {
@@ -68,14 +49,17 @@ export default {
       id: "",
       transUser: "",
       lyricUser: "",
+      openFlag:false,
       detail: {
         al: {},
-        ar: [{}]
+        ar: [{}],
+        alia:[]
       }
     };
   },
   created() {
-    this.getLyric(), this.getDetail();
+    this.getDetail();
+    this.getLyric();
   },
   methods: {
     async getDetail() {
@@ -85,7 +69,7 @@ export default {
       );
       if (status !== 200) return this.$message.error("数据获取错误");
       this.detail = data.songs[0];
-    //   console.log(this.detail);
+      //   console.log(this.detail);
     },
     async getLyric() {
       const { data, status } = await this.$http.get(`/lyric?id=${this.id}`);
@@ -94,12 +78,22 @@ export default {
       this.lyric = data.lrc.lyric;
       this.transUser = data.transUser;
       this.lyricUser = data.lyricUser;
+    },
+    isOpen(){
+      this.openFlag = !this.openFlag
     }
   },
   components: {
     Comment,
-    CommentCon
-  }
+    CommentCon,
+    HeaderBtn
+  },
+  watch: {
+    $route(){
+      this.getDetail()
+      this.getLyric()
+    }
+  },
 };
 </script>
 <style lang='less' scoped>
@@ -129,7 +123,7 @@ export default {
     .introduce {
       float: left;
       margin-left: 50px;
-      width: 530px;
+      width: 430px;
       .headerTit {
         i {
           display: inline-block;
@@ -137,12 +131,18 @@ export default {
           width: 54px;
           background-position: 0 -243px;
           height: 24px;
+          vertical-align: middle;
         }
         h3 {
           font-size: 20px;
           color: #333;
           display: inline-block;
           font-weight: normal;
+          margin-left: 5px;
+        }
+        p {
+          color: #bababa;
+          margin-left: 64px;
         }
       }
       .creatTime {
@@ -163,16 +163,37 @@ export default {
         }
       }
     }
-    .headerBtn {
+    .lyric {
       margin-top: 20px;
-      .norBtn {
-        margin-right: 10px;
+      .userInfo {
+        white-space: pre-line;
+        font-size: 12px;
+        color: #333;
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 23px;
+      }
+      .close{height: 318px;overflow: hidden;}
+              a{
+          font-size: 12px;
+          color: #0c73c2;
+        }
+      i{
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-top: 2px solid #999;
+        border-left: 2px solid #999;
+      }
+      .openIcon{
+        transform: rotate(-135deg)
+        }
+      .closeIcon{
+        transform: rotate(45deg)
       }
     }
-   
     .noLyric {
       color: #666;
-      margin: 20px;
+      margin-top: 20px;
       font-size: 12px;
       a {
         text-decoration: underline;

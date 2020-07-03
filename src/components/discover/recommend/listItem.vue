@@ -5,7 +5,7 @@
         <img :src="titData.coverImgUrl" alt />
         <a :href="'/#/discover/toplist?id='+titData.id" class="msk"></a>
       </div>
-      <div class="tit">
+      <div class="titBar">
         <a :href="'/#/discover/toplist?id='+titData.id">
           <h3>{{titData.name}}</h3>
         </a>
@@ -134,7 +134,7 @@ export default {
         height: 100%;
       }
     }
-    .tit {
+    .titBar {
       float: left;
       width: 116px;
       margin: 6px 0 0 10px;
@@ -186,7 +186,7 @@ export default {
         &:hover {
           .btn {
             display: block;
-            width: 81px;
+             width: 85px;
           }
           .name {
             width: 124px;
@@ -195,6 +195,7 @@ export default {
         .btn {
           margin-left: auto;
           display: none;
+         
           i {
             display: inline-block;
             width: 17px;
@@ -224,6 +225,8 @@ export default {
         }
         .rank {
           font-size: 12px;
+          width: 20px;
+          text-align: center;
         }
         .name {
           color: #333;

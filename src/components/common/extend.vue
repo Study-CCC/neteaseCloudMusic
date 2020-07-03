@@ -3,13 +3,13 @@
     <div class="extend-content">
       <el-row>
         <el-col :offset="6">
-          <el-menu default-active="1" mode="horizontal" active-text-color="#9B0909">
+          <el-menu default-active="1" mode="horizontal" active-background-color="#9B0909">
             <el-menu-item index="1"><router-link to="recommend">推荐</router-link></el-menu-item>
-            <el-menu-item index="2"><router-link to="toplist">排行榜</router-link></el-menu-item>
-            <el-menu-item index="3"><router-link to="playlist">歌单</router-link></el-menu-item>
-            <el-menu-item index="4"><router-link to="djradio">主播电台</router-link></el-menu-item>
-            <el-menu-item index="5"><router-link to="artist">歌手</router-link></el-menu-item>
-            <el-menu-item index="6"><router-link to="album">新碟上歌</router-link></el-menu-item>
+            <el-menu-item index="2"><router-link to="/discover/toplist">排行榜</router-link></el-menu-item>
+            <el-menu-item index="3"><router-link to="/discover/playlist">歌单</router-link></el-menu-item>
+            <el-menu-item index="4"><router-link to="/discover/djradio">主播电台</router-link></el-menu-item>
+            <el-menu-item index="5"><router-link to="/discover/artist/cat">歌手</router-link></el-menu-item>
+            <el-menu-item index="6"><router-link to="/discover/album">新碟上歌</router-link></el-menu-item>
           </el-menu>
         </el-col>
       </el-row>
@@ -27,20 +27,14 @@ export default {
 <style lang='less' scoped>
 .extend {
   width: 100%;
-  background-color: #c20c0c;
+  min-width: 980px;
   height: 35px;
+    background-color: #c20c0c;
+    overflow: hidden;
   .extend-content {
-    // .el-row{
-    //   margin: 0 auto;
-    //   width: 70%;
-    // }
     ul {
-      background-color: #c20c0c;
-      // float: left;
-      min-width: 1100px;
-      margin: 0 auto;
       border-bottom: none;
-      
+        background-color: #c20c0c;
       li {
         color: #fff;
         font-size: 12px;
