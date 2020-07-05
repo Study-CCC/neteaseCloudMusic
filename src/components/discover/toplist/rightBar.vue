@@ -215,7 +215,7 @@ a {
     .headerText {
       margin-left: 20px;
       .norBtn {
-        margin-right: 20px;
+        margin-right: 10px;
       }
       p {
         font-size: 12px;

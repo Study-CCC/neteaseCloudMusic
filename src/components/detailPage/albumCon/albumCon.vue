@@ -2,10 +2,10 @@
   <div class="albumConBox">
     <el-row>
       <el-col :span="19">
-        <LeftBar :leftData="leftData" />
+        <LeftBar v-if="flag" :leftData="leftData" />
       </el-col>
       <el-col :span="5">
-        <RightBar :rightData="rightData" />
+        <RightBar v-if="flag" :rightData="rightData" />
       </el-col>
     </el-row>
   </div>
@@ -20,7 +20,8 @@ export default {
       leftData: { songsList: {}, btnValue: [] },
       authId: 0,
       id: 0,
-      rightData: {}
+      rightData: {},
+      flag:false
     };
   },
   created() {
@@ -37,6 +38,8 @@ export default {
       this.leftData.btnValue.push(data.album.info.commentCount);
       this.leftData.btnValue.push(data.album.info.shareCount);
       this.authId = data.album.artist.id;
+      this.flag = true
+      // console.log(this.leftData)
       this.getRigthData();
     },
     async getRigthData() {

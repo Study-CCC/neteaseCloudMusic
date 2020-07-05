@@ -14,7 +14,8 @@
 
 6. 安装axios,获取后台的数据
 <!-- 3. 解决跨域问题 -->
-    
+
+7. mv播放 (难点)
 
 监听路由变化
 方法1:通过watch函数监听$route
@@ -50,7 +51,21 @@ data() {
 坑12: 通过watch观察对象,newValue和oldValue一样,因为它们索引同一个对象,vue不会保留修改之前的副本
 坑13: 通过使用了elementUI组件,使用按键监听keyup之类的要用.native加在后缀才有用
 坑14: 直接通过a[1]这种下标形式对数组进行操作不具有响应式,除了通过js中数组提供的方法来操作,可以实现js数组的响应式操作外, 在vue 模块中也为我们提供了方法, 通过这个方法,我们在vue中对数组的增删改查都可以实现响应式的效果
+坑15: audio中currentTime 是以秒为单位的
+坑16: 切换路由id时video组件中并不会重新加载，所以需要init一下video
+坑17: 存储localStorage时,会将存入数据转换成字符串形式,我们可以使用JSON.stringify方法将json转换成json字符串
 后续修改: 添加common组件playlistItem替换歌单和推荐里的item
           封装axios
           过滤器
           布局使用flex中的between
+          detailPage中的djradio的type用vuex管理,传到common中related
+          封装button
+难点:  点击组件外时，让组件消失
+        写音乐播放功能： 1. 手动拖动进度条改变播放时间
+                        2. 播放暂停功能
+                        3. 上一首下一首
+                        4. 声音调节
+
+关于vuex的使用要点:
+    1.需要将state加入computed中,让state中数据具有响应式
+    2. 不要在methods中直接修改state,这样VueDevTools检测不到

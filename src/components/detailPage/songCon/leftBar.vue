@@ -24,8 +24,11 @@
         </div>
         <HeaderBtn />
         <div class="lyric" v-if="lyric">
-          <div :class="['userInfo',openFlag?'':'close']">{{lyric}}</div>
-          <a href="javascript:void(0)" @click="isOpen">{{openFlag?'收起':'展开'}}<i :class="openFlag?'closeIcon':'openIcon'"></i></a>
+          <div ref="descCon" :class="['userInfo',openFlag?'':'close']">{{lyric}}</div>
+          <a href="javascript:void(0)" @click="isOpen">
+            {{openFlag?'收起':'展开'}}
+            <i :class="openFlag?'closeIcon':'openIcon'"></i>
+          </a>
         </div>
         <div v-else class="noLyric">
           暂时没有歌词
@@ -49,17 +52,21 @@ export default {
       id: "",
       transUser: "",
       lyricUser: "",
-      openFlag:false,
+      openFlag: false,
+      // openShow: false,
       detail: {
         al: {},
         ar: [{}],
-        alia:[]
+        alia: []
       }
     };
   },
   created() {
     this.getDetail();
     this.getLyric();
+  },
+  mounted() {
+    this.isShow();
   },
   methods: {
     async getDetail() {
@@ -74,13 +81,29 @@ export default {
     async getLyric() {
       const { data, status } = await this.$http.get(`/lyric?id=${this.id}`);
       if (status !== 200) return this.$message.error("数据获取错误");
+      if(data.nolyric) return;
       this.transLyric = data.tlyric.lyric;
       this.lyric = data.lrc.lyric;
       this.transUser = data.transUser;
       this.lyricUser = data.lyricUser;
     },
-    isOpen(){
-      this.openFlag = !this.openFlag
+    isOpen() {
+      this.openFlag = !this.openFlag;
+    },
+    isShow() {
+      // if (!this.$refs.descCon) return;
+        setTimeout(()=>{
+          // console.log(this.$refs.descCon.clientHeight);
+          console.log(this.$refs.descCon.offsetHeight);
+          // console.log(this.$refs)
+        },50)
+        
+
+      // if (this.$refs.descCon.clientHeight > 318) {
+      //   this.openFlag = false;
+      //   this.openShow = true;
+      //   console.log(111)
+      // }
     }
   },
   components: {
@@ -89,11 +112,11 @@ export default {
     HeaderBtn
   },
   watch: {
-    $route(){
-      this.getDetail()
-      this.getLyric()
+    $route() {
+      this.getDetail();
+      this.getLyric();
     }
-  },
+  }
 };
 </script>
 <style lang='less' scoped>
@@ -172,23 +195,26 @@ export default {
         font-family: Arial, Helvetica, sans-serif;
         line-height: 23px;
       }
-      .close{height: 318px;overflow: hidden;}
-              a{
-          font-size: 12px;
-          color: #0c73c2;
-        }
-      i{
+      .close {
+        height: 318px;
+        overflow: hidden;
+      }
+      a {
+        font-size: 12px;
+        color: #0c73c2;
+      }
+      i {
         display: inline-block;
         width: 8px;
         height: 8px;
         border-top: 2px solid #999;
         border-left: 2px solid #999;
       }
-      .openIcon{
-        transform: rotate(-135deg)
-        }
-      .closeIcon{
-        transform: rotate(45deg)
+      .openIcon {
+        transform: rotate(-135deg);
+      }
+      .closeIcon {
+        transform: rotate(45deg);
       }
     }
     .noLyric {

@@ -28,7 +28,6 @@ export default {
     async getData(){
       const { data, status } = await this.$http.get("/album/newest");
       if (status !== 200) return this.$message.error("数据获取错误");
-      console.log(data);
       data.albums.length = 10;
       data.albums.map((item,index)=>{
         if(index<5) this.albums[0].push(item)

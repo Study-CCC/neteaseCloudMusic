@@ -27,7 +27,7 @@
           :open-delay="1000"
           placement="bottom-start"
         >
-          <i :class="audioData.isPlaying?'playing':'pause'" @click="musicPlay"></i>
+          <i :class="isPlaying?'playing':'pause'" @click="setIsPlaying"></i>
         </el-tooltip>
         <el-tooltip
           class="item"
@@ -40,27 +40,28 @@
         </el-tooltip>
       </div>
       <div class="playImg">
-        <img src="../../../assets/TEST.jpg" alt />
-        <a href></a>
+        <img :src="playing.picUrl" alt />
+        <a :href="'/#/song?id='+playing.id"></a>
       </div>
       <div class="playInfo">
         <div class="infoText">
-          <a class="textOver" href>{{audioData.name}}</a>
+          <a class="textOver" href>{{playing.name}}</a>
           <span class="textOver">
-            <a :href="'/#/artist?id='+audioData.ar[0].id">{{audioData.ar[0].name}}</a>
-            <a v-for="(item,key) in (audioData.ar.length-1)" :key="key" :href="'/#/artist?id='+audioData.ar[key+1].id">
-              <span>/</span>
-              {{audioData.ar[key+1].name}}
-            </a>
+            <a :href="'/#/artist?id='+playing.authName">{{playing.authName}}</a>
           </span>
         </div>
-        <div class="infoBar">
+        <!-- <div class="infoBar">
           <el-slider v-model="value" @change="timeChange" tooltip-class="tipCla"></el-slider>
-          <audio ref="audio" :src="'https://music.163.com/song/media/outer/url?id='+audioData.id+'.mp3'"></audio>
+          <audio
+            ref="audio"
+            :src="'https://music.163.com/song/media/outer/url?id='+audioData.id+'.mp3'"
+          ></audio>
           <span>
-            <span class="playTime">{{audioData.currentTime|timeFilter}}</span> / {{audioData.durtion|timeFilter}}
+            <span class="playTime">{{audioData.currentTime|timeFilter}}</span>
+            / {{audioData.durtion|timeFilter}}
           </span>
-        </div>
+        </div> -->
+  <Audio class="infoBar" />
       </div>
       <div class="oper">
         <el-tooltip
@@ -85,7 +86,7 @@
       <div class="contr">
         <i class="sound" @click="contrSound=!contrSound"></i>
         <div v-if="contrSound" class="contrSound">
-          <el-slider v-model="soundNum" vertical height="83px"></el-slider>
+          <el-slider @input="setVolumeNum" v-model="soundNum" vertical height="83px"></el-slider>
         </div>
         <el-tooltip
           class="item"
@@ -113,63 +114,38 @@
 <script>
 import MusciList from "./musicList";
 import clickOutSide from "../../../utils/clickoutside";
+import Audio from './audio'
+import {mapGetters,mapActions} from 'vuex'
 export default {
   data() {
     return {
-      value: 10,
-      soundNum: 0,
+      soundNum: 50,
       contrSound: false,
       isLock: false,
       isShow: false,
       isUp: true,
       songData: {},
-      audioData: {
-        id:0,
-        name:'',
-        isPlaying: false,
-        currentTime:0,
-        durtion:0,
-        ar:[{id:''}]
-      }
     };
   },
   created() {
-    this.getData()
+    this.getPlay()
   },
   methods: {
-    async getData() {
-      const { data, status } = await this.$http.get("/song/detail?ids=97357");
-      if (status !== 200) return this.$message.error("数据获取错误");
-      const song = data.songs[0]
-      this.audioData.id = song.id
-      this.audioData.durtion=song.dt
-      this.audioData.name = song.name
-      this.audioData.ar = song.ar
-            console.log(this.audioData)
-    },
     handleClickOut() {
       this.isUp = false;
       this.contrSound = false;
     },
-    musicPlay() {
-      let audio = this.$refs.audio;
-      if (!audio.paused) {
-        audio.pause();
-      } else audio.play();
-      this.audioData.isPlaying = !this.audioData.isPlaying;
-      console.log(audio.currentTime)
-    },
-    timeChange(e){
-      let audio = this.$refs.audio;
-      let currentTime = e*this.audioData.durtion/100
-      this.audioData.currentTime = currentTime
-      audio.currentTime = currentTime
-    }
+    ...mapActions(['setVolumeNum','getPlay','setIsPlaying'])
   },
   components: {
-    MusciList
+    MusciList,
+    Audio
   },
-  directives: { clickOutSide }
+  computed: {
+    ...mapGetters(['playing','volumeNum','isPlaying'])
+  },
+  directives: { clickOutSide },
+ 
 };
 </script>
 <style lang='less' scoped>
@@ -208,7 +184,6 @@ export default {
       width: 137px;
       padding: 6px 0 0 0;
       i {
-        display: inline-block;
         width: 28px;
         height: 28px;
         cursor: pointer;
@@ -278,25 +253,6 @@ export default {
           color: #9b9b9b;
         }
       }
-      .infoBar {
-        display: flex;
-        .el-slider {
-          width: 493px;
-          position: relative;
-          bottom: 10px;
-          margin-right: 10px;
-        }
-        .tipCla {
-          margin: 0;
-        }
-        span {
-          font-size: 12px;
-          color: #797979;
-        }
-        .playTime {
-          color: #a1a1a1;
-        }
-      }
     }
 
     .oper {
@@ -328,7 +284,6 @@ export default {
         width: 25px;
         height: 25px;
         margin: 11px 2px 0 0;
-        display: inline-block;
       }
       .contrSound {
         position: absolute;

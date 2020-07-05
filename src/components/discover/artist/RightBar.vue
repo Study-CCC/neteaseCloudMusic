@@ -111,6 +111,9 @@ a{
   }
 }
 .rightBox {
+  padding: 30px 0 0 30px;
+    border-left: 1px solid #d3d3d3;
+
   .singedTit {
     border-bottom: 2px solid #c20c0c;
   }

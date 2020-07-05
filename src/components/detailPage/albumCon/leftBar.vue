@@ -37,6 +37,9 @@ import CommentCon from "../../common/commentCon";
 import SongCon from "../../common/songCon";
 import HeaderBtn from '../../common/headerBtn'
 export default {
+  created(){
+     console.log(this.leftData)
+  },
   data() {
     return {
     };

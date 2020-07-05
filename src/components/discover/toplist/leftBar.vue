@@ -47,7 +47,6 @@ export default {
 <style lang='less' scoped>
 .leftBox {
   width: 243px;
-  border-right: 1px solid #d3d3d3;
   .visited{
      background-color: #f4f2f2;
   }

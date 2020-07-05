@@ -4,7 +4,7 @@
       <h3>
         歌曲列表
         <span>{{songsList.trackCount}}首歌</span>
-        <span v-if="!songsList.taste" class="play">
+        <span v-if="songsList.playCount" class="play">
           播放
           <strong>{{songsList.playCount}}</strong>次
         </span>

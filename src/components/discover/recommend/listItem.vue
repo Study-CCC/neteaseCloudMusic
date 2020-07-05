@@ -17,9 +17,7 @@
             content="播放"
             placement="bottom-start"
           >
-            <a href="#">
-              <i class="play"></i>
-            </a>
+              <i class="play" ></i>
           </el-tooltip>
           <el-tooltip
             :open-delay="300"
@@ -28,9 +26,7 @@
             content="收藏"
             placement="bottom-start"
           >
-            <a href="#">
               <i class="collect"></i>
-            </a>
           </el-tooltip>
         </div>
       </div>
@@ -48,9 +44,14 @@
               content="播放"
               placement="bottom-start"
             >
-              <a href="#">
-                <i class="play"></i>
-              </a>
+                <i class="play" @click="playInfo({
+                  name:item.name,
+                  id:item.id,
+                  authName:item.ar[0].name,
+                  authId:item.ar[0].id,
+                  duration:item.dt,
+                  picUrl:item.al.picUrl
+                  })"></i>
             </el-tooltip>
             <el-tooltip
               :open-delay="300"
@@ -59,9 +60,14 @@
               content="添加到播放列表"
               placement="bottom-start"
             >
-              <a href="#">
-                <i class="add"></i>
-              </a>
+                <i class="add" @click="addSong({
+                  name:item.name,
+                  id:item.id,
+                  picUrl:item.al.picUrl,
+                  authName:item.ar[0].name,
+                  authId:item.ar[0].id,
+                  duration:item.dt
+                })"></i>
             </el-tooltip>
             <el-tooltip
               :open-delay="300"
@@ -70,9 +76,7 @@
               content="收藏"
               placement="bottom-start"
             >
-              <a href="#">
                 <i class="collect"></i>
-              </a>
             </el-tooltip>
           </div>
         </li>
@@ -85,6 +89,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   data() {
     return {
@@ -100,14 +105,13 @@ export default {
     async getData() {
       const { data, status } = await this.$http.get(`/top/list?idx=${this.id}`);
       if (status !== 200) return this.$message.error("数据获取错误");
-      // console.log(data);
       this.titData.coverImgUrl = data.playlist.coverImgUrl;
       this.titData.name = data.playlist.name;
       this.titData.id = data.playlist.id;
       data.playlist.tracks.length = 10;
       this.listData = data.playlist.tracks;
-      // console.log(data.playlist)
-    }
+    },
+  ...mapActions(['addSong','playInfo'])
   }
 };
 </script>
@@ -152,7 +156,7 @@ export default {
       .headerBtn {
         margin-top: 10px;
         i {
-          display: inline-block;
+          cursor: pointer;
           width: 22px;
           height: 22px;
           margin-right: 10px;
@@ -197,7 +201,6 @@ export default {
           display: none;
          
           i {
-            display: inline-block;
             width: 17px;
             height: 17px;
             margin-right: 10px;

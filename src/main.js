@@ -5,6 +5,7 @@ import '../src/assets/global.less'
 import './plugins/element'
 import  'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
+import store from './store'
 
 Vue.config.productionTip = false
 axios.defaults.baseURL = 'http://localhost:3000' 
@@ -24,7 +25,7 @@ Vue.filter('timeFilter',(value)=>{
   let time = ''
   if(value>1000){
     var minutes = parseInt((value % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = (value % (1000 * 60)) / 1000;
+    var seconds = parseInt((value % (1000 * 60)) / 1000);
   }
   else return '00:00'
   // console.log(value)
@@ -33,5 +34,6 @@ Vue.filter('timeFilter',(value)=>{
 })
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

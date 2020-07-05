@@ -34,8 +34,8 @@
             </el-tag>
           </div>
           <div v-if="detail.description">
-          <div :class="['descCon',openFlag?'':'close']">介绍: {{detail.description}}</div>
-           <a href="javascript:void(0)" @click="isOpen">{{openFlag?'收起':'展开'}}<i :class="openFlag?'closeIcon':'openIcon'"></i></a>
+          <div ref="descCon" :class="['descCon',openFlag?'':'close']">介绍: {{detail.description}}</div>
+           <a v-if="openShow" href="javascript:void(0)" @click="isOpen">{{openFlag?'收起':'展开'}}<i :class="openFlag?'closeIcon':'openIcon'"></i></a>
         </div></div>
       </div>
     </div>
@@ -47,12 +47,27 @@ import HeaderBtn from './headerBtn'
 export default {
   data() {
     return {
-      openFlag:false
+      openFlag:true,
+      openShow:false
     };
+  },
+  created(){
+   
+  },
+  mounted(){
+    if(this.$refs.descCon.clientHeight>318)
+    {
+      this.openFlag = false
+      this.openShow = true
+    }
   },
   methods: {
       isOpen(){
       this.openFlag = !this.openFlag
+    },
+    isShow(){
+      const height = this.$refs.descCon.clientHeight
+
     }
   },
   props:['detail'],

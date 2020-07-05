@@ -3,16 +3,16 @@
     <div class="listhd">
       <el-row>
         <el-col :span="14">
-          <span class="playItem">播放列表(18)</span>
-          <a href>
+          <span class="playItem">播放列表({{playlist.length}})</span>
+          <a href="javascript:void(0)" @click="clearList">
             <i class="clear"></i>清除
           </a>
-          <a href>
+          <a href="javascript:void(0)">
             <i class="collect"></i>收藏全部
           </a>
         </el-col>
         <el-col :span="10">
-          <span class="musicName">局1外人</span>
+          <span class="musicName">{{playing.name}}</span>
           <i class="colse" @click="close"></i>
         </el-col>
       </el-row>
@@ -21,51 +21,61 @@
       <el-row>
         <el-col :span="14">
           <ul>
-            <li v-for="i in 10" :key="i">
+            <li v-for="i in playlist.length" :key="i" @click="playInfo(playlist[i-1])">
               <el-row>
                 <el-col :span="12">
                   <i class="playing"></i>
-                  <span class="musicName textOver">动心</span>
+                  <span class="musicName textOver">{{playlist[i-1].name}}</span>
                 </el-col>
                 <el-col :span="5">
                   <div class="icnBox">
                     <div class="icns">
                       <i class="collect"></i>
                       <i class="share"></i>
-                      <i class="download"></i>
-                      <i class="clear"></i>
+                      <i class="clear" @click="deleteSong(playlist[i-1].id)"></i>
                     </div>
                   </div>
                 </el-col>
-                <el-col :span="3">
-                  <a href="#" class="musicAuth">mile</a>
+                <el-col class="textOver" :span="3">
+                  <a :href="'/#/artist?id='+playlist[i-1].authId" class="musicAuth">{{playlist[i-1].authName}}</a>
                 </el-col>
                 <el-col :span="4">
-                  <span class="musicTime">03.19</span>
+                  <span class="musicTime">{{playlist[i-1].duration}}</span>
                 </el-col>
               </el-row>
             </li>
           </ul>
         </el-col>
-        <el-col :span="10"></el-col>
+        <el-col :span="10">
+          <div class="lyricShow">{{playing.lyric}}</div>
+        </el-col>
       </el-row>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapMutations, mapActions } from "vuex";
 export default {
   data() {
     return {
       isUp: false
     };
   },
+  created() {
+    this.getList();
+    this.getPlay();
+  },
   methods: {
     close() {
       this.$emit("close");
-    }
+    },
+    ...mapActions(["clearList", "playInfo", "deleteSong", "getList", "getPlay"])
   },
-  props: ["isShow"]
+  props: ["isShow"],
+  computed: {
+    ...mapGetters(["playlist", "playing"])
+  }
 };
 </script>
 <style lang='less' scoped>
@@ -97,6 +107,9 @@ export default {
     &:hover {
       background-position: -51px -20px;
     }
+  }
+  .musicTime {
+    margin-left: 10px;
   }
   .listhd,
   .listbd {
@@ -142,7 +155,17 @@ export default {
     background: url("../../../assets/playlist_bg.png");
     background-position: -1016px 0;
     height: 260px;
-
+  .lyricShow{
+    white-space: pre;
+    overflow-y: auto;
+    height: 260px;
+    overflow-x: hidden;
+    color: #989898;
+    line-height: 32px;
+    font-size: 12px;
+    text-align: center;
+    &::-webkit-scrollbar{width:0;}
+  }
     ul {
       height: 260px;
       overflow-y: auto;
@@ -189,14 +212,6 @@ export default {
             width: 14px;
             &:hover {
               background-position: 0 -20px;
-            }
-          }
-          .download {
-            width: 14px;
-            background-position: -57px -50px;
-            margin: 7px 0 0 10px;
-            &:hover {
-              background-position: -80px -50px;
             }
           }
           .clear {

@@ -1,10 +1,10 @@
 <template>
   <div class="toplist">
     <el-row>
-      <el-col :span="6">
+      <el-col :span="5">
         <LeftBar></LeftBar>
       </el-col>
-      <el-col class="rightBox" :span="18">
+      <el-col class="rightBox" :span="19">
         <RigthBar></RigthBar>
       </el-col>
     </el-row>

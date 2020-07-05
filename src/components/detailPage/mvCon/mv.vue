@@ -26,13 +26,18 @@ export default {
       const id = this.$route.query.id;
       const { data, status } = await this.$http.get(`/mv/detail?mvid=${id}`);
       if (status !== 200) return this.$message.error("数据获取错误");
-      const { desc, playCount, publishTime, name, artistName,artistId } = data.data;
+      const { desc, playCount, publishTime, name, artistName,artistId,duration } = data.data;
       this.rightData = { desc, playCount, publishTime };
-      this.leftData = { name, artistName,artistId };
+      this.leftData = { name, artistName,artistId,duration };
     }
   },
   created() {
     this.getData();
+  },
+  watch:{
+    $route(){
+      this.getData()
+    }
   },
   components: {
     LeftBar,

@@ -7,9 +7,7 @@
         <a :href="'/#/artist?id='+leftData.artistId">{{leftData.artistName}}</a>
       </p>
       <div class="mv">
-          <video controls autoplay name="media">
-              <source :src="mvUrl" type="video/mp4">
-          </video>
+         <Video  v-if="flag" :videoData="videoData" />
       </div>
       <div class="mvBtn">
         <el-button>{{countData.likedCount}}</el-button>
@@ -17,16 +15,18 @@
         <el-button>{{countData.commentCount}}</el-button>
       </div>
     </div>
-    <CommentCon />
+    <CommentCon/>
   </div>
 </template>
 <script>
 import CommentCon from "../../common/commentCon";
+import Video from './video'
 export default {
   data() {
     return {
       countData: {},
-      mvUrl:'',
+      videoData:{},
+      flag:false,
       id:''
     };
   },
@@ -44,18 +44,27 @@ export default {
       this.countData = data;
     },
     async getMvUrl(){
+      this.flag = false
   const { data, status } = await this.$http.get(
         `/mv/url?id=${this.id}`
       );
       if (status !== 200) return this.$message.error("数据获取错误");
-      this.mvUrl = data.data.url
-      console.log(this.mvUrl)
+      this.videoData.mvUrl = data.data.url
+      this.videoData.duration = this.leftData.duration
+      this.flag = true
     }
   },
   components: {
-    CommentCon
+    CommentCon,
+    Video
   },
-  props: ["leftData"]
+  props: ["leftData"],
+  watch:{
+    $route(){
+       this.getData()
+      this.getMvUrl()
+    }
+  }
 };
 </script>
 <style lang='less' scoped>
