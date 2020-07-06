@@ -7,9 +7,6 @@
           <el-button class="norBtn" size="mini" icon="el-icon-folder-add">收藏</el-button>
           <el-button class="norBtn" size="mini" icon="el-icon-folder-opened"><span>{{shareCount?('('+shareCount+')'):'分享'}}</span></el-button>
           <el-button class="norBtn" size="mini" icon="el-icon-download">下载</el-button>
-          <el-button class="norBtn" size="mini" icon="el-icon-chat-line-square">
-            <span>({{commentCount||0}})</span>
-          </el-button>
   </div>
 </template>
 
@@ -21,7 +18,7 @@
 
       };
     },
-    props:['shareCount','commentCount']
+    props:['shareCount']
   }
 
 </script>

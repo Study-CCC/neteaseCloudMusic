@@ -5,20 +5,38 @@ import axios from 'axios'
 export const setVolumeNum = ({commit},num) =>{
     commit(types.SET_VOLUME,num)
 }
+// 关闭
+export const setPause = ({commit})=>{
+    commit(types.SET_ISPLAYING,false)
+}
+// 播放
+export const setPlay = ({commit})=>{
+    commit(types.SET_ISPLAYING,true)
+
+}
 // 调节是否播放
 export const setIsPlaying = ({commit,state})=>{
-    state.isPlaying = !state.isPlaying
+    commit(types.SET_ISPLAYING,!state.isPlaying)
 }
 // 获取音乐列表
 export const getList = ({commit})=>{
     commit(types.SET_PLAYLIST,getPlaylist())
 }
+/*
+addSong({
+    id:,
+    name:,
+    authName:,
+    authId:,
+    picUrl:,
+    duration:
+  })*/
 // 获取正在播放音乐
 export const getPlay = ({commit})=>{
     commit(types.SET_ISPLAYING,false)
     commit(types.SET_PLAYING,getPlaying())
 }
-// 添加音乐
+// 添加音乐  name,id,authName,authId,picUrl,duration
 export const addSong = ({ commit }, song) => {
     commit(types.SET_PLAYLIST, addSto(song))
 }

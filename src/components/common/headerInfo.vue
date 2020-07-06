@@ -20,7 +20,7 @@
           <p>
             <!-- 创建者名字 -->
             <a :href="'/#/user/home?id='+detail.creator.userId">{{detail.creator.nickname}}</a>
-            <span>{{Date(detail.creator.createTime)}}创建</span>
+            <span>{{detail.createTime|creatTimeFilter}}创建</span>
           </p>
         </div>
         <HeaderBtn :shareCount="detail.shareCount" :commentCount="detail.subscribedCount"/>

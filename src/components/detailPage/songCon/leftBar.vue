@@ -24,7 +24,9 @@
         </div>
         <HeaderBtn />
         <div class="lyric" v-if="lyric">
-          <div ref="descCon" :class="['userInfo',openFlag?'':'close']">{{lyric}}</div>
+          <div ref="descCon" :class="['userInfo',openFlag?'':'close']">
+            <p v-for="(item,i) in lyric" :key="i" >{{item|lyricFilter}}</p>
+          </div>
           <a href="javascript:void(0)" @click="isOpen">
             {{openFlag?'收起':'展开'}}
             <i :class="openFlag?'closeIcon':'openIcon'"></i>
@@ -39,7 +41,6 @@
     <CommentCon />
   </div>
 </template>
-
 <script>
 import Comment from "../../common/comment";
 import CommentCon from "../../common/commentCon";
@@ -48,10 +49,8 @@ export default {
   data() {
     return {
       transLyric: "",
-      lyric: "",
+      lyric: [],
       id: "",
-      transUser: "",
-      lyricUser: "",
       openFlag: false,
       // openShow: false,
       detail: {
@@ -82,10 +81,7 @@ export default {
       const { data, status } = await this.$http.get(`/lyric?id=${this.id}`);
       if (status !== 200) return this.$message.error("数据获取错误");
       if(data.nolyric) return;
-      this.transLyric = data.tlyric.lyric;
-      this.lyric = data.lrc.lyric;
-      this.transUser = data.transUser;
-      this.lyricUser = data.lyricUser;
+      this.lyric = data.lrc.lyric.split('\n');
     },
     isOpen() {
       this.openFlag = !this.openFlag;

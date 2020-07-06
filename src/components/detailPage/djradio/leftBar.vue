@@ -8,7 +8,7 @@
       <div class="headInfo">
         <h3>
           <i></i>
-         {{djRadio.name}}
+          {{djRadio.name}}
         </h3>
         <p class="auth">
           <a :href="'/#/user/home?id='+djRadio.dj.userId" class="authImg">
@@ -38,47 +38,18 @@
             <el-col :span="3">
               <div class="rank">
                 <span>{{count-i}}</span>
-                <i class="play"></i>
+                <i
+                  class="play"
+                 
+                ></i>
               </div>
             </el-col>
             <el-col :span="10">
               <div class="itemName">
-                <a :href="'/#/program?id='+item.id"> <span>{{item.name}}</span></a>
-                <div class="btns">
-                  <el-tooltip
-                    :open-delay="200"
-                    class="item"
-                    effect="light"
-                    content="添加到播放列表"
-                    placement="bottom-start"
-                  >
-                    <a>
-                      <i class="add"></i>
-                    </a>
-                  </el-tooltip>
-                  <el-tooltip
-                    :open-delay="200"
-                    class="item"
-                    effect="light"
-                    content="分享"
-                    placement="bottom-start"
-                  >
-                    <a>
-                      <i class="share"></i>
-                    </a>
-                  </el-tooltip>
-                  <el-tooltip
-                    :open-delay="200"
-                    class="item"
-                    effect="light"
-                    content="下载"
-                    placement="bottom-start"
-                  >
-                    <a href="#">
-                      <i class="download"></i>
-                    </a>
-                  </el-tooltip>
-                </div>
+                <a :href="'/#/program?id='+item.id">
+                  <span>{{item.name}}</span>
+                </a>
+                <BtnGroup class="btns" />
               </div>
             </el-col>
             <el-col :span="5">
@@ -109,6 +80,8 @@
 </template>
 
 <script>
+import BtnGroup from "../../common/btnGroup";
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -124,6 +97,9 @@ export default {
   created() {
     this.getDjRadio();
     this.getPrograms();
+  },
+  components: {
+    BtnGroup
   },
   methods: {
     async getDjRadio() {
@@ -155,7 +131,8 @@ export default {
     handleCurrentChange(e) {
       this.offset = (e - 1) * 30;
       this.getNext();
-    }
+    },
+    ...mapActions["playInfo"]
   }
 };
 </script>
@@ -279,34 +256,19 @@ export default {
         }
         .itemName {
           display: flex;
-         a{ color: #333;
-          font-size: 12px;
-             width: 220px;
+          a {
+            color: #333;
+            font-size: 12px;
+            width: 220px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-        }}
+          }
+        }
         .btns {
           display: none;
           float: right;
           margin-right: 10px;
-          i {
-            background: url("../../../assets/table.png");
-            width: 18px;
-            height: 16px;
-            margin: 2px 0 0 4px;
-            display: inline-block;
-          }
-          .add {
-            background: url("../../../assets/icon.png");
-            background-position: 0 -700px;
-          }
-          .share {
-            background-position: 0 -195px;
-          }
-          .download {
-            background-position: -81px -174px;
-          }
         }
         .playInfo {
           font-size: 12px;
@@ -322,7 +284,7 @@ export default {
       }
     }
   }
-  .page{
+  .page {
     text-align: center;
     margin-top: 20px;
   }

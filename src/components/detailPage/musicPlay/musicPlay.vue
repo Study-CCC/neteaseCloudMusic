@@ -50,18 +50,7 @@
             <a :href="'/#/artist?id='+playing.authName">{{playing.authName}}</a>
           </span>
         </div>
-        <!-- <div class="infoBar">
-          <el-slider v-model="value" @change="timeChange" tooltip-class="tipCla"></el-slider>
-          <audio
-            ref="audio"
-            :src="'https://music.163.com/song/media/outer/url?id='+audioData.id+'.mp3'"
-          ></audio>
-          <span>
-            <span class="playTime">{{audioData.currentTime|timeFilter}}</span>
-            / {{audioData.durtion|timeFilter}}
-          </span>
-        </div> -->
-  <Audio class="infoBar" />
+  <Audio @scollTime="scollTime" class="infoBar" />
       </div>
       <div class="oper">
         <el-tooltip
@@ -108,7 +97,7 @@
         </el-tooltip>
       </div>
     </div>
-    <MusciList @close="isShow=false" :isShow="isShow" />
+    <MusciList ref="musicList" @close="isShow=false" :isShow="isShow" />
   </div>
 </template>
 <script>
@@ -134,6 +123,9 @@ export default {
     handleClickOut() {
       this.isUp = false;
       this.contrSound = false;
+    },
+    scollTime(time){
+      this.$refs.musicList.scollLyric(time)
     },
     ...mapActions(['setVolumeNum','getPlay','setIsPlaying'])
   },

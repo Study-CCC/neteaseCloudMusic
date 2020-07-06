@@ -6,7 +6,7 @@
       </div>
       <div class="headerText">
         <p class="title">{{tit}}</p>
-        <p>最近更新：{{updataTime}}</p>
+        <p>最近更新：{{updataTime|creatTimeFilter}}</p>
         <div class="headerBtn">
           <el-button-group class="norBtn">
             <el-button size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
@@ -40,14 +40,21 @@
         <el-table-column prop="name" label="标题" width="327">
           <template v-slot="songData">
             <div class="songItem" v-if="songData.$index>2">
-              <a class="play"></a>
+              <i class="play"  @click="playInfo({
+                  id:songData.row.id,
+                  name:songData.row.name,
+                  authName:songData.row.ar[0].name,
+                  authId:songData.row.ar[0].id,
+                  picUrl:songData.row.al.picUrl,
+                  duration:songData.row.dt
+                })"></i>
               <div class="itemText">
                 <a :href="'/#/song?id='+songData.row.id">
                   <span>{{songData.row.name}}</span>
                 </a>
                 <span class="origin" v-if="songData.row.alia.length!=0">-({{songData.row.alia[0]}})</span>
               </div>
-              <a href="#">
+              <a :href="'/#/mv?id='+songData.row.id">
                 <i class="mvPlay" v-if="songData.row.mv!=0"></i>
               </a>
             </div>
@@ -55,9 +62,14 @@
               <a :href="'/#/song?id='+songData.row.id">
                 <img class="titImg" :src="songData.row.al.picUrl" alt />
               </a>
-              <a href="#">
-                <i class="play"></i>
-              </a>
+                <i class="play"  @click="playInfo({
+                  id:songData.row.id,
+                  name:songData.row.name,
+                  authName:songData.row.ar[0].name,
+                  authId:songData.row.ar[0].id,
+                  picUrl:songData.row.al.picUrl,
+                  duration:songData.row.dt
+                })"></i>
               <div class="itemText">
                 <a :href="'/#/song?id='+songData.row.id">
                   <span>{{songData.row.name}}</span>
@@ -70,8 +82,8 @@
         </el-table-column>
         <el-table-column prop label="时长" width="140">
           <template v-slot="songData">
-            <BtnGroup class="btnShow" />
-            <span class="timeShow">{{songData.row.dt}}</span>
+            <BtnGroup :song="songData.row" class="btnShow" />
+            <span class="timeShow">{{songData.row.dt|timeFilter}}</span>
           </template>
         </el-table-column>
         <el-table-column label="歌手">
@@ -88,6 +100,7 @@
 <script>
 import CommentCon from "../../common/commentCon";
 import BtnGroup from "../../common/btnGroup";
+import {mapActions} from 'vuex'
 export default {
   data() {
     return {
@@ -121,7 +134,8 @@ export default {
       this.subscribedCount = data.playlist.subscribedCount;
       this.shareCount = data.playlist.shareCount;
       // console.log(this.songsList)
-    }
+    },
+    ...mapActions(['playInfo'])
   },
   components: {
     CommentCon,

@@ -14,9 +14,15 @@
             <span class="rank">{{index+1}}</span>
           </el-col>
           <el-col :span="12">
-            <a href="#">
-              <i class="play"></i>
-            </a>
+            <i
+              class="play"
+              @click="playInfo({ name:item.name,
+                      authId:item.ar[0].id,
+                      picUrl:item.al.picUrl,
+                      duration:item.dt,
+                      id:item.id,
+                      authName:item.ar[0].name})"
+            ></i>
             <div class="songItem">
               <div class="itemText">
                 <a :href="'/#/song?id='+item.id">
@@ -31,29 +37,55 @@
           <el-col :span="4" :offset="1">
             <div class="iconGroup">
               <div class="btnShow">
-                <el-tooltip class="item" effect="light" content="添加到播放列表" placement="bottom-start">
-                  <a>
-                    <i class="add"></i>
-                  </a>
+                <el-tooltip
+                  class="item"
+                  :open-delay="1000"
+                  effect="light"
+                  content="添加到播放列表"
+                  placement="bottom-start"
+                >
+                  <i
+                    class="add"
+                    @click="addSong({
+                      name:item.name,
+                      authId:item.ar[0].id,
+                      picUrl:item.al.picUrl,
+                      duration:item.dt,
+                      id:item.id,
+                      authName:item.ar[0].name
+                    })"
+                  ></i>
                 </el-tooltip>
-                <el-tooltip class="item" effect="light" content="收藏" placement="bottom-start">
-                  <a>
-                    <i class="collect"></i>
-                  </a>
+                <el-tooltip
+                  class="item"
+                  :open-delay="1000"
+                  effect="light"
+                  content="收藏"
+                  placement="bottom-start"
+                >
+                  <i class="collect"></i>
                 </el-tooltip>
-                <el-tooltip class="item" effect="light" content="分享" placement="bottom-start">
-                  <a>
-                    <i class="share"></i>
-                  </a>
+                <el-tooltip
+                  class="item"
+                  :open-delay="1000"
+                  effect="light"
+                  content="分享"
+                  placement="bottom-start"
+                >
+                  <i class="share"></i>
                 </el-tooltip>
-                <el-tooltip class="item" effect="light" content="下载" placement="bottom-start">
-                  <a href="#">
-                    <i class="download"></i>
-                  </a>
+                <el-tooltip
+                  class="item"
+                  :open-delay="1000"
+                  effect="light"
+                  content="下载"
+                  placement="bottom-start"
+                >
+                  <i class="download"></i>
                 </el-tooltip>
               </div>
             </div>
-            <span class="timeShow">{{item.dt}}</span>
+            <span class="timeShow">{{item.dt|timeFilter}}</span>
           </el-col>
           <el-col :span="5">
             <a class="alName" :href="'/#/artist?id='+item.al.id">{{item.al.name}}</a>
@@ -65,15 +97,23 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   data() {
     return {};
+  },
+  methods: {
+    ...mapActions(["addSong", "playInfo"])
   },
   props: ["hotSongs"]
 };
 </script>
 <style lang='less' scoped>
 .hotWorkBox {
+   .rank,.timeShow{
+      color: #999;
+      font-size: 12px;
+    }
   .btn {
     display: flex;
     width: 640px;
@@ -84,17 +124,16 @@ export default {
       text-align: center;
       margin-left: 5px;
     }
+   
     .el-dropdown {
       margin-left: auto;
     }
   }
   a {
     color: #333;
-    &:hover {
-      text-decoration: underline;
-    }
   }
   .iconGroup {
+    display: inline-block;
     .timeShow {
       display: none;
     }
@@ -134,12 +173,12 @@ export default {
     display: flex;
     align-items: center;
     font-size: 12px;
-
+    display: inline-block;
     .itemText {
-      display: inline-block;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+      display: inline-block;
     }
 
     .origin {
@@ -150,12 +189,21 @@ export default {
       height: 17px;
       background: url("../../../assets/table.png");
       background-position: 0 -151px;
-      display: block;
     }
   }
   .ulItem {
     width: 640px;
     margin-top: 10px;
+    .play {
+      width: 22px;
+      height: 22px;
+      margin-right: 10px;
+      background: url("../../../assets/index.png");
+      background-position: -267px -205px;
+      &:hover {
+        background-position: -267px -235px;
+      }
+    }
     li:nth-child(odd) {
       background-color: #f7f7f7;
     }

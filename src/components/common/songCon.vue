@@ -21,14 +21,20 @@
         <template v-slot="songData">
           <span class="rankNum">
             <span>{{songData.$index+1}}</span>
-            <a href="#" class="playIcon"></a>
+            <i class="playIcon" @click="playInfo({
+                  id:songData.row.id,
+                  name:songData.row.name,
+                  authName:songData.row.ar[0].name,
+                  authId:songData.row.ar[0].id,
+                  picUrl:songData.row.al.picUrl,
+                  duration:songData.row.dt
+                })"></i>
           </span>
         </template>
       </el-table-column>
       <el-table-column label="标题" :width="songsList.width||327">
         <template v-if="!songsList.taste" v-slot="songData">
           <div class="songItem noWrap">
-            <a href="#" class="playIcon"></a>
             <a :href="'/#/song?id='+songData.row.id">{{songData.row.name}}</a>
             <span class="origin" v-if="songData.row.alia.length!=0">-{{songData.row.alia[0]}}</span>
             <i class="mvPlay" v-if="songData.row.mv!=0"></i>
@@ -52,9 +58,14 @@
               content="添加到播放列表"
               placement="bottom-start"
             >
-              <a>
-                <i class="add"></i>
-              </a>
+                <i class="add" @click="addSong({
+                  id:songData.row.id,
+                  name:songData.row.name,
+                  authName:songData.row.ar[0].name,
+                  authId:songData.row.ar[0].id,
+                  picUrl:songData.row.al.picUrl,
+                  duration:songData.row.dt
+                })"></i>
             </el-tooltip>
             <el-tooltip
               :open-delay="200"
@@ -63,9 +74,7 @@
               content="收藏"
               placement="bottom-start"
             >
-              <a>
                 <i class="collect"></i>
-              </a>
             </el-tooltip>
             <el-tooltip
               :open-delay="200"
@@ -74,24 +83,12 @@
               content="分享"
               placement="bottom-start"
             >
-              <a>
                 <i class="share"></i>
-              </a>
             </el-tooltip>
-            <el-tooltip
-              :open-delay="200"
-              class="item"
-              effect="light"
-              content="下载"
-              placement="bottom-start"
-            >
-              <a href="#">
-                <i class="download"></i>
-              </a>
-            </el-tooltip>
+
           </div>
-          <span v-if="!songsList.taste" class="dtShow">{{songData.row.dt}}</span>
-          <span v-else class="dtShow">{{songData.row.duration}}</span>
+          <span v-if="!songsList.taste" class="dtShow">{{songData.row.dt|timeFilter}}</span>
+          <span v-else class="dtShow">{{songData.row.duration|timeFilter}}</span>
         </template>
       </el-table-column>
       <el-table-column label="歌手">
@@ -127,6 +124,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   data() {
     return {
@@ -144,16 +142,8 @@ export default {
         this.isShow = false;
       }
       // console.log(this.songsList.trackCount,1)
-    }
-    // async getData() {
-    //   // const { data, status } = await this.$http.get("/top/list?idx=3");
-    //   // if (status !== 200) return this.$message.error("数据获取错误");
-    //   //  console.log(data)
-    //   // data.playlist.tracks.length = 10;
-    //   this.tracks.length = 10
-    //   this.songsList = tracks;
-    //   console.log(this.songsList);
-    // }
+    },
+        ...mapActions(["addSong", "playInfo"])
   },
   props: ["songsList"]
 };
@@ -265,9 +255,6 @@ a {
     }
     .share {
       background-position: 0 -195px;
-    }
-    .download {
-      background-position: -81px -174px;
     }
   }
 }

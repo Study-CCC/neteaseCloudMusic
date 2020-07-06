@@ -58,7 +58,7 @@ export default {
       let video = this.$refs.video;
             // console.log( video.play())
       video.volume = this.soundNum / 100;
-      if (!video.paused) {
+      if (!this.playInfo.isPlaying) {
         video.pause();
       } else {
         this.timer = setInterval(() => {

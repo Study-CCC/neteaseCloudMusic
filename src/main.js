@@ -17,9 +17,16 @@ axios.defaults.baseURL = 'http://localhost:3000'
 // })
 Vue.prototype.$http = axios
 Vue.filter('numFilter',(value)=>{
-  if(value>100000){
-    return parseInt(value)
-  }
+  if(value>100000000){
+     let num = parseInt(value/100000000) 
+     let decimal = parseInt((value%100000000)/10000000)
+     return num + (decimal?('.'+decimal+'亿'):'亿')
+  }else if(value>100000){
+    let num = parseInt(value/10000)
+    let decimal = parseInt((value%10000)/1000)
+    console.log(num,decimal)
+    return num + (decimal?('.'+decimal+'万'):'万')
+  }else return value
 })
 Vue.filter('timeFilter',(value)=>{
   let time = ''
@@ -29,9 +36,29 @@ Vue.filter('timeFilter',(value)=>{
   }
   else return '00:00'
   // console.log(value)
-  time = '0'+minutes+":"+seconds
+  time = (''+minutes).padStart(2, '0')+':'+(''+seconds).padStart(2, '0')
   return time
 })
+Vue.filter('creatTimeFilter',value=>{
+  let nowTime = new Date()
+  let time = new Date(value)
+  let nowYear = nowTime.getFullYear()
+  let nowMonth = nowTime.getMonth()
+  let nowDay = nowTime.getDate()
+  let year = time.getFullYear()
+  let month = time.getMonth()
+  let day = time.getDate()
+  if(nowDay==day&&nowYear==year&&nowMonth==month){
+    let hour = time.getHours()
+    let nowHour = nowTime.getHours()
+    let minutes = time.getMinutes()
+    let nowMinutes = nowTime.getMinutes()
+    if(hour==nowHour) return (nowMinutes-minutes)+'分钟前'
+    else return (hour+1+'').padStart(2, '0')+':'+(minutes+'').padStart(2, '0')
+    }
+  return year + '-' + (month+1+'').padStart(2, '0') + '-' + (day+'').padStart(2, '0')
+})
+Vue.filter('lyricFilter',value=>value.split(']')[1])
 new Vue({
   router,
   store,

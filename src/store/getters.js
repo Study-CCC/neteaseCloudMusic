@@ -9,5 +9,7 @@ export const playing = state => state.playing
 export const volumeNum = state => state.volumeNum
 
 export const isPlaying = state => state.isPlaying
+
+export const user = state => state.user
 // playing结构
-// {name,ar,id,isPlaying,lyric,picUrl,duration}
+// {name,authName,authId,id,isPlaying,lyric,picUrl,duration}

@@ -47,6 +47,7 @@
                 <i class="play" @click="playInfo({
                   name:item.name,
                   id:item.id,
+                  currentTime:0,
                   authName:item.ar[0].name,
                   authId:item.ar[0].id,
                   duration:item.dt,
@@ -64,6 +65,7 @@
                   name:item.name,
                   id:item.id,
                   picUrl:item.al.picUrl,
+                  currentTime:0,
                   authName:item.ar[0].name,
                   authId:item.ar[0].id,
                   duration:item.dt

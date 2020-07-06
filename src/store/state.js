@@ -8,6 +8,8 @@ const state={
     // 声音
     volumeNum: 50,
     // 歌曲是否播放
-    isPlaying:false
+    isPlaying:false,
+    // 登录者信息
+    user:{}
 }
 export default state

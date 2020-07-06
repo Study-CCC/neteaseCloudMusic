@@ -2,37 +2,37 @@
   <div class="btnGroupBox">
         <div class="iconGroup">
                 <el-tooltip class="item"  :open-delay="1000"  effect="light" content="添加到播放列表" placement="bottom-start">
-                  <a>
-                    <i class="add"></i>
-                  </a>
+                    <i class="add" @click="addSong({
+                  id:song.id,
+                  name:song.name,
+                  authName:song.ar[0].name,
+                  authId:song.ar[0].id,
+                  picUrl:song.al.picUrl,
+                  duration:song.dt
+                })"></i>
                 </el-tooltip>
                 <el-tooltip class="item"  :open-delay="1000"  effect="light" content="收藏" placement="bottom-start">
-                  <a>
                     <i class="collect"></i>
-                  </a>
                 </el-tooltip>
                 <el-tooltip class="item"  :open-delay="1000"  effect="light" content="分享" placement="bottom-start">
-                  <a>
                     <i class="share"></i>
-                  </a>
-                </el-tooltip>
-                <el-tooltip class="item"  :open-delay="1000"  effect="light" content="下载" placement="bottom-start">
-                  <a href="#">
-                    <i class="download"></i>
-                  </a>
                 </el-tooltip>
             </div>
   </div>
 </template>
 
 <script>
-
+import {mapActions} from 'vuex'
   export default {
     data () {
       return {
 
       };
     },
+    methods: {
+      ...mapActions(['addSong'])
+    },
+    props:['song']
   }
 
 </script>
@@ -44,7 +44,6 @@
     width: 18px;
     height: 16px;
     margin: 2px 0 0 4px;
-    display: inline-block;
   }
   .add {
     background: url("../../assets/icon.png");
@@ -55,9 +54,6 @@
   }
   .share {
     background-position: 0 -195px;
-  }
-  .download {
-    background-position: -81px -174px;
   }
 }
 }

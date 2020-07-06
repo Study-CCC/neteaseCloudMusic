@@ -38,7 +38,7 @@
                     <span class="itemCon">{{item.beReplied[0].content||item.beReplied[0].user.content||'已删除'}}</span>
                   </div>
                   <div class="itemFoot">
-                    <span class="time">{{Date(item.time)}}</span>
+                    <span class="time">{{item.time|creatTimeFilter}}</span>
                     <div class="itemBtn">
                       <a href="#">
                         <i class="like"></i>
@@ -79,7 +79,7 @@
                   <span class="itemCon">{{item.beReplied[0].content}}</span>
                 </div>
                 <div class="itemFoot">
-                  <span class="time">{{Date(item.time)}}</span>
+                  <span class="time">{{item.time|creatTimeFilter}}</span>
                   <div class="itemBtn">
                     <a href="#">
                       <i class="like"></i>

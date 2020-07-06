@@ -14,7 +14,7 @@
             <li class="clearFloat" v-for="item in hotAnchor" :key="item.id">
               <a :href="'/#/user/home?id='+item.id"><img :src="item.picUrl" ></a>
               <div class="anchText">
-                <p><a :href="'/#/user/home?id='+item.id">{{item.name}}</a></p>
+                <p><a :href="'/#/djradio?id='+item.id">{{item.name}}</a></p>
                 <span>{{item.rcmdtext}}</span>
               </div>
             </li>

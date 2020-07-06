@@ -10,7 +10,7 @@
           </a>
         </div>
         <h3>{{item.name}}</h3>
-        <span>{{item.publishTime}}</span>
+        <span>{{item.publishTime|creatTimeFilter}}</span>
       </li>
     </ul>
     <div class="page">

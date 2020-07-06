@@ -5,7 +5,7 @@
       <a :href="'/#/playlist?id='+item.id" class="hotClick msk"></a>
       <div class="itemBottom">
         <span class="headset"></span>
-        <span>{{item.playCount||item.playcount}}</span>
+        <span>{{item.playCount||item.playcount|numFilter}}</span>
         <span class="video-play"></span>
       </div>
     </div>
