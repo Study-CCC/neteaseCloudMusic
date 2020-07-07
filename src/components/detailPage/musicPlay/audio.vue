@@ -1,7 +1,7 @@
 <template>
   <div class="audio">
     <el-slider v-model="value" @change="timeChange" tooltip-class="tipCla"></el-slider>
-    <audio ref="audio" :src="'https://music.163.com/song/media/outer/url?id='+playing.id+'.mp3'"></audio>
+    <audio ref="audio" :src="'https://music.163.com/song/media/outer/url?id='+(playing.type==2?playing.songId:playing.id)+'.mp3'"></audio>
     <span>
       <span class="playTime">{{currentTime|timeFilter}}</span>
       / {{playing.duration|timeFilter}}

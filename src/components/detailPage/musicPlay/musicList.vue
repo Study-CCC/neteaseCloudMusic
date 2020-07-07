@@ -24,7 +24,7 @@
             <li v-for="i in playlist.length" :key="i" @click="playInfo(playlist[i-1])">
               <el-row>
                 <el-col :span="12">
-                  <i class="playing"></i>
+                  <i :class="playing.id==playlist[i-1].id?'playing':'noPlaying'"></i>
                   <span class="musicName textOver">{{playlist[i-1].name}}</span>
                 </el-col>
                 <el-col :span="5">
@@ -37,8 +37,12 @@
                   </div>
                 </el-col>
                 <el-col class="textOver" :span="4">
-                  <a
+                  <a v-if="playlist[i-1].type==2"
                     :href="'/#/artist?id='+playlist[i-1].authId"
+                    class="musicAuth"
+                  >{{playlist[i-1].authName}}</a>
+                    <a v-else
+                    :href="'/#/djradio?id='+playlist[i-1].authId"
                     class="musicAuth"
                   >{{playlist[i-1].authName}}</a>
                 </el-col>
@@ -57,9 +61,7 @@
               :class="lightText==i?'lightHeight':''"
             >{{item.text}}</p>
           </div>
-          <div v-else class="noLyric">
-            暂无歌词
-          </div>
+          <div v-else class="noLyric">暂无歌词</div>
         </el-col>
       </el-row>
     </div>
@@ -102,6 +104,7 @@ export default {
     lyricCor() {
       clearInterval(this.timer);
       this.timer = null;
+       if(!this.playing.lyric) return;
       this.lyricArr = this.playing.lyric.split("\n");
       this.lightText = 0;
       this.lyricArr = this.lyricArr.map(item => {
@@ -117,6 +120,9 @@ export default {
       this.lyricArr.sort((a, b) => a.time - b.time);
     },
     lyricHeight() {
+       if(!this.playing.lyric) return;
+       clearInterval(this.timer);
+               this.timer = null;
       if (this.isPlaying) {
         this.currentTime = this.playing.currentTime||0;
         this.timer = setInterval(() => {
@@ -133,9 +139,6 @@ export default {
            } 
           this.currentTime += 50;
         }, 50);
-      } else {
-        clearInterval(this.timer);
-        this.timer = null;
       }
     },
     ...mapActions(["clearList", "playInfo", "deleteSong", "getList", "getPlay"])
@@ -150,14 +153,14 @@ export default {
       this.lyricHeight();
     },
     lightText() {
-      this.$nextTick(() => {
- let lyricScroll = this.$refs.lyricShow;
+      this.$nextTick(()=>{
+          let lyricScroll = this.$refs.lyricShow;
       let lyricTop = this.lightText * 32;
+      // console.log(lyricScroll.scrollTop )
       let scrollTop = lyricScroll.scrollTop 
       if(lyricTop - scrollTop>=160){
         lyricScroll.scrollTop = lyricTop - 128
-      }
-      }) 
+      }})       
       // console.log(lyricScroll.scrollTop)
     },
     isPlaying() {
@@ -256,7 +259,7 @@ export default {
         width: 0;
       }
     }
-    .noLyric{
+    .noLyric {
       text-align: center;
       color: #989898;
       line-height: 32px;
@@ -320,6 +323,12 @@ export default {
         }
         .musicName {
           width: 246px;
+        }
+        .noPlaying {
+          width: 10px;
+          margin: 0 10px 0 10px;
+          height: 13px;
+          background: none;
         }
         .playing {
           width: 10px;

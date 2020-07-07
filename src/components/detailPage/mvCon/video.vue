@@ -58,6 +58,7 @@ export default {
       let video = this.$refs.video;
             // console.log( video.play())
       video.volume = this.soundNum / 100;
+      this.playInfo.isPlaying = !this.playInfo.isPlaying;
       if (!this.playInfo.isPlaying) {
         video.pause();
       } else {
@@ -86,7 +87,7 @@ export default {
         }, 1000);
         video.play();
       }
-      this.playInfo.isPlaying = !this.playInfo.isPlaying;
+      
     },
     timeChange(e) {
       let video = this.$refs.video;
@@ -119,6 +120,7 @@ export default {
   width: 640px;
   height: 360px;
   overflow: hidden;
+  background: #000;
   .videoPlay {
     width: 100%;
     height: 100%;

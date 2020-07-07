@@ -37,14 +37,14 @@
           <div class="songItem noWrap">
             <a :href="'/#/song?id='+songData.row.id">{{songData.row.name}}</a>
             <span class="origin" v-if="songData.row.alia.length!=0">-{{songData.row.alia[0]}}</span>
-            <i class="mvPlay" v-if="songData.row.mv!=0"></i>
+            <a :href="'/#/mv?id='+songData.row.mv"><i class="mvPlay" v-if="songData.row.mv!=0"></i></a>
           </div>
         </template>
         <template v-else v-slot="songData">
           <div class="songItem noWrap">
             <a :href="'/#/song?id='+songData.row.id">{{songData.row.name}}</a>
             <span class="origin" v-if="songData.row.alias.length!=0">-{{songData.row.alias[0]}}</span>
-            <i class="mvPlay" v-if="songData.row.mvid!=0"></i>
+            <a :href="'/#/mv?id='+songData.row.mv"><i class="mvPlay" v-if="songData.row.mvid!=0"></i></a>
           </div>
         </template>
       </el-table-column>

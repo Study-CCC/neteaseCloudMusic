@@ -6,7 +6,7 @@
           <div class="leftebg">
             <div class="data">
               <div class="week">星期五</div>
-              <div class="day">19</div>
+              <div class="day">{{date.day}}</div>
               <span class="msk"></span>
             </div>
           </div>
@@ -56,7 +56,8 @@ import MoreDown from "../../common/moreDown";
 export default {
   data() {
     return {
-      songsList: { tracks: "", trackCount: "" }
+      songsList: { tracks: "", trackCount: "" },
+      date:{}
     };
   },
   created() {
@@ -72,7 +73,10 @@ export default {
       this.songsList.trackCount = data.data.dailySongs.length;
       this.songsList.taste = true;
       this.songsList.width = 200;
-      console.log(this.songsList);
+      let nowDate = new Date()
+      this.date.week = nowDate.getDay()
+      this.date.day = nowDate.getDate()
+      // console.log(this.songsList);
     }
   },
   components: {

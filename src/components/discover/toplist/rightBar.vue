@@ -14,7 +14,6 @@
           </el-button-group>
           <el-button class="norBtn" size="mini" icon="el-icon-folder-add">({{subscribedCount}})</el-button>
           <el-button class="norBtn" size="mini" icon="el-icon-folder-opened">({{shareCount}})</el-button>
-          <el-button class="norBtn" size="mini" icon="el-icon-download"></el-button>
           <el-button class="norBtn" size="mini" icon="el-icon-chat-line-square">({{commentCount}})</el-button>
         </div>
       </div>
@@ -40,21 +39,17 @@
         <el-table-column prop="name" label="标题" width="327">
           <template v-slot="songData">
             <div class="songItem" v-if="songData.$index>2">
-              <i class="play"  @click="playInfo({
-                  id:songData.row.id,
-                  name:songData.row.name,
-                  authName:songData.row.ar[0].name,
-                  authId:songData.row.ar[0].id,
-                  picUrl:songData.row.al.picUrl,
-                  duration:songData.row.dt
-                })"></i>
+              <i
+                class="play"
+                @click="playInfo(songInit(songDatas))"
+              ></i>
               <div class="itemText">
                 <a :href="'/#/song?id='+songData.row.id">
                   <span>{{songData.row.name}}</span>
                 </a>
                 <span class="origin" v-if="songData.row.alia.length!=0">-({{songData.row.alia[0]}})</span>
               </div>
-              <a :href="'/#/mv?id='+songData.row.id">
+              <a :href="'/#/mv?id='+songData.row.mv">
                 <i class="mvPlay" v-if="songData.row.mv!=0"></i>
               </a>
             </div>
@@ -62,27 +57,28 @@
               <a :href="'/#/song?id='+songData.row.id">
                 <img class="titImg" :src="songData.row.al.picUrl" alt />
               </a>
-                <i class="play"  @click="playInfo({
-                  id:songData.row.id,
-                  name:songData.row.name,
-                  authName:songData.row.ar[0].name,
-                  authId:songData.row.ar[0].id,
-                  picUrl:songData.row.al.picUrl,
-                  duration:songData.row.dt
-                })"></i>
+              <i
+                class="play"
+                @click="playInfo(songInit(songData))"
+              ></i>
               <div class="itemText">
                 <a :href="'/#/song?id='+songData.row.id">
                   <span>{{songData.row.name}}</span>
                 </a>
                 <span class="origin" v-if="songData.row.alia.length!=0">-1({{songData.row.alia[0]}})</span>
-                <i class="mvPlay" v-if="songData.row.mv!=0"></i>
+                <a :href="'/#/mv?id='+songData.row.mv">
+                  <i class="mvPlay" v-if="songData.row.mv!=0"></i>
+                </a>
               </div>
             </div>
           </template>
         </el-table-column>
         <el-table-column prop label="时长" width="140">
           <template v-slot="songData">
-            <BtnGroup :song="songData.row" class="btnShow" />
+            <BtnGroup
+              :song=" songInit(songData) "
+              class="btnShow"
+            />
             <span class="timeShow">{{songData.row.dt|timeFilter}}</span>
           </template>
         </el-table-column>
@@ -100,7 +96,7 @@
 <script>
 import CommentCon from "../../common/commentCon";
 import BtnGroup from "../../common/btnGroup";
-import {mapActions} from 'vuex'
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -120,8 +116,8 @@ export default {
     this.getData();
   },
   methods: {
+    
     async getData() {
-      console.log(this.$route);
       const id = this.$route.query.id || 19723756;
       const { data, status } = await this.$http.get(`/top/list?id=${id}`);
       if (status !== 200) return this.$message.error("数据获取错误");
@@ -133,9 +129,20 @@ export default {
       this.trackCount = data.playlist.trackCount;
       this.subscribedCount = data.playlist.subscribedCount;
       this.shareCount = data.playlist.shareCount;
+      this.commentCount = data.playlist.commentCount;
       // console.log(this.songsList)
     },
-    ...mapActions(['playInfo'])
+    songInit(item) {
+      let song = {};
+      song.id = item.row.id,
+        song.name = item.row.name,
+        song.authName = item.row.ar[0].name,
+        song.authId = item.row.ar[0].id,
+        song.picUrl = item.row.al.picUrl,
+        song.duration = item.row.dt;
+      return song;
+    },
+    ...mapActions(["playInfo"])
   },
   components: {
     CommentCon,

@@ -40,7 +40,17 @@
                 <span>{{count-i}}</span>
                 <i
                   class="play"
-                 
+                 @click="playInfo({
+                  name:item.name,
+                  id:item.id,
+                  currentTime:0,
+                  authName:item.dj.brand,
+                  authId:item.dj.id,
+                  duration:item.duration,
+                  picUrl:djRadio.picUrl,
+                  type:2,
+                  songId:item.mainTrackId
+                  })"
                 ></i>
               </div>
             </el-col>
@@ -49,17 +59,27 @@
                 <a :href="'/#/program?id='+item.id">
                   <span>{{item.name}}</span>
                 </a>
-                <BtnGroup class="btns" />
+                <BtnGroup :song="{
+                  name:item.name,
+                  id:item.id,
+                  currentTime:0,
+                  authName:item.dj.brand,
+                  authId:item.dj.userId,
+                  duration:item.duration,
+                  picUrl:djRadio.picUrl,
+                  type:2,
+                  songId:item.mainTrackId
+                  }" class="btns" />
               </div>
             </el-col>
             <el-col :span="5">
               <div class="playInfo">
-                <span>播放{{item.listenerCount}} 赞{{item.likedCount}}</span>
+                <span>播放{{item.listenerCount|numFilter}} 赞{{item.likedCount|numFilter}}</span>
               </div>
             </el-col>
             <el-col :span="6">
               <div class="creatTime">
-                <span>{{item.createTime}} {{item.duration}}</span>
+                <span>{{item.createTime|creatTimeFilter}}<span class="dt">{{item.duration|timeFilter}}</span></span>
               </div>
             </el-col>
           </el-row>
@@ -132,7 +152,7 @@ export default {
       this.offset = (e - 1) * 30;
       this.getNext();
     },
-    ...mapActions["playInfo"]
+    ...mapActions(["playInfo","addSong"])
   }
 };
 </script>
@@ -144,6 +164,9 @@ export default {
       text-decoration: underline;
     }
   }
+     .dt{
+      margin-left: 20px;
+    }
   .headImg {
     float: left;
     width: 200px;
@@ -180,6 +203,7 @@ export default {
         background-position: 0 -1014px;
       }
     }
+
     .auth {
       margin: 20px 0;
       .authImg {

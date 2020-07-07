@@ -2,7 +2,7 @@ import state from "./state"
 
 export const playlist = state => state.playlist
 
-export const mvPage = state => state.mvPage
+export const mvPlay = state => state.mvPlay
 
 export const playing = state => state.playing
 

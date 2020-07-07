@@ -16,7 +16,7 @@
             歌手:
             <a :href="'/#/artist?id='+leftData.album.artists[0].id">{{leftData.album.artists[0].name}}</a>
           </p>
-          <p>发行时间:{{leftData.album.publishTime}}</p>
+          <p>发行时间:{{leftData.album.publishTime|creatTimeFilter}}</p>
           <p>发行公司： {{leftData.album.company}}</p>
         </div>
       <HeaderBtn :commentCount="leftData.btnValue[0]" :shareCount="leftData.btnValue[1]" />
@@ -38,7 +38,7 @@ import SongCon from "../../common/songCon";
 import HeaderBtn from '../../common/headerBtn'
 export default {
   created(){
-     console.log(this.leftData)
+
   },
   data() {
     return {

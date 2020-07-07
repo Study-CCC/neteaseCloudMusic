@@ -24,7 +24,6 @@ Vue.filter('numFilter',(value)=>{
   }else if(value>100000){
     let num = parseInt(value/10000)
     let decimal = parseInt((value%10000)/1000)
-    console.log(num,decimal)
     return num + (decimal?('.'+decimal+'万'):'万')
   }else return value
 })

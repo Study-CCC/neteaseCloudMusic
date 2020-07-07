@@ -2,7 +2,7 @@
   <div class="listBox">
     <div class="listTit">
       <h3>榜单</h3>
-      <a href="#" class="more">更多</a>
+      <a href="/#/discover/toplist" class="more">更多</a>
     </div>
     <el-row class="bill">
       <el-col :span="8">

@@ -18,7 +18,7 @@
           :open-delay="1000"
           placement="bottom-start"
         >
-          <i class="pre"></i>
+          <i class="pre" @click="preMusic"></i>
         </el-tooltip>
         <el-tooltip
           class="item"
@@ -36,18 +36,21 @@
           :open-delay="1000"
           placement="bottom-start"
         >
-          <i class="next"></i>
+          <i class="next" @click="nextMusic"></i>
         </el-tooltip>
       </div>
       <div class="playImg">
         <img :src="playing.picUrl" alt />
-        <a :href="'/#/song?id='+playing.id"></a>
+        <a v-if="!playing.type==2" :href="'/#/song?id='+playing.id"></a>
+        <a v-else :href="'/#/program?id='+playing.id"></a>
       </div>
       <div class="playInfo">
         <div class="infoText">
-          <a class="textOver" href>{{playing.name}}</a>
+          <a class="textOver" v-if="!playing.type==2" :href="'/#/song?id='+playing.id">{{playing.name}}</a>
+          <a v-else :href="'/#/program?id='+playing.id">{{playing.name}}</a>
           <span class="textOver">
-            <a :href="'/#/artist?id='+playing.authName">{{playing.authName}}</a>
+            <a v-if="!playing.type==2" :href="'/#/artist?id='+playing.authName">{{playing.authName}}</a>
+            <a v-else :href="'/#/djradio?id='+playing.authName">{{playing.authName}}</a>
           </span>
         </div>
   <Audio @scollTime="scollTime" class="infoBar" />
@@ -127,7 +130,13 @@ export default {
     scollTime(time){
       this.$refs.musicList.scollLyric(time)
     },
-    ...mapActions(['setVolumeNum','getPlay','setIsPlaying'])
+    preMusic(){
+      this.setPre()
+    },
+    nextMusic(){
+      this.setNext()
+    },
+    ...mapActions(['setVolumeNum','getPlay','setIsPlaying','setPre','setNext'])
   },
   components: {
     MusciList,

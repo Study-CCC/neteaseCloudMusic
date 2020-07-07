@@ -28,7 +28,7 @@ import Playlist from '../components/discover/playlist/playlist'
 import Djradio from '../components/discover/djradio/djradio'
 import Artist from '../components/discover/artist/artist'
 import Album from '../components/discover/album/album'
-
+import Search from '../components/detailPage/search/search'
 Vue.use(VueRouter)
 
 const routes = [
@@ -114,6 +114,10 @@ const routes = [
                 path: '/my',
                 // component: myLogin
                 component:myMusic
+            },
+            {
+                path:'/search',
+                component:Search
             },
             {
                 path: '/friend',

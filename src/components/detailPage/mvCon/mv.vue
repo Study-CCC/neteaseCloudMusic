@@ -2,10 +2,10 @@
   <div class="mv">
     <el-row>
       <el-col :span="18">
-        <LeftBar :leftData="leftData" class="leftPad" />
+        <LeftBar v-if="flag" :leftData="leftData" class="leftPad" />
       </el-col>
       <el-col :span="6">
-        <RightBar :rightData="rightData" class="rightPad" />
+        <RightBar v-if="flag" :rightData="rightData" class="rightPad" />
       </el-col>
     </el-row>
   </div>
@@ -14,11 +14,13 @@
 <script>
 import LeftBar from "./leftBar";
 import RightBar from "./rightBar";
+import {mapActions} from 'vuex'
 export default {
   data() {
     return {
       leftData: {},
-      rightData: {}
+      rightData: {},
+      flag:false
     };
   },
   methods: {
@@ -29,15 +31,21 @@ export default {
       const { desc, playCount, publishTime, name, artistName,artistId,duration } = data.data;
       this.rightData = { desc, playCount, publishTime };
       this.leftData = { name, artistName,artistId,duration };
-    }
+    this.flag = true
+    },
+    ...mapActions(['isMvPage'])
   },
   created() {
     this.getData();
+    this.isMvPage(true)
   },
   watch:{
     $route(){
       this.getData()
     }
+  },
+  beforeDestroy() {
+    this.isMvPage(false)
   },
   components: {
     LeftBar,

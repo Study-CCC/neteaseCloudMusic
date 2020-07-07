@@ -2,7 +2,7 @@
   <div class="newBox">
     <div class="newTit">
       <h3>新碟上架</h3>
-      <a href="#" class="more">更多</a>
+      <a href="/#/discover/album" class="more">更多</a>
     </div>
     <el-carousel trigger="click" :autoplay="false" height="170px">
       <el-carousel-item v-for="(item1,i) in albums" :key="i">

@@ -4,7 +4,7 @@
       <el-row>
         <el-col :offset="6">
           <el-menu default-active="1" mode="horizontal" active-background-color="#9B0909">
-            <el-menu-item index="1"><router-link to="recommend">推荐</router-link></el-menu-item>
+            <el-menu-item index="1"><router-link to="/discover/recommend">推荐</router-link></el-menu-item>
             <el-menu-item index="2"><router-link to="/discover/toplist">排行榜</router-link></el-menu-item>
             <el-menu-item index="3"><router-link to="/discover/playlist">歌单</router-link></el-menu-item>
             <el-menu-item index="4"><router-link to="/discover/djradio">主播电台</router-link></el-menu-item>

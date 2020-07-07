@@ -5,7 +5,7 @@
       <li>
         <div class="data boxItem">
           <div class="week">星期五</div>
-          <div class="day">20</div>
+          <div class="day">{{date.day}}</div>
           <span class="msk"></span>
         </div>
         <p class="tit">每日歌曲推荐</p>
@@ -27,7 +27,8 @@ export default {
   data() {
     return {
       playlist:[],
-      personal:true
+      personal:true,
+       date:{}
     };
   },
   created() {
@@ -39,7 +40,11 @@ export default {
       if (status !== 200) return this.$message.error("数据获取错误");
         this.playlist=data.recommend
         this.playlist.length = 3
+          let nowDate = new Date()
+      this.date.week = nowDate.getDay()
+      this.date.day = nowDate.getDate()
     }
+    
   },
    components:{
     PlaylistItem

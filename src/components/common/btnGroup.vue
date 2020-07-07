@@ -5,10 +5,12 @@
                     <i class="add" @click="addSong({
                   id:song.id,
                   name:song.name,
-                  authName:song.ar[0].name,
-                  authId:song.ar[0].id,
-                  picUrl:song.al.picUrl,
-                  duration:song.dt
+                  authName:song.authName,
+                  authId:song.authId,
+                  picUrl:song.picUrl,
+                  duration:song.duration,
+                  type:song.type,
+                  songId:song.songId
                 })"></i>
                 </el-tooltip>
                 <el-tooltip class="item"  :open-delay="1000"  effect="light" content="收藏" placement="bottom-start">

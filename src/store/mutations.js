@@ -20,6 +20,9 @@ const mutations = {
     },
     [types.SET_USER](state,user){
         state.user = user
+    },
+    [types.SET_MVPLAY](state,flag){
+        state.mvPlay = flag
     }
 }
 export default mutations

@@ -136,7 +136,7 @@ export default {
     },
     // 获取评论信息
     async getCmts() {
-      this.id = this.$route.query.id;
+      this.id = this.$route.query.id||19723756;
       this.path = this.$route.path;
       if (this.path == "/playlist") {
         this.url = `/comment/playlist?id=${this.id}`;

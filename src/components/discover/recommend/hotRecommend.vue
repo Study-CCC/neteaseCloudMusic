@@ -2,24 +2,22 @@
   <div class="hotBox">
     <div class="hotTit">
       <h3>热门推荐</h3>
-      <el-breadcrumb separator="|">
-        <el-breadcrumb-item>
-          <a href="/">华语</a>
-        </el-breadcrumb-item>
-        <el-breadcrumb-item>
-          <a href="/">流行</a>
-        </el-breadcrumb-item>
-        <el-breadcrumb-item>
-          <a href="/">摇滚</a>
-        </el-breadcrumb-item>
-        <el-breadcrumb-item>
-          <a href="/">民谣</a>
-        </el-breadcrumb-item>
-        <el-breadcrumb-item>
-          <a href="/">电子</a>
-        </el-breadcrumb-item>
-      </el-breadcrumb>
-      <a href="#" class="more">更多</a>
+      <div class="hotItem">
+        <a href="/#/discover/playlist/?cat=华语">华语</a>
+        <span>|</span>
+
+        <a href="/#/discover/playlist/?cat=流行">流行</a>
+        <span>|</span>
+
+        <a href="/#/discover/playlist/?cat=摇滚">摇滚</a>
+        <span>|</span>
+
+        <a href="/#/discover/playlist/?cat=民谣">民谣</a>
+        <span>|</span>
+
+        <a href="/#/discover/playlist/?cat=电子">电子</a>
+      </div>
+      <a href="/#/discover/playlist" class="more">更多</a>
     </div>
     <ul class="hotContent">
       <li v-for="item in playlists" :key="item.id">
@@ -30,7 +28,7 @@
 </template>
 
 <script>
-import PlaylistItem from '../../common/playlistItem'
+import PlaylistItem from "../../common/playlistItem";
 export default {
   data() {
     return {
@@ -49,7 +47,7 @@ export default {
       this.playlists = data.result;
     }
   },
-  components:{
+  components: {
     PlaylistItem
   }
 };
@@ -61,6 +59,17 @@ export default {
     align-items: center;
     border-bottom: 2px solid #c20c0c;
     height: 35px;
+    .hotItem{
+      a{
+        font-size: 12px;
+        margin: 0 20px;
+        color: rgb(102, 102, 102);
+      }
+      span{
+        font-size: 12px;
+        color: rgb(102, 102, 102);
+      }
+    }
     .more {
       margin-left: auto;
     }
