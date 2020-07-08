@@ -25,7 +25,7 @@ import AlbumItem from '../../common/albumItem'
       total: 0,
       offset: 0,
       pageSize: 90,
-      search: "火"
+      search: ""
       };
     },
      created() {
@@ -44,12 +44,13 @@ import AlbumItem from '../../common/albumItem'
       this.albums = data.result.albums;
     },
     async getData() {
-      //   this.search = this.$route.query.s;
+        this.search = this.$route.query.s;
       const { data, status } = await this.$http.get(
         `/search?keywords=${this.search}&type=10&limit=90`
       );
       this.total = data.result.albumCount;
       this.albums = data.result.albums;
+      this.$emit('getNum',this.total)
     }
     },
     components:{

@@ -32,7 +32,7 @@ export default {
       total: 0,
       offset: 0,
       pageSize: 90,
-      search: "火"
+      search: ""
     };
   },
   created() {
@@ -44,6 +44,7 @@ export default {
       this.getNext();
     },
     async getNext() {
+      this.search = this.$route.query.s;
       const { data, status } = await this.$http.get(
         `/search?keywords=${this.search}&offset=${this.offset}&type=100&limit=90`
       );

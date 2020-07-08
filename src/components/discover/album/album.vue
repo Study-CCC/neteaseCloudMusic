@@ -65,8 +65,8 @@ export default {
   width: 1100px;
   margin: 0 auto;
   padding: 40px;
-    border-left: 1px solid #d3d3d3;
-    border-right: 1px solid #d3d3d3;
+    border: 1px solid #d3d3d3;
+    background-color: #fff;
   .itemGroup {
     display: flex;
     flex-wrap: wrap;

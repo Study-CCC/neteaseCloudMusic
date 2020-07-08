@@ -34,5 +34,7 @@ export default {
   padding: 47px 30px 40px 39px;
   width: 980px;
   margin: 0 auto;
+  border: 1px solid #d3d3d3;
+    background-color: #fff;
 }
 </style>

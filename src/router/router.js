@@ -29,6 +29,12 @@ import Djradio from '../components/discover/djradio/djradio'
 import Artist from '../components/discover/artist/artist'
 import Album from '../components/discover/album/album'
 import Search from '../components/detailPage/search/search'
+import SearchSong from "../components/detailPage/search/song";
+import SearchArtist from "../components/detailPage/search/artist";
+import SearchAlbum from "../components/detailPage/search/album";
+import SearchSongList from '../components/detailPage/search/songList'
+import SearchLyric from '../components/detailPage/search/lyric'
+import SearchDj from '../components/detailPage/search/dj'
 Vue.use(VueRouter)
 
 const routes = [
@@ -117,7 +123,28 @@ const routes = [
             },
             {
                 path:'/search',
-                component:Search
+                component:Search,
+                children:[
+                    {
+                        path:'/search/m:type',
+                        component:SearchSong
+                    },  {
+                        path:'/search:type=101',
+                        component:SearchArtist
+                    },  {
+                        path:'/search:type=110',
+                        component:SearchAlbum
+                    },  {
+                        path:'/search:type=1220',
+                        component:SearchSongList
+                    },  {
+                        path:'/search:type=120',
+                        component:SearchLyric
+                    },  {
+                        path:'/search:type=103',
+                        component:SearchDj
+                    }
+                ]
             },
             {
                 path: '/friend',
@@ -159,6 +186,10 @@ const routes = [
     }
 
 ]
+const originalPush = VueRouter.prototype.push
+   VueRouter.prototype.push = function push(location) {
+   return originalPush.call(this, location).catch(err => err)
+   }
 const router = new VueRouter({
     routes
 })

@@ -15,7 +15,7 @@
       row-class-name="rowClass"
       :cell-style="{'padding':0,'line-height':'30px','height':'30px'}"
       :data="songsList.tracks"
-      style="width: 97%;margin-left:20px;"
+      style="width:100%;"
     >
       <el-table-column label="#" type="index" width="77">
         <template v-slot="songData">

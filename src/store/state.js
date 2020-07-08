@@ -10,6 +10,8 @@ const state={
     // 歌曲是否播放
     isPlaying:false,
     // 登录者信息
-    user:{}
+    user:{},
+    // 搜索内容
+    search:''
 }
 export default state

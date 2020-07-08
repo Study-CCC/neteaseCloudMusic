@@ -17,6 +17,7 @@ axios.defaults.baseURL = 'http://localhost:3000'
 // })
 Vue.prototype.$http = axios
 Vue.filter('numFilter',(value)=>{
+  // console.log(324)
   if(value>100000000){
      let num = parseInt(value/100000000) 
      let decimal = parseInt((value%100000000)/10000000)
@@ -28,6 +29,7 @@ Vue.filter('numFilter',(value)=>{
   }else return value
 })
 Vue.filter('timeFilter',(value)=>{
+  // console.log(324234324432)
   let time = ''
   if(value>1000){
     var minutes = parseInt((value % (1000 * 60 * 60)) / (1000 * 60));

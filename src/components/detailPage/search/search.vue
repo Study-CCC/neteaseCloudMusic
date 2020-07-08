@@ -1,34 +1,32 @@
 <template>
   <div class="searchBox">
     <div class="searchInput">
-      <el-input suffix-icon="el-icon-search" v-model="searchText"></el-input>
+      <el-input suffix-icon="el-icon-search" @change="searchChange" v-model="value"></el-input>
     </div>
     <div class="searchCon">
-      <div class="typeCon">搜索“火”，找到 131162 首单曲</div>
-      <el-menu class="el-menu-demo" mode="horizontal" default-active="1">
+      <div class="typeCon">搜索“{{searchText||search}}”，找到 {{num}} 首单曲</div>
+      <el-menu @select="eve" class="el-menu-demo" mode="horizontal" default-active="1">
         <el-menu-item index="1">
-          <a href="#">单曲</a>
+          单曲
         </el-menu-item>
-        <el-menu-item index="2">
-          <a href="#">歌手</a>
+        <el-menu-item index="100">
+          歌手
         </el-menu-item>
-        <el-menu-item index="3">
-          <a href="#">专辑</a>
+        <el-menu-item index="10">
+          专辑
         </el-menu-item>
-        <el-menu-item index="4">
-          <a href="#">歌词</a>
+        <el-menu-item index="1006">
+          歌词
         </el-menu-item>
-        <el-menu-item index="5">
-          <a href="#">歌单</a>
+        <el-menu-item index="1000">
+          歌单
         </el-menu-item>
-        <el-menu-item index="6">
-          <a href="#">主播电台</a>
-        </el-menu-item>
-        <el-menu-item index="7">
-          <a href="#">用户</a>
+        <el-menu-item index="1009">
+          主播电台
         </el-menu-item>
       </el-menu>
-      <Album />
+      <noFind v-if="noFind"></noFind>
+      <router-view v-else @getNum="getNum"></router-view>
     </div>
   </div>
 </template>
@@ -38,17 +36,50 @@ import noFind from "./noFind";
 import Song from "./song";
 import Artist from "./artist";
 import Album from "./album";
+import SongList from './songList'
+import Lyric from './lyric'
+import Dj from './dj'
+import {mapGetters} from 'vuex'
 export default {
   data() {
     return {
-      searchText: ""
+      value:'',
+      searchText: "",
+      num:0,
+      limit:30,
+      noFind:false,
+      data:{}
     };
+  },
+  methods:{
+    searchChange(e){
+      this.searchText = e
+    },
+    getNum(num){
+      this.num = num
+    },
+    async eve(e){
+      this.limit = (e==100||e==10)?90:30
+      if(!this.value) return this.noFind=true
+       const { data, status } = await this.$http.get(
+        `/search?keywords=${this.value}&type=${e}&limit=${this.limit}`
+      );
+      this.noFind =data.result[Object.keys(data.result)[0]]==0?true:false
+      this.data = data.result
+      this.$router.push(`/search/m?type=${e}`)
+    }
   },
   components: {
     noFind,
     Song,
     Artist,
-    Album
+    Album,
+    SongList,
+    Lyric,
+    Dj
+  },
+  computed:{
+    ...mapGetters(['search'])
   }
 };
 </script>
@@ -78,7 +109,7 @@ export default {
       border: 1px #ccc solid;
 
       .el-menu-item {
-        width: 126px;
+        width: 148px;
         height: 100%;
         line-height: 36px;
         a {

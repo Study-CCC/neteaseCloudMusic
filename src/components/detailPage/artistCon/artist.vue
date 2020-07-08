@@ -28,5 +28,7 @@ export default {
 .artistBox {
   width: 980px;
   margin: 0 auto;
+  border: 1px solid #d3d3d3;
+    background-color: #fff;
 }
 </style>

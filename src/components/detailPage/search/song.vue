@@ -4,8 +4,8 @@
       <li v-for="item in songs" :key="item.id">
         <el-row type="flex" align="middle">
           <el-col :span="10">
-               <div class="songItem">
-            <i class="play" @click="playInfo(songInit(item))"></i>
+            <div class="songItem">
+              <i class="play" @click="playInfo(songInit(item))"></i>
               <div class="itemText textOver">
                 <a :href="'/#/song?id='+item.id">
                   <span>{{item.name}}</span>
@@ -20,7 +20,10 @@
             <BtnGroup :song="songInit(item)" class="btnShow" />
           </el-col>
           <el-col :span="4">
-            <a class="authName textOver" :href="'/#/artist?id='+item.artists[0].id">{{item.artists[0].name}}</a>
+            <a
+              class="authName textOver"
+              :href="'/#/artist?id='+item.artists[0].id"
+            >{{item.artists[0].name}}</a>
           </el-col>
           <el-col :span="4">
             <a class="alName textOver" :href="'/#/album?id='+item.album.id">{{item.album.name}}</a>
@@ -53,7 +56,7 @@ export default {
       total: 0,
       offset: 0,
       pageSize: 30,
-      search:''
+      search: ""
     };
   },
   created() {
@@ -79,7 +82,7 @@ export default {
         `/search?keywords=${this.search}&offset=${this.offset}`
       );
       if (status !== 200) return this.$message.error("数据获取错误");
-      this.songs = data.result.songs
+      this.songs = data.result.songs;
     },
     async getData() {
       this.search = this.$route.query.s;
@@ -88,6 +91,7 @@ export default {
       );
       this.total = data.result.songCount;
       this.songs = data.result.songs;
+      this.$emit('getNum',this.total)
     },
     ...mapActions(["playInfo"])
   },
@@ -98,21 +102,21 @@ export default {
 </script>
 <style lang='less' scoped>
 .songBox {
-    margin-top: 20px;
+  margin-top: 20px;
   ul {
-       li:nth-child(even) {
+    li:nth-child(even) {
       background-color: #f7f7f7;
     }
-    .btnShow{
-        display: none;
+    .btnShow {
+      display: none;
     }
-    li:hover{
-        .btnShow{
-            display: block;
-        }
+    li:hover {
+      .btnShow {
+        display: block;
+      }
     }
     li {
-        padding: 10px 0;
+      padding: 10px 0;
       .play {
         width: 22px;
         height: 22px;
@@ -123,14 +127,14 @@ export default {
           background-position: -267px -235px;
         }
       }
-        .mvPlay {
-    width: 23px;
-    height: 17px;
-    background: url("../../../assets/table.png");
-    background-position: 0 -151px;
-  }
+      .mvPlay {
+        width: 23px;
+        height: 17px;
+        background: url("../../../assets/table.png");
+        background-position: 0 -151px;
+      }
       .songItem {
-          display: flex;
+        display: flex;
         .itemText {
           .mvPlay {
             width: 23px;
@@ -140,8 +144,8 @@ export default {
           }
         }
       }
-      .authName{
-             width: 80px;
+      .authName {
+        width: 80px;
         display: inline-block;
       }
       .alName {

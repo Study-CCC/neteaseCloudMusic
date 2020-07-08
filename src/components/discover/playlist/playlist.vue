@@ -1,6 +1,5 @@
 <template>
   <div class="playlist">
-    <el-card>
       <div class="playTit">
         <h3>全部</h3>
         <!-- 选择分类弹出框 -->
@@ -59,7 +58,6 @@
         :page-size="35"
         :total="total"
       ></el-pagination>
-    </el-card>
   </div>
 </template>
 
@@ -190,10 +188,11 @@ a{
   }
 }
 .playlist {
-  width: 1100px;
+  width: 980px;
   margin: 0 auto;
   padding: 40px;
-  .el-card {
+  border: 1px solid #d3d3d3;
+  background-color: #fff;
     .el-pagination {
       justify-content: center;
       display: flex;
@@ -275,7 +274,7 @@ a{
             }
           }
         }
-      }
+      
     }
   }
 }

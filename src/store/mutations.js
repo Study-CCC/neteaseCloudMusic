@@ -23,6 +23,9 @@ const mutations = {
     },
     [types.SET_MVPLAY](state,flag){
         state.mvPlay = flag
+    },
+    [types.SET_SETSEARCH](state,txt){
+        state.search =  txt
     }
 }
 export default mutations

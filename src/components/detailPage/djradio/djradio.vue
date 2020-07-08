@@ -28,6 +28,9 @@ import RightBar from './rightBar'
     width: 980px;
     padding: 0 40px;
     margin: 0 auto;
+ border: 1px solid #d3d3d3;
+    background-color: #fff;
+
 }
 
 </style>

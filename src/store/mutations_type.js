@@ -11,3 +11,5 @@ export const SET_ISPLAYING = " SET_ISPLAYING"
 export const SET_USER = "SET_USER"
 
 export const SET_PLAYTIME = "SET_PLAYTIME"
+
+export const SET_SETSEARCH = "SET_SETSEARCH"
