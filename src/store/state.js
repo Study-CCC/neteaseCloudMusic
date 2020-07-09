@@ -10,8 +10,12 @@ const state={
     // 歌曲是否播放
     isPlaying:false,
     // 登录者信息
-    user:{},
+    user:{
+    },
+    isLogin:false,
     // 搜索内容
-    search:''
+    search:'',
+    // 显示loginBox
+    showLogin:false
 }
 export default state

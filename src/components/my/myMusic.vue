@@ -52,7 +52,6 @@ export default {
   },
   created() {
     this.getData();
-    // this.getList()
     this.getId()
   },
   methods: {
@@ -69,19 +68,12 @@ export default {
         this.getList()
     },
    async getList(){
-    //  console.log(id)
-    
         const { data, status } = await this.$http.get(
         `/playlist/detail?id=${this.id}`
       );
       if (status !== 200) return this.$message.error("数据获取错误");
       this.detail = data.playlist
     }
-    // async getUserData(){
-    //      const { data, status } = await this.$http.get(`/user/detail?uid=1432127528&cookie=${this.cookie}`);
-    //   if (status !== 200) return this.$message.error("数据获取错误");
-    //     this.detail = data.profile
-    // }
   },
   components: {
     SongCon,
@@ -94,10 +86,15 @@ export default {
 .myMusicBox {
   width: 980px;
   margin: 0 auto;
+  border: 1px solid #d3d3d3;
+  background-color: #fff;
+  padding: 30px 0;
   .leftBox {
     width: 220px;
-    border-right: 1px solid #d3d3d3;
-
+    h2{
+      text-align: center;
+      font-size: 18px;
+    }
     .title {
       font-size: 14px;
       margin-top: 25px;
@@ -153,6 +150,10 @@ export default {
         background-color: #f4f2f2;
       }
     }
+  }
+  .rightBox{
+    border-left: 1px solid #d3d3d3;
+    padding:0 30px ;
   }
 }
 </style>

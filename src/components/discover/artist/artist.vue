@@ -1,6 +1,5 @@
 <template>
-  <div class="artist">
-      <el-card>
+  <div class="artist pageCon">
         <el-row>
           <el-col :span="4">
             <LeftBar></LeftBar>
@@ -9,7 +8,6 @@
             <RightBar></RightBar>
           </el-col>
         </el-row>
-      </el-card>
   </div>
 </template>
 
@@ -30,8 +28,4 @@ import RightBar from './RightBar'
 
 </script>
 <style lang='less' scoped>
-.artist{
-  width: 1100px;
-  margin: 0 auto;
-}
 </style>

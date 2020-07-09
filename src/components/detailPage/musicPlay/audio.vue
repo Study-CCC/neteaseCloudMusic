@@ -8,7 +8,6 @@
     </span>
   </div>
 </template>
-
 <script>
 import { mapActions, mapGetters,mapMutations } from "vuex";
 export default {
@@ -47,7 +46,7 @@ export default {
         this.timer = setInterval(() => {
           if (this.currentTime >= dt) {
             this.currentTime = dt
-            this.musicInit();
+            this.setNext();
           }
           this.currentTime = audio.currentTime*1000
           this.value = parseInt(
@@ -63,7 +62,7 @@ export default {
       audio.currentTime = ct / 1000;
       this.$emit('scollTime',ct)
     },
-    ...mapActions(["setPause","setPlay"]),
+    ...mapActions(["setPause","setPlay","setNext"]),
     ...mapMutations({
       setCurrentTime:'SET_PLAYTIME',
     })

@@ -2,8 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home'
 import Discover from '../components/discover/discover'
-import myLogin from '../components/my/myLogin'
-import myMusic from '../components/my/myMusic'
+import myPage from '../components/my/myPage'
 import FriendLogin from '../components/friend/friendLogin'
 import Mv from '../components/detailPage/mvCon/mv'
 import PlaylistCon from '../components/detailPage/playlistCon/playlistCon'
@@ -118,8 +117,7 @@ const routes = [
             },
             {
                 path: '/my',
-                // component: myLogin
-                component:myMusic
+                component:myPage
             },
             {
                 path:'/search',

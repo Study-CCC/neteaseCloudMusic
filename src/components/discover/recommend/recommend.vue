@@ -7,7 +7,7 @@
         <!-- 热门推荐 -->
         <HotRecommend />
         <!-- 个性化 -->
-        <Personal />
+        <Personal v-if="user.isLogin"/>
         <!-- 新碟上架 -->
         <New />
         <!-- 榜单 -->
@@ -28,9 +28,13 @@ import List from "./list";
 import New from "./new";
 import RightBar from "./rightBar";
 import Personal from './personal'
+import {mapGetters,mapActions} from 'vuex'
 export default {
   data() {
     return {};
+  },
+  computed:{
+    ...mapGetters(['user'])
   },
   components: {
     Carousel,

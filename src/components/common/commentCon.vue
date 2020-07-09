@@ -187,6 +187,7 @@ a {
   }
 }
 .commentConBox {
+  margin-top: 15px;
   .commendTit {
     height: 35px;
     display: flex;

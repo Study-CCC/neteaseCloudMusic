@@ -55,6 +55,7 @@ data() {
 坑16: 切换路由id时video组件中并不会重新加载，所以需要init一下video
 坑17: 存储localStorage时,会将存入数据转换成字符串形式,我们可以使用JSON.stringify方法将json转换成json字符串
 坑18: 如果在dom结构中使用了v-if、v-show、v-for(即根据后台数据动态操作DOM),那么这些DOM是不会在mounted找到的，如果想要真正地在DOM加载完成后拿到数据，就需要调用VUE的全局api ： this.$nextTick(() => {})
+坑19: offsetHeight不能获取
 后续修改: 添加common组件playlistItem替换歌单和推荐里的item
           封装axios
           过滤器

@@ -29,6 +29,10 @@ export const getPlaying = ()=>{
 export const addSto = (song) => {
     return addCor(song, 1)
 }
+// 添加列表
+export const addPlaylist = (playlist) =>{
+    localStorage.setItem(PLAYLIST, JSON.stringify(playlist))
+}
 //删除歌曲
 export const deleteSto = (id) => {
     let playlist = JSON.parse(localStorage.getItem(PLAYLIST))

@@ -1,7 +1,7 @@
 <template>
        <div class="headerBtn">
           <el-button-group class="norBtn">
-            <el-button class="playBtn" size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
+            <el-button @click="addList(tracks)" class="playBtn" size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
             <el-button class="addBtn" size="mini" type="primary" icon="el-icon-plus"></el-button>
           </el-button-group>
           <el-button class="norBtn" size="mini" icon="el-icon-folder-add">收藏</el-button>
@@ -11,14 +11,17 @@
 </template>
 
 <script>
-
+import {mapActions} from 'vuex'
   export default {
     data () {
       return {
 
       };
     },
-    props:['shareCount']
+    methods:{
+      ...mapActions(['addList'])
+    },
+    props:['shareCount','tracks']
   }
 
 </script>

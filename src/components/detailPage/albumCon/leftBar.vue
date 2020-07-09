@@ -19,11 +19,15 @@
           <p>发行时间:{{leftData.album.publishTime|creatTimeFilter}}</p>
           <p>发行公司： {{leftData.album.company}}</p>
         </div>
-      <HeaderBtn :commentCount="leftData.btnValue[0]" :shareCount="leftData.btnValue[1]" />
+      <HeaderBtn :commentCount="leftData.btnValue[0]" :tracks="leftData.songsList.tracks"  />
     </div></div>
     <div class="desc">
       <h3>专辑介绍</h3>
-      <p>{{leftData.album.description}}</p>
+      <p ref="descCon" :class="['descCon',openFlag?'':'close']">{{leftData.album.description}}</p>
+      <a v-if="openShow" href="javascript:void(0)" @click="isOpen">
+              {{openFlag?'收起':'展开'}}
+              <i :class="openFlag?'closeIcon':'openIcon'"></i>
+            </a>
     </div>
     <div class="songlist"></div>
     <SongCon v-if="leftData.songsList.trackCount" :songsList="leftData.songsList"/>
@@ -42,7 +46,22 @@ export default {
   },
   data() {
     return {
+       openFlag: true,
+      openShow: false
     };
+  },
+  mounted(){
+    this.$nextTick(() => {
+      if(!this.$refs.descCon) return;
+      if (this.$refs.descCon.clientHeight > 318) {
+        this.openFlag = false;
+        this.openShow = true;
+      }})
+  },
+  methods:{
+     isOpen() {
+      this.openFlag = !this.openFlag;
+    }
   },
 props:['leftData'],
  
@@ -57,6 +76,7 @@ props:['leftData'],
 <style lang='less' scoped>
 .leftBarBox {
   width: 100%;
+  border-right:1px solid #d3d3d3;
   .header {
     .authImg {
       width: 177px;
@@ -122,7 +142,28 @@ props:['leftData'],
       text-indent: 2em;
       white-space: pre-line;
     }
+    a {
+          font-size: 12px;
+          color: #0c73c2;
+        }
+      i {
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          border-top: 2px solid #999;
+          border-left: 2px solid #999;
+        }
   }
+    .close {
+          height: 318px;
+          overflow: hidden;
+        }
+         .openIcon {
+          transform: rotate(-135deg);
+        }
+        .closeIcon {
+          transform: rotate(45deg);
+        }
   .commendTit {
     height: 35px;
     display: flex;

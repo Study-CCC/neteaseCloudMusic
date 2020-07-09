@@ -1,5 +1,5 @@
 <template>
-  <div class="albumConBox">
+  <div class="albumConBox pageCon">
     <el-row>
       <el-col :span="19">
         <LeftBar v-if="flag" :leftData="leftData" />
@@ -64,11 +64,5 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-.albumConBox {
-  padding: 47px 30px 40px 39px;
-  width: 980px;
-  margin: 0 auto;
-  border: 1px solid #d3d3d3;
-    background-color: #fff;
-}
+
 </style>

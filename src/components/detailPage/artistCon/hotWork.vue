@@ -16,7 +16,7 @@
           <el-col :span="12">
             <i
               class="play"
-              @click="playInfo(songInit(item))"
+              @click="playInfo(item)"
             ></i>
             <div class="songItem">
               <div class="itemText">
@@ -30,7 +30,7 @@
             </div>
           </el-col>
           <el-col :span="4" :offset="1">
-            <BtnGroup class="btnShow" :song=" songInit(item) " />
+            <BtnGroup class="btnShow" :song=" item " />
             <span class="timeShow">{{item.dt|timeFilter}}</span>
           </el-col>
           <el-col :span="5">
@@ -50,16 +50,6 @@ export default {
     return {};
   },
   methods: {
-    songInit(item) {
-      let song = {};
-    song.name = item.name,
-        song.authId = item.ar[0].id,
-        song.picUrl = item.al.picUrl,
-        song.duration = item.dt,
-        song.id = item.id,
-        song.authName = item.ar[0].name;
-      return song;
-    },
     ...mapActions(["addSong", "playInfo"])
   },
   props: ["hotSongs"],

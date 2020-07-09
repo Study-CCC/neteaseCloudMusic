@@ -1,5 +1,5 @@
 <template>
-  <div class="pageBox">
+  <div class="pageBox pageCon">
     <div class="pic">
       <!-- <h2>登录网易云音乐</h2> -->
     </div>
@@ -15,11 +15,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .pageBox {
-    width: 980px;
     min-height: 700px;
-    margin: 0 auto;
-    border: 1px solid #d3d3d3;
-    border-width: 0 1px;
   .pic {
     background: url('../../assets/notlogin.jpg') no-repeat;
     width: 902px;

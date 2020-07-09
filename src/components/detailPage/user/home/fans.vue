@@ -27,10 +27,11 @@
           </p>
           <p>{{item.signature}}</p>
         </div>
-        <el-button>关注</el-button>
+        <el-button>发私信</el-button>
       </li>
     </ul>
     <el-pagination
+    v-if="num>20"
       layout="prev, pager, next"
       @current-change="handleCurrentChange"
       :pageSize="20"

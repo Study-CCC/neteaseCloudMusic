@@ -1,5 +1,5 @@
 <template>
-  <div class="artistBox">
+  <div class="artistBox pageCon">
     <el-row>
       <el-col :span="18">
         <LeftBar class="leftPad" />
@@ -25,10 +25,4 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-.artistBox {
-  width: 980px;
-  margin: 0 auto;
-  border: 1px solid #d3d3d3;
-    background-color: #fff;
-}
 </style>

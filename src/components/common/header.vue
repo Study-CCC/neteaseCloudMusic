@@ -38,10 +38,21 @@
       </el-col>
       <el-col :span="8">
         <!-- 输入框 -->
-        <el-input  v-model="searchTxt" @change="search" @input="searchInput" size="mini" placeholder="音乐/视频/电台/用户">
+        <el-input
+          v-model="searchTxt"
+          @change="search"
+          @input="searchInput"
+          size="mini"
+          placeholder="音乐/视频/电台/用户"
+        >
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
-        <el-card v-clickOutSide="handleClickOut" v-show="isInput" :body-style="{padding:'0'}" class="boxCard">
+        <el-card
+          v-clickOutSide="handleClickOut"
+          v-show="isInput"
+          :body-style="{padding:'0'}"
+          class="boxCard"
+        >
           <div slot="header">
             <h3>搜{{searchTxt}}相关用户></h3>
           </div>
@@ -49,82 +60,89 @@
             <li v-for="(item,i) in searchCon" :key="i">
               <div class="searchItem clearFloat">
                 <span class="searchType">{{item.type}}</span>
-              <ul class="ulBox">
-                <li v-for="item1 in item.data" :key="item1.id">
-                  <a :href="item.url+item1.id"><span class="searchInfo textOver">{{item1.name}}</span></a>
-                </li>
-              </ul></div>
+                <ul class="ulBox">
+                  <li v-for="item1 in item.data" :key="item1.id">
+                    <a :href="item.url+item1.id">
+                      <span class="searchInfo textOver">{{item1.name}}</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </li>
           </ul>
         </el-card>
+          <!-- 登录a标签 -->
+        <div class="userInfo" v-if="isLogin">
+          <i class="userPic">
+            <a :href="'/#/user/home?id='+user.userId">
+            <img :src="user.avatarUrl" alt /></a>
+          </i>
+        </div>
+        <span v-else class="login" @click="loginShow">登录</span>
         <!-- 按钮 -->
         <el-button size="mini" round>创作者中心</el-button>
-        <!-- 登录a标签 -->
-        <span class="login" @click="loginShow()">登录</span>
-      </el-col>
+         </el-col>
     </el-row>
-    <LogResBox @close="close" v-show="show" />
   </div>
 </template>
 
 <script>
-import LogResBox from "./logResBox";
 import clickOutSide from "../../utils/clickoutside";
-import {mapMutations} from 'vuex'
+import { mapMutations, mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
-      show: false,
       searchTxt: "",
       timer: null,
-      searchCon:[],
-      isInput:false,
-      type:['专辑','歌手','歌单','单曲'],
-      url:['/#/album?id=','/#/artist?id=','/#/playlist?id=','/#/song?id=']
+      searchCon: [],
+      isInput: false,
+      type: ["专辑", "歌手", "歌单", "单曲"],
+      url: ["/#/album?id=", "/#/artist?id=", "/#/playlist?id=", "/#/song?id="]
     };
   },
   methods: {
     loginShow() {
-      this.show = true;
+      this.setLoginBox(true);
     },
-    close() {
-      this.show = false;
+    handleClickOut() {
+      this.isInput = false;
     },
-    handleClickOut(){
-      this.isInput = false
-    },
-    search(e){
-      this.setSearch(e)
-      this.$router.push(`/search?s=${e}`)
+    search(e) {
+      this.setSearch(e);
+      this.$router.push(`/search?s=${e}`);
     },
     searchInput() {
-      this.isInput = true
+      this.isInput = true;
       if (this.timer) clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        this.getSearch()
+        this.getSearch();
       }, 100);
     },
-    async getSearch(){
-      const {data,status}=await this.$http.get(`/search/suggest?keywords=${this.searchTxt}`)
-      const {albums,artists,playlists,songs}= data.result
-      let obj = {albums,artists,playlists,songs}
-      let i = 0 
-      this.searchCon = []
-      for(let key in obj){
-          if(obj[key]){
-            let item = {type:this.type[i],data:obj[key],url:this.url[i]}
-            this.searchCon.push(item);
-          }
-          i++;
+    async getSearch() {
+      const { data, status } = await this.$http.get(
+        `/search/suggest?keywords=${this.searchTxt}`
+      );
+      const { albums, artists, playlists, songs } = data.result;
+      let obj = { albums, artists, playlists, songs };
+      let i = 0;
+      this.searchCon = [];
+      for (let key in obj) {
+        if (obj[key]) {
+          let item = { type: this.type[i], data: obj[key], url: this.url[i] };
+          this.searchCon.push(item);
+        }
+        i++;
       }
     },
     ...mapMutations({
-      setSearch:'SET_SETSEARCH'
+      setSearch: "SET_SETSEARCH",
+      setLoginBox: "SET_LOGINBOX"
     })
   },
-  components: {
-    LogResBox
+  computed: {
+    ...mapGetters(["user", "isLogin"])
   },
+
   directives: { clickOutSide }
 };
 </script>
@@ -133,6 +151,7 @@ export default {
   background-color: #242424;
   min-width: 980px;
   height: 70px;
+
   .el-row {
     width: 1100px;
     margin: 0 auto;
@@ -181,35 +200,35 @@ export default {
         font-weight: normal;
         // border-bottom: 1px solid #cccccc;
       }
-      ul{
-        li{
-          .searchType{
+      ul {
+        li {
+          .searchType {
             font-size: 12px;
             margin-top: 10px;
             width: 60px;
             display: inline-block;
             text-align: center;
           }
-      
-          ul{
-                ul:nth-child(2n){
-          background-color: #f7f7f7;
-          }
+
+          ul {
+            ul:nth-child(2n) {
+              background-color: #f7f7f7;
+            }
             width: 180px;
             float: right;
             border-left: 1px solid #ccc;
             border-bottom: 1px solid #ccc;
             font-size: 12px;
-            li{
+            li {
               margin: 5px;
-              a{
+              a {
                 width: 100%;
               }
-              .searchInfo{
+              .searchInfo {
                 width: 170px;
                 display: inline-block;
               }
-              &:hover{
+              &:hover {
                 background: color(#ccc);
               }
             }
@@ -222,9 +241,24 @@ export default {
       width: 28px;
       //   margin-left: 19px;
     }
+    .userInfo {
+      padding: 20px 10px;
+      display: inline-block;
+      .userPic {
+        width: 30px;
+        height: 30px;
+        img {
+          vertical-align: middle;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
+      }
+    }
     .login {
       font-size: 12px;
       color: #999;
+      margin-left: 10px;
       cursor: pointer;
       &:hover {
         text-decoration: underline;

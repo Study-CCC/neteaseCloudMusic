@@ -1,5 +1,5 @@
 <template>
-  <div class="albumBox">
+  <div class="albumBox pageCon">
       <div class="hotAlb">
         <div class="hotTit">
           <h3>热门新碟</h3>
@@ -62,11 +62,7 @@ export default {
 <style lang='less' scoped>
 
 .albumBox {
-  width: 1100px;
-  margin: 0 auto;
-  padding: 40px;
-    border: 1px solid #d3d3d3;
-    background-color: #fff;
+
   .itemGroup {
     display: flex;
     flex-wrap: wrap;

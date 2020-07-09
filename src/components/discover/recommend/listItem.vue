@@ -17,7 +17,7 @@
             content="播放"
             placement="bottom-start"
           >
-              <i class="play" ></i>
+              <i class="play" @click="addList(listData)"></i>
           </el-tooltip>
           <el-tooltip
             :open-delay="300"
@@ -44,15 +44,7 @@
               content="播放"
               placement="bottom-start"
             >
-                <i class="play" @click="playInfo({
-                  name:item.name,
-                  id:item.id,
-                  currentTime:0,
-                  authName:item.ar[0].name,
-                  authId:item.ar[0].id,
-                  duration:item.dt,
-                  picUrl:item.al.picUrl
-                  })"></i>
+                <i class="play" @click="playInfo(item)"></i>
             </el-tooltip>
             <el-tooltip
               :open-delay="300"
@@ -61,15 +53,7 @@
               content="添加到播放列表"
               placement="bottom-start"
             >
-                <i class="add" @click="addSong({
-                  name:item.name,
-                  id:item.id,
-                  picUrl:item.al.picUrl,
-                  currentTime:0,
-                  authName:item.ar[0].name,
-                  authId:item.ar[0].id,
-                  duration:item.dt
-                })"></i>
+                <i class="add" @click="addSong(item)"></i>
             </el-tooltip>
             <el-tooltip
               :open-delay="300"
@@ -104,6 +88,7 @@ export default {
   },
   props: ["id"],
   methods: {
+
     async getData() {
       const { data, status } = await this.$http.get(`/top/list?idx=${this.id}`);
       if (status !== 200) return this.$message.error("数据获取错误");
@@ -112,8 +97,9 @@ export default {
       this.titData.id = data.playlist.id;
       data.playlist.tracks.length = 10;
       this.listData = data.playlist.tracks;
+      // this.listData.type=1
     },
-  ...mapActions(['addSong','playInfo'])
+  ...mapActions(['addSong','playInfo','addList'])
   }
 };
 </script>

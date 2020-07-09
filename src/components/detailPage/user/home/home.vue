@@ -1,5 +1,5 @@
 <template>
-  <div class="homeBox">
+  <div class="homeBox pageCon">
     <div class="userBox">
       <div class="imgBox">
         <img :src="profile.avatarUrl" alt />
@@ -30,7 +30,6 @@
           </a>
         </div>
         <p v-if="profile.signature">个人介绍: {{profile.signature}}</p>
-        <p>所在地区:{{profile.city}};{{profile.province}}</p>
       </div>
     </div>
     <router-view :listenSongs="listenSongs" :fansNum="profile.followeds" :followsNum="profile.follows"></router-view>
@@ -58,9 +57,6 @@ export default {
       this.profile = data.profile;
       this.level = data.level;
       this.listenSongs = data.listenSongs
-
-      //   console.log(data)
-      //   console.log(this.followeds);
     }
   },
   watch: {
@@ -72,9 +68,14 @@ export default {
 </script>
 <style lang='less' scoped>
 .homeBox {
-  padding: 47px 30px 40px 39px;
-  width: 980px;
-  margin: 0 auto;
+ p{
+   margin-top: 10px;
+   font-size: 12px;
+   color:#999;
+ }
+ .el-button{
+   margin-left: 10px;
+ }
   .userBox {
     display: flex;
     .imgBox {
@@ -88,8 +89,8 @@ export default {
       }
     }
     .userInfo {
+      width: 700px;
       margin-left: 30px;
-
       .userName {
         padding-bottom: 12px;
         margin-bottom: 10px;

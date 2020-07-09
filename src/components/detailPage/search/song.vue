@@ -5,7 +5,7 @@
         <el-row type="flex" align="middle">
           <el-col :span="10">
             <div class="songItem">
-              <i class="play" @click="playInfo(songInit(item))"></i>
+              <i class="play" @click="playInfo(item)"></i>
               <div class="itemText textOver">
                 <a :href="'/#/song?id='+item.id">
                   <span>{{item.name}}</span>
@@ -17,7 +17,7 @@
             </div>
           </el-col>
           <el-col :span="4">
-            <BtnGroup :song="songInit(item)" class="btnShow" />
+            <BtnGroup :song="item" class="btnShow" />
           </el-col>
           <el-col :span="4">
             <a
@@ -63,16 +63,6 @@ export default {
     this.getData();
   },
   methods: {
-    songInit(item) {
-      let song = {};
-      (song.name = item.name),
-        (song.authId = item.artists[0].id),
-        (song.picUrl = item.artists[0].img1v1Url),
-        (song.duration = item.duration),
-        (song.id = item.id),
-        (song.authName = item.artists[0].name);
-      return song;
-    },
     handleCurrentChange(e) {
       this.offset = (e - 1) * this.pageSize;
       this.getNext();

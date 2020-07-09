@@ -1,5 +1,5 @@
 <template>
-  <div class="searchBox">
+  <div class="searchBox pageCon">
     <div class="searchInput">
       <el-input suffix-icon="el-icon-search" @change="searchChange" v-model="value"></el-input>
     </div>
@@ -85,11 +85,6 @@ export default {
 </script>
 <style lang='less' scoped>
 .searchBox {
-  width: 980px;
-  min-height: 700px;
-  margin: 0 auto;
-  background-color: #fff;
-  border: 1px solid #d3d3d3;
   .searchInput {
     width: 420px;
     height: 40px;

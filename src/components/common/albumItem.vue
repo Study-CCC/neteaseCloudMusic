@@ -2,7 +2,7 @@
   <div class="albumItem">
     <img :src="item.blurPicUrl" alt />
     <a :href="'/#/album?id='+item.id" class="bgc"></a>
-    <a href="#" class="play"></a>
+    <a href="#" @click="playList" class="play"></a>
     <p>
       <a class="itemName" :href="'/#/album?id='+item.id">{{item.name}}</a>
     </p>
@@ -13,9 +13,16 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   data() {
     return {};
+  },
+  methods:{
+    async playList(){
+       const {data,status} = await this.$http.get(`/playlist/detail?id=${this.item.id}`)
+    },
+    ...mapActions(['addList'])
   },
   props: ["item"]
 };

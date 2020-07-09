@@ -15,7 +15,6 @@
     </el-carousel>
   </div>
 </template>
-
 <script>
 import AlbumItem from '../../common/albumItem'
 export default {

@@ -1,5 +1,5 @@
 <template>
-  <div class="djradioBox">
+  <div class="djradioBox pageCon">
     <TopBar />
     <el-row>
       <el-col :span="11">
@@ -35,11 +35,5 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-.djradioBox {
-  width: 900px;
-  margin: 0 auto;
-  padding: 40px;
-  border: 1px solid #d3d3d3;
-  background-color: #fff;
-}
+
 </style>

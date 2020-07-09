@@ -1,5 +1,5 @@
 <template>
-  <div class="songConBox">
+  <div class="songConBox pageCon">
     <el-row>
       <el-col :span="19">
         <LeftBar />
@@ -30,11 +30,5 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-.songConBox {
-  padding: 47px 30px 40px 39px;
-  width: 980px;
-  margin: 0 auto;
-  border: 1px solid #d3d3d3;
-    background-color: #fff;
-}
+
 </style>

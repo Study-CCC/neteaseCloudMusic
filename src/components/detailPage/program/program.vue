@@ -1,5 +1,5 @@
 <template>
-  <div  class="programBox">
+  <div  class="programBox pageCon">
       <el-row>
           <el-col :span="19"> <LeftBar /></el-col>
           <el-col :span="5"><RightBar /></el-col>
@@ -24,12 +24,6 @@ import RightBar from './rightBar'
 
 </script>
 <style lang='less' scoped>
-.programBox{
-    width: 980px;
-    padding: 0 40px;
-    margin: 0 auto;
-    border: 1px solid #d3d3d3;
-    background-color: #fff;
-}
+
 
 </style>

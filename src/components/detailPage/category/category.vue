@@ -1,5 +1,5 @@
 <template>
-  <div class="categoryBox">
+  <div class="categoryBox pageCon">
     <TopBar />
     <Category />
   </div>
@@ -19,11 +19,5 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-.categoryBox {
-  width: 900px;
-  margin: 0 auto;
-  padding: 40px;
-  border: 1px solid #d3d3d3;
-    background-color: #fff;
-}
+
 </style>

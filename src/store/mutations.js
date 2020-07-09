@@ -3,9 +3,6 @@ const mutations = {
     [types. SET_PLAYLIST](state,playlist){
         state.playlist = playlist
     },
-    [types.MV_PAGE](state,flag){
-        state.mvPlay = flag
-    },
     [types.SET_PLAYTIME](state,ct){
         state.playing.currentTime = ct
     },
@@ -14,6 +11,9 @@ const mutations = {
     },
     [types.SET_VOLUME](state,num){
         state.volumeNum=num
+    },
+    [types.SET_SETISLOGIN](state,flag){
+        state.isLogin = flag
     },
     [types.SET_ISPLAYING](state,flag){
         state.isPlaying = flag
@@ -26,6 +26,9 @@ const mutations = {
     },
     [types.SET_SETSEARCH](state,txt){
         state.search =  txt
+    },
+    [types.SET_LOGINBOX](state,flag){
+        state.showLogin = flag
     }
 }
 export default mutations

@@ -13,5 +13,9 @@ export const isPlaying = state => state.isPlaying
 export const user = state => state.user
 
 export const search = state => state.search
+
+export const showLogin =  state => state.showLogin
+
+export const isLogin = state => state.isLogin
 // playing结构
 // {name,authName,authId,id,isPlaying,lyric,picUrl,duration}

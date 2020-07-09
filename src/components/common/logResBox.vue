@@ -40,7 +40,7 @@
 <script>
 import InputBox from "../../components/detailPage/logResCon/inputBox";
 import VerityBox from "../../components/detailPage/logResCon/verityBox";
-
+import {mapMutations} from 'vuex'
 export default {
   data() {
     return {
@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     closeBox() {
-      this.$emit("close");
+      this.setLoginBox(false)
     },
     getBack(){
         this.flag.inputFlag = false
@@ -66,7 +66,10 @@ export default {
       if (!this.flag.isCheck) return this.$message.error("请勾选协议");
       this.flag.inputFlag = true;
       this.inputType=type
-    }
+    },
+    ...mapMutations({
+       setLoginBox:"SET_LOGINBOX"
+    })
   },
   components: {
     InputBox,
@@ -81,6 +84,7 @@ export default {
   position: fixed;
   margin-top: 20%;
   margin-left: 50%;
+      top: 0;
   transform: translate(-50%, -50%);
   background-color: #fff;
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.8);

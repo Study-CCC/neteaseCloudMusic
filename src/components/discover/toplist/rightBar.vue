@@ -41,7 +41,7 @@
             <div class="songItem" v-if="songData.$index>2">
               <i
                 class="play"
-                @click="playInfo(songInit(songDatas))"
+                @click="playInfo(songDatas)"
               ></i>
               <div class="itemText">
                 <a :href="'/#/song?id='+songData.row.id">
@@ -59,7 +59,7 @@
               </a>
               <i
                 class="play"
-                @click="playInfo(songInit(songData))"
+                @click="playInfo(songData.row)"
               ></i>
               <div class="itemText">
                 <a :href="'/#/song?id='+songData.row.id">
@@ -76,7 +76,7 @@
         <el-table-column prop label="时长" width="140">
           <template v-slot="songData">
             <BtnGroup
-              :song=" songInit(songData) "
+              :song=" songData.row "
               class="btnShow"
             />
             <span class="timeShow">{{songData.row.dt|timeFilter}}</span>
@@ -131,16 +131,6 @@ export default {
       this.shareCount = data.playlist.shareCount;
       this.commentCount = data.playlist.commentCount;
       // console.log(this.songsList)
-    },
-    songInit(item) {
-      let song = {};
-      song.id = item.row.id,
-        song.name = item.row.name,
-        song.authName = item.row.ar[0].name,
-        song.authId = item.row.ar[0].id,
-        song.picUrl = item.row.al.picUrl,
-        song.duration = item.row.dt;
-      return song;
     },
     ...mapActions(["playInfo"])
   },

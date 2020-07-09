@@ -40,17 +40,17 @@
             </div>
             <div class="iconBox clearFloat">
               <div class="icon">
-                <a href>
+                <a href="javascript:void(0);">
                   <i></i>
                   <span v-if="item.info.likedCount">({{item.info.likedCount}})</span>
                 </a>
                 <span class="line">|</span>
-                <a href>
+                <a href="javascript:void(0);">
                   转发
                   <span v-if="item.info.shareCount">({{item.info.shareCount}})</span>
                 </a>
                 <span class="line">|</span>
-                <a href>
+                <a href="javascript:void(0);">
                   评论
                   <span v-if="item.info.commentCount">({{item.info.commentCount}})</span>
                 </a>
@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import {mapGetters,mapActions} from 'vuex'
 export default {
   data() {
     return {
@@ -95,7 +96,6 @@ export default {
       if (status !== 200) return this.$message.error("数据获取错误");
       this.eventNum = data.size;
       this.events = data.events;
-      // console.log(this.events[0]);
     }
   }
 };
@@ -146,8 +146,8 @@ export default {
           .eventCon {
             margin-left: 60px;
             .pics{
-              width: 170px;
-              height: 338px;
+              width: 224px;
+              height: 224px;
             }
             .eventText {
               color: #333;

@@ -6,7 +6,7 @@
       <div class="itemBottom">
         <span class="headset"></span>
         <span>{{item.playCount||item.playcount|numFilter}}</span>
-        <span class="video-play"></span>
+        <span @click="listPlay" class="video-play"></span>
       </div>
     </div>
     <a class="itemTit" :href="'/#/playlist?id='+item.id">{{item.name}}</a>
@@ -17,10 +17,18 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   data() {
     return {};
-  },
+  },methods:{
+    async listPlay(){
+      const {data,status} = await this.$http.get(`/playlist/detail?id=${this.item.id}`)
+      let tracks = data.playlist.tracks
+     this.addList(tracks)
+    } ,
+    ...mapActions(['addList'])
+     },
   props: ["item","personal"]
 };
 </script>

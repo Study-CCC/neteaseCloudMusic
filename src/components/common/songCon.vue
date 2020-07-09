@@ -21,14 +21,7 @@
         <template v-slot="songData">
           <span class="rankNum">
             <span>{{songData.$index+1}}</span>
-            <i class="playIcon" @click="playInfo({
-                  id:songData.row.id,
-                  name:songData.row.name,
-                  authName:songData.row.ar[0].name,
-                  authId:songData.row.ar[0].id,
-                  picUrl:songData.row.al.picUrl,
-                  duration:songData.row.dt
-                })"></i>
+            <i class="playIcon" @click="playInfo(songData)"></i>
           </span>
         </template>
       </el-table-column>
@@ -58,14 +51,7 @@
               content="添加到播放列表"
               placement="bottom-start"
             >
-                <i class="add" @click="addSong({
-                  id:songData.row.id,
-                  name:songData.row.name,
-                  authName:songData.row.ar[0].name,
-                  authId:songData.row.ar[0].id,
-                  picUrl:songData.row.al.picUrl,
-                  duration:songData.row.dt
-                })"></i>
+                <i class="add" @click="addSong(songData.row)"></i>
             </el-tooltip>
             <el-tooltip
               :open-delay="200"
@@ -141,7 +127,6 @@ export default {
       if (this.url == "/album") {
         this.isShow = false;
       }
-      // console.log(this.songsList.trackCount,1)
     },
         ...mapActions(["addSong", "playInfo"])
   },
@@ -199,6 +184,7 @@ a {
   }
 }
 .songConBox {
+  margin-top: 15px;
   .listTitle {
     align-items: center;
     height: 35px;

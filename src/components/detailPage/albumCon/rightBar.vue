@@ -32,6 +32,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .rightBar {
+  padding-left: 10px;
   .hotTit {
     height: 23px;
     margin-bottom: 20px;
