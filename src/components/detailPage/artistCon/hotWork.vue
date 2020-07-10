@@ -2,7 +2,7 @@
   <div class="hotWorkBox">
     <div class="btn">
       <el-button-group>
-        <el-button size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
+        <el-button size="mini" type="primary" icon="el-icon-video-play" @click="addList(hotSongs)">播放</el-button>
         <el-button size="mini" type="primary" icon="el-icon-plus"></el-button>
       </el-button-group>
       <el-button size="mini" class="norBtn" icon="el-icon-folder-add">收藏热门50</el-button>
@@ -50,7 +50,7 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(["addSong", "playInfo"])
+    ...mapActions(["addSong", "playInfo","addList"])
   },
   props: ["hotSongs"],
   components: {

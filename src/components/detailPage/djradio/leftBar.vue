@@ -18,7 +18,7 @@
         </p>
         <div class="btnGroup">
           <el-button type="primary" class="el-icon-star-off">订阅</el-button>
-          <el-button class="el-icon-video-play">播放全部</el-button>
+          <el-button @click="addList(programs)" class="el-icon-video-play">播放全部</el-button>
           <el-button class="el-icon-share">分享</el-button>
         </div>
         <p class="desc">
@@ -40,17 +40,7 @@
                 <span>{{count-i}}</span>
                 <i
                   class="play"
-                 @click="playInfo({
-                  name:item.name,
-                  id:item.id,
-                  currentTime:0,
-                  authName:item.dj.brand,
-                  authId:item.dj.id,
-                  duration:item.duration,
-                  picUrl:djRadio.picUrl,
-                  type:2,
-                  songId:item.mainTrackId
-                  })"
+                 @click="playInfo(item)"
                 ></i>
               </div>
             </el-col>
@@ -59,17 +49,7 @@
                 <a :href="'/#/program?id='+item.id">
                   <span>{{item.name}}</span>
                 </a>
-                <BtnGroup :song="{
-                  name:item.name,
-                  id:item.id,
-                  currentTime:0,
-                  authName:item.dj.brand,
-                  authId:item.dj.userId,
-                  duration:item.duration,
-                  picUrl:djRadio.picUrl,
-                  type:2,
-                  songId:item.mainTrackId
-                  }" class="btns" />
+                <BtnGroup :song="item" class="btns" />
               </div>
             </el-col>
             <el-col :span="5">
@@ -152,7 +132,7 @@ export default {
       this.offset = (e - 1) * 30;
       this.getNext();
     },
-    ...mapActions(["playInfo","addSong"])
+    ...mapActions(["playInfo","addSong","addList"])
   }
 };
 </script>

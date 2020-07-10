@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="btnGroup">
-      <el-button class="el-icon-video-play" type="primary">播放{{program.duration}}</el-button>
+      <el-button class="el-icon-video-play" @click="playInfo(program)"  type="primary">播放{{program.duration|timeFilter}}</el-button>
       <el-button class="el-icon-star-off">
         <span v-if="program.likedCount">({{program.likedCount}})</span>
       </el-button>
@@ -34,7 +34,7 @@
       <div class="programInfo">
         <el-button click="cliCate">{{program.radio.category}}</el-button>
         <span class="name">{{program.dj.brand}}  第{{program.serialNum}}期</span>
-        <span class="time">{{program.createTime}}</span>
+        <span class="time">{{program.createTime|timeFilter}}</span>
         <span class="play">播放: <span class="count">{{program.listenerCount}}</span>次</span>
       </div>
       <div class="descCon">
@@ -47,6 +47,7 @@
 
 <script>
 import CommentCon from '../../common/commentCon'
+import {mapActions} from 'vuex'
 export default {
   data() {
     return {
@@ -70,7 +71,8 @@ export default {
     },
     cliCate() {
       this.$router.push(`/discover/djradio/category?id=${program.radio.categoryId}`);
-    }
+    },
+     ...mapActions(["playInfo"])
   },
   components:{
       CommentCon
@@ -170,11 +172,15 @@ export default {
           font-size: 12px;
           color:#999;
       }
+      .time{
+        margin: 0 10px;
+      }
       .count{
           color:#C20C0C;
       }
     }
     .descCon{
+      margin-top: 10px;
         font-size: 12px;
         color:#666;
         white-space: pre-wrap;

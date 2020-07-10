@@ -22,7 +22,7 @@
             <a :href="'/#/album?id='+detail.al.id">{{detail.al.name}}</a>
           </p>
         </div>
-        <HeaderBtn />
+        <HeaderBtn :song="detail"/>
         <div class="lyric" v-if="lyric">
           <div ref="descCon" :class="['userInfo',openFlag?'':'close']">
             <p v-for="(item,i) in lyric" :key="i" >{{item|lyricFilter}}</p>
@@ -48,7 +48,6 @@ import HeaderBtn from "../../common/headerBtn";
 export default {
   data() {
     return {
-      transLyric: "",
       lyric: [],
       id: "",
       openFlag: false,
@@ -80,7 +79,7 @@ export default {
     async getLyric() {
       const { data, status } = await this.$http.get(`/lyric?id=${this.id}`);
       if (status !== 200) return this.$message.error("数据获取错误");
-      if(data.nolyric) return;
+      if(data.nolyric) return this.lyric = false;
       this.lyric = data.lrc.lyric.split('\n');
     },
     isOpen() {

@@ -54,7 +54,7 @@
           </ul>
         </div>
       </div>
-      <div class="newTit">
+      <div v-if="commentCount" class="newTit">
         <span>最新评论({{commentCount}})</span>
       </div>
       <div class="newCon">

@@ -26,7 +26,8 @@ export default {
       const {data,status} = await this.$http.get(`/playlist/detail?id=${this.item.id}`)
       let tracks = data.playlist.tracks
      this.addList(tracks)
-    } ,
+    },
+    ...mapActions(['addList']),
     ...mapActions(['addList'])
      },
   props: ["item","personal"]

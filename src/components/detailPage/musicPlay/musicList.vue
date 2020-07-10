@@ -37,11 +37,13 @@
                   </div>
                 </el-col>
                 <el-col class="textOver" :span="4">
-                  <a v-if="playlist[i-1].type==2"
+                  <a
+                    v-if="!(playlist[i-1].type==2)"
                     :href="'/#/artist?id='+playlist[i-1].authId"
                     class="musicAuth"
                   >{{playlist[i-1].authName}}</a>
-                    <a v-else
+                  <a
+                    v-else
                     :href="'/#/djradio?id='+playlist[i-1].authId"
                     class="musicAuth"
                   >{{playlist[i-1].authName}}</a>
@@ -92,19 +94,21 @@ export default {
     scollLyric(time) {
       clearInterval(this.timer);
       this.timer = null;
-      for(let i=0;i<this.lyricArr.length-1;i++){
-        if(this.lyricArr[i+1].time-time>0&&this.lyricArr[i].time-time<=0)
-        {
-          this.lightText = i
-           this.lyricHeight();
-         return;
+      for (let i = 0; i < this.lyricArr.length - 1; i++) {
+        if (
+          this.lyricArr[i + 1].time - time > 0 &&
+          this.lyricArr[i].time - time <= 0
+        ) {
+          this.lightText = i;
+          this.lyricHeight();
+          return;
         }
       }
     },
     lyricCor() {
       clearInterval(this.timer);
       this.timer = null;
-       if(!this.playing.lyric) return;
+      if (!this.playing.lyric) return;
       this.lyricArr = this.playing.lyric.split("\n");
       this.lightText = 0;
       this.lyricArr = this.lyricArr.map(item => {
@@ -114,29 +118,29 @@ export default {
           parseInt(time.slice(1, 3)) * 60000 +
           parseInt(time.slice(4, 6)) * 1000 +
           parseInt(time.slice(7));
-        let text = item[1];
+         
+        let text = item[1]||item[0];
         return { time: time, text: text };
       });
       this.lyricArr.sort((a, b) => a.time - b.time);
     },
     lyricHeight() {
-       if(!this.playing.lyric) return;
-       clearInterval(this.timer);
-               this.timer = null;
+      if (!this.playing.lyric) return;
+      clearInterval(this.timer);
+      this.timer = null;
       if (this.isPlaying) {
-        this.currentTime = this.playing.currentTime||0;
+        this.currentTime = this.playing.currentTime || 0;
         this.timer = setInterval(() => {
-          let value =this.lyricArr[this.lightText + 1].time- this.currentTime
+          let value = this.lyricArr[this.lightText + 1].time - this.currentTime;
           // console.log(this.currentTime)
           if (this.lightText == this.lyricArr.length - 1) {
             clearInterval(this.timer);
             this.timer = null;
           }
-      
-          if ( value<= 50&&value>=0)
-           {
-             this.lightText++;
-           } 
+
+          if (value <= 50 && value >= 0) {
+            this.lightText++;
+          }
           this.currentTime += 50;
         }, 50);
       }
@@ -153,15 +157,17 @@ export default {
       this.lyricHeight();
     },
     lightText() {
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
+        if (! this.$refs.lyricShow) return;
+        else {
           let lyricScroll = this.$refs.lyricShow;
-      let lyricTop = this.lightText * 32;
-      // console.log(lyricScroll.scrollTop )
-      let scrollTop = lyricScroll.scrollTop 
-      if(lyricTop - scrollTop>=160){
-        lyricScroll.scrollTop = lyricTop - 128
-      }})       
-      // console.log(lyricScroll.scrollTop)
+          let lyricTop = this.lightText * 32;
+          let scrollTop = lyricScroll.scrollTop;
+          if (lyricTop - scrollTop >= 160) {
+            lyricScroll.scrollTop = lyricTop - 128;
+          }
+        }
+      });
     },
     isPlaying() {
       this.lyricHeight();

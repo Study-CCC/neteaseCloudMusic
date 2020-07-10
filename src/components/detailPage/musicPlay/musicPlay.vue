@@ -41,16 +41,16 @@
       </div>
       <div class="playImg">
         <img :src="playing.picUrl" alt />
-        <a v-if="!playing.type==2" :href="'/#/song?id='+playing.id"></a>
+        <a v-if="!(playing.type==2)" :href="'/#/song?id='+playing.id"></a>
         <a v-else :href="'/#/program?id='+playing.id"></a>
       </div>
       <div class="playInfo">
         <div class="infoText">
-          <a class="textOver" v-if="!playing.type==2" :href="'/#/song?id='+playing.id">{{playing.name}}</a>
+          <a v-if="!(playing.type==2)"  class="textOver" :href="'/#/song?id='+playing.id">{{playing.name}}</a>
           <a v-else :href="'/#/program?id='+playing.id">{{playing.name}}</a>
           <span class="textOver">
-            <a v-if="!playing.type==2" :href="'/#/artist?id='+playing.authName">{{playing.authName}}</a>
-            <a v-else :href="'/#/djradio?id='+playing.authName">{{playing.authName}}</a>
+            <a v-if="!(playing.type==2)" :href="'/#/artist?id='+playing.authId">{{playing.authName}}</a>
+            <a v-else :href="'/#/djradio?id='+playing.authId">{{playing.authName}}</a>
           </span>
         </div>
   <Audio @scollTime="scollTime" class="infoBar" />

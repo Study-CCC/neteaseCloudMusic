@@ -1,7 +1,7 @@
 <template>
        <div class="headerBtn">
           <el-button-group class="norBtn">
-            <el-button @click="addList(tracks)" class="playBtn" size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
+            <el-button @click="play" class="playBtn" size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
             <el-button class="addBtn" size="mini" type="primary" icon="el-icon-plus"></el-button>
           </el-button-group>
           <el-button class="norBtn" size="mini" icon="el-icon-folder-add">收藏</el-button>
@@ -19,9 +19,13 @@ import {mapActions} from 'vuex'
       };
     },
     methods:{
-      ...mapActions(['addList'])
+      play(){
+        if(this.song) this.playInfo(this.song)
+        if(this.tracks) this.addList(this.tracks)
+      },
+      ...mapActions(['addList','playInfo'])
     },
-    props:['shareCount','tracks']
+    props:['shareCount','tracks','song']
   }
 
 </script>

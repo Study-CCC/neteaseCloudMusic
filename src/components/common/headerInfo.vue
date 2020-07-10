@@ -23,7 +23,7 @@
             <span>{{detail.createTime|creatTimeFilter}}创建</span>
           </p>
         </div>
-        <HeaderBtn :shareCount="detail.shareCount" :commentCount="detail.subscribedCount" />
+        <HeaderBtn :shareCount="detail.shareCount" :tracks="tracks" />
 
         <!-- 列表描述 -->
         <div class="desc">
@@ -79,7 +79,7 @@ export default {
       const height = this.$refs.descCon.clientHeight;
     }
   },
-  props: ["detail"],
+  props: ["detail","tracks"],
   components: {
     HeaderBtn
   }

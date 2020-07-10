@@ -21,7 +21,7 @@
         <template v-slot="songData">
           <span class="rankNum">
             <span>{{songData.$index+1}}</span>
-            <i class="playIcon" @click="playInfo(songData)"></i>
+            <i class="playIcon" @click="playInfo(songData.row)"></i>
           </span>
         </template>
       </el-table-column>

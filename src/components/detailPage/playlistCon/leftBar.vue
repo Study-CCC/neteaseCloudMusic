@@ -1,6 +1,6 @@
 <template>
   <div class="leftBarBox clearFloat">
-    <HeaderInfo :detail="detail" />
+    <HeaderInfo :detail="detail" :tracks="songList.tracks"/>
     <div class="songlist"></div>
     <SongCon :songsList="songList" />
     <div class="seeMore">

@@ -9,12 +9,26 @@ const search = (arr, id) => {
         }
     }
 }
+const djInit = (item) => {
+    let value = {}
+    value.name=item.name,
+    value.id=item.id,
+    value.currentTime=0,
+    value.authName=item.dj.brand,
+    value.authId=item.dj.userId,
+    value.duration=item.duration,
+    value.picUrl=item.coverUrl,
+    value.type=2,
+    value.songId=item.mainTrackId
+    return value
+}
 const songInit = (value) => {
-    if(value.authName) return;
+    if(value.dj) return djInit(value)
+    if(value.authName) return value;
     let song = {};
     song.id = value.id,
         song.name = value.name;
-        console.log(value)
+        // console.log(value)
     if (value.duration) {
         song.authId = value.artists[0].id,
             song.picUrl = value.artists[0].img1v1Url,
@@ -29,7 +43,9 @@ const songInit = (value) => {
     return song;
 }
 const getLyric = async (song)=>{
+    if(song.type==2) return ''
     const { data } = await axios.get(`/lyric?id=${song.id}`);
+    if(data.nolyric) return ''
     // console.log(data)
     return data.lrc.lyric
 }
@@ -70,12 +86,13 @@ export const setIsPlaying = ({ commit, state }) => {
     commit(types.SET_ISPLAYING, !state.isPlaying)
 }
 // 添加播放列表
-export const addList = ({commit},playlist) =>{
+export const addList = async ({commit},playlist) =>{
+    // console.log(playlist)
     playlist = playlist.map(item=>{
-       return songInit(item,playlist.type)
+       return songInit(item)
     })
     addPlaylist(playlist)
-    playlist[0].lyric = getLyric(playlist[0])
+    playlist[0].lyric =await getLyric(playlist[0])
     commit(types.SET_PLAYING, playlist[0])
     commit(types.SET_PLAYLIST,playlist)
 }

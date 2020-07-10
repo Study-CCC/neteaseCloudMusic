@@ -11,7 +11,7 @@
             <div class="item clearFloat">
               <a href="#" class="imgCon" >
                 <img :src="program.row.blurCoverUrl" alt />
-                <i class="play"></i>
+                <i @click="playInfo(program.row)" class="play"></i>
               </a>
               <div class="itemText">
                <a :href="'/#/program?id='+program.row.id"> <h3>{{program.row.name}}</h3></a>
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   data() {
     return {
@@ -45,7 +46,8 @@ export default {
     },
     cateCli(cateId){
       this.$router.push(`djradio/category?id=${cateId}`)
-    }
+    },
+    ...mapActions(["playInfo"])
   }
 };
 </script>
