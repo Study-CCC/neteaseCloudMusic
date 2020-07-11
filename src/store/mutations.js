@@ -29,6 +29,13 @@ const mutations = {
     },
     [types.SET_LOGINBOX](state,flag){
         state.showLogin = flag
+    },
+    [types.SET_COOKIE](state,cookie){
+        state.cookie = cookie
+    },
+    [types.SET_EXTEND](state,flag){
+        state.showExtend = flag
+        console.log(state.showExtend)
     }
 }
 export default mutations

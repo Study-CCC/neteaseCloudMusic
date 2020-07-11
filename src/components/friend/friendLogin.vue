@@ -1,16 +1,24 @@
 <template>
   <div class="pageBox pageCon">
     <div class="pic">
-      <!-- <h2>登录网易云音乐</h2> -->
     </div>
   </div>
 </template>
 
 <script>
+import {mapGetters,mapMutations} from 'vuex'
 export default {
   data() {
     return {};
-  }
+  },
+  created(){
+      this.setExtend(false)
+    },
+    methods:{
+      ...mapMutations({
+        setExtend:'SET_EXTEND'
+      })
+    }
 };
 </script>
 <style lang='less' scoped>

@@ -1,6 +1,6 @@
 <template>
   <div class="extend">
-    <div class="extend-content">
+    <div class="extend-content" v-if="showExtend">
       <el-row>
         <el-col :offset="6">
           <el-menu default-active="1" mode="horizontal" active-background-color="#9B0909">
@@ -14,13 +14,18 @@
         </el-col>
       </el-row>
     </div>
+    <div class="redExtend" v-else></div>
   </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
   data() {
     return {};
+  },
+  computed:{
+    ...mapGetters(['showExtend'])
   }
 };
 </script>
@@ -28,10 +33,10 @@ export default {
 .extend {
   width: 100%;
   min-width: 980px;
-  height: 35px;
     background-color: #c20c0c;
     overflow: hidden;
   .extend-content {
+      height: 35px;
     ul {
       border-bottom: none;
         background-color: #c20c0c;
@@ -50,6 +55,9 @@ export default {
         }
       }
     }
+  }
+  .redExtend{
+    height: 5px;
   }
 }
 

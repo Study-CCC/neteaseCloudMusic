@@ -16,6 +16,10 @@ const state={
     // 搜索内容
     search:'',
     // 显示loginBox
-    showLogin:false
+    showLogin:false,
+    // 登录cookie
+    cookie:0,
+    // 显示extend
+    showExtend:true
 }
 export default state

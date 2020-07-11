@@ -1,6 +1,6 @@
 <template>
   <div>
-      <MyMusic v-if="user.isLogin"/>
+      <MyMusic v-if="isLogin"/>
       <MyLogin v-else/>
   </div>
 </template>
@@ -15,13 +15,22 @@ import {mapGetters,mapMutations} from 'vuex'
 
       };
     },
+    created(){
+      this.setExtend(false)
+    },
+    methods:{
+      ...mapMutations({
+        setExtend:'SET_EXTEND'
+      })
+    },
     components:{
         MyMusic,
         MyLogin
     },
     computed:{
-        ...mapGetters(['user'])
-    }
+        ...mapGetters(['isLogin'])
+    },
+
   }
 
 </script>

@@ -42,6 +42,7 @@
 import HeaderInfo from "../common/headerInfo";
 import SongCon from "../common/songCon";
 import CmtCon from '../common/commentCon'
+import {mapGetters} from 'vuex'
 export default {
   data() {
     return {
@@ -52,24 +53,24 @@ export default {
   },
   created() {
     this.getData();
-    this.getId()
   },
   methods: {
     async getData() {
       const { data, status } = await this.$http.get(
-        `/user/playlist?uid=1432127528`
+        `/user/playlist?uid=${this.user.userId}`
       );
       if (status !== 200) return this.$message.error("数据获取错误");
       this.playlist = data.playlist;
+          this.getId(this.playlist[0].id)
     },
-    getId(id=2189423450){
+    getId(id){
       this.id = id
         this.$router.push(`my?id=${id}`)
         this.getList()
     },
    async getList(){
         const { data, status } = await this.$http.get(
-        `/playlist/detail?id=${this.id}`
+        `/playlist/detail?id=${this.id}&cookie=${this.cookie}`
       );
       if (status !== 200) return this.$message.error("数据获取错误");
       this.detail = data.playlist
@@ -79,6 +80,9 @@ export default {
     SongCon,
     HeaderInfo,
     CmtCon
+  },
+  computed:{
+    ...mapGetters(['user','cookie'])
   }
 };
 </script>

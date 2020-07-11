@@ -74,6 +74,7 @@
 
 <script>
 import BtnGroup from "../../../common/btnGroup";
+import {mapGetters} from 'vuex'
 export default {
   data() {
     return {
@@ -90,12 +91,11 @@ export default {
   },
   methods: {
     async getData() {
-      this.id = this.$route.query.id;
+      this.id =  this.$route.query.id||this.user.userId;
       const { data, status } = await this.$http.get(
         `/user/playlist?uid=${this.id}`
       );
       if (status !== 200) return this.$message.error("数据获取错误");
-      //   console.log(data)
       this.playlist = data.playlist;
       this.creatName = data.playlist[0].creator.nickname;
     },
@@ -121,6 +121,9 @@ export default {
   },
   components: {
     BtnGroup
+  },
+  computed:{
+    ...mapGetters(['user'])
   },
   props: ["listenSongs"]
 };

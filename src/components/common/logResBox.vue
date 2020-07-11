@@ -5,7 +5,6 @@
       <span @click="closeBox">x</span>
     </div>
     <InputBox v-if="flag.inputFlag" :inputType="inputType"/>
-    <VerityBox />
     <div class="login clearFloat" v-if="!(flag.inputFlag||flag.verityFlag)">
       <div class="leftBox">
         <img src="../../assets/platform.png" alt />
@@ -39,7 +38,6 @@
 
 <script>
 import InputBox from "../../components/detailPage/logResCon/inputBox";
-import VerityBox from "../../components/detailPage/logResCon/verityBox";
 import {mapMutations} from 'vuex'
 export default {
   data() {
@@ -72,8 +70,7 @@ export default {
     })
   },
   components: {
-    InputBox,
-    VerityBox
+    InputBox
   }
 };
 </script>
@@ -82,7 +79,7 @@ export default {
   width: 530px;
   z-index: 999;
   position: fixed;
-  margin-top: 20%;
+  margin-top: 50%;
   margin-left: 50%;
       top: 0;
   transform: translate(-50%, -50%);

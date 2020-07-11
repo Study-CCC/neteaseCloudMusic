@@ -27,3 +27,9 @@ export const SET_LOGINBOX = "SET_LOGINBOX"
 
 // 是否登录
 export const SET_SETISLOGIN = "SET_SETISLOGIN"
+
+// 设置cookie
+export const SET_COOKIE = "SET_COOKIE"
+
+// 是否显示extend
+export const SET_EXTEND = "SET_EXTEND"

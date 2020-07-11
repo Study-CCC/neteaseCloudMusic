@@ -34,6 +34,7 @@ import SearchAlbum from "../components/detailPage/search/album";
 import SearchSongList from '../components/detailPage/search/songList'
 import SearchLyric from '../components/detailPage/search/lyric'
 import SearchDj from '../components/detailPage/search/dj'
+import Updata from '../components/detailPage/user/updata'
 Vue.use(VueRouter)
 
 const routes = [
@@ -61,17 +62,17 @@ const routes = [
                     {
                         path: 'playlist',
                         component: Playlist
-                    },{
-                        path:'djradio/category',
-                        component:Category
+                    }, {
+                        path: 'djradio/category',
+                        component: Category
                     },
-                     {
+                    {
                         path: 'djradio',
                         component: Djradio,
-                        children:[
+                        children: [
                             {
-                                path:'category',
-                                component:Category
+                                path: 'category',
+                                component: Category
                             }
                         ]
                     }, {
@@ -107,9 +108,9 @@ const routes = [
                             {
                                 path: '/artist/mv',
                                 component: MvCon
-                            },{
-                                path:'/artist/desc',
-                                component:DescCon
+                            }, {
+                                path: '/artist/desc',
+                                component: DescCon
                             }
                         ]
                     }
@@ -117,30 +118,30 @@ const routes = [
             },
             {
                 path: '/my',
-                component:myPage
+                component: myPage
             },
             {
-                path:'/search',
-                component:Search,
-                children:[
+                path: '/search',
+                component: Search,
+                children: [
                     {
-                        path:'/search/m:type',
-                        component:SearchSong
-                    },  {
-                        path:'/search:type=101',
-                        component:SearchArtist
-                    },  {
-                        path:'/search:type=110',
-                        component:SearchAlbum
-                    },  {
-                        path:'/search:type=1220',
-                        component:SearchSongList
-                    },  {
-                        path:'/search:type=120',
-                        component:SearchLyric
-                    },  {
-                        path:'/search:type=103',
-                        component:SearchDj
+                        path: '/search/m:type',
+                        component: SearchSong
+                    }, {
+                        path: '/search:type=101',
+                        component: SearchArtist
+                    }, {
+                        path: '/search:type=110',
+                        component: SearchAlbum
+                    }, {
+                        path: '/search:type=1220',
+                        component: SearchSongList
+                    }, {
+                        path: '/search:type=120',
+                        component: SearchLyric
+                    }, {
+                        path: '/search:type=103',
+                        component: SearchDj
                     }
                 ]
             },
@@ -149,13 +150,13 @@ const routes = [
                 component: FriendLogin
             },
             {
-                path:'/mv',
-                component:Mv
+                path: '/mv',
+                component: Mv
             },
             {
                 path: '/user',
                 component: UserHome,
-                redirect:'/home',
+                redirect: '/home',
                 children: [
                     {
                         path: 'home',
@@ -164,32 +165,33 @@ const routes = [
                     {
                         path: 'fans',
                         component: Fans
-                    },{
-                        path:'follows',
-                        component:Fans
-                    },{
-                        path:'event',
-                        component:EventCon
+                    }, {
+                        path: 'follows',
+                        component: Fans
+                    }, {
+                        path: 'event',
+                        component: EventCon
                     }
                 ]
             },
             {
-                path:'/djradio',
-                component:DjradioCon
+                path: '/djradio',
+                component: DjradioCon
+            }, {
+                path: '/program',
+                component: ProgramCon
             },{
-                path:'/program',
-                component:ProgramCon
+                path: '/user/updata',
+                component: Updata
             }
         ]
     }
-
 ]
 const originalPush = VueRouter.prototype.push
-   VueRouter.prototype.push = function push(location) {
-   return originalPush.call(this, location).catch(err => err)
-   }
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
 const router = new VueRouter({
     routes
 })
-
 export default router

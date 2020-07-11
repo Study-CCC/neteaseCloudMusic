@@ -24,7 +24,7 @@
       </el-form-item>
     </el-form>
     <div class="auLogin" v-if="inputType==1">
-      <input type="radio" v-model="user.isAuto" />
+      <input type="checkbox" v-model="user.isAuto" />
       <span>自动登录</span>
       <a href="#">忘记密码?</a>
     </div>
@@ -35,6 +35,7 @@
 
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
+import {setToken} from '../../../utils/storage'
 export default {
   data() {
     var checkPsw = (rule, value, callback) => {
@@ -52,9 +53,9 @@ export default {
     };
     return {
       user: {
-        phoneNum: "",
-        psw: "",
-        isAuto: false
+        phoneNum: "18370859575",
+        psw: "1013409555c",
+        isAuto: true
       },
       loginText: {
         tit: "手机号登录"
@@ -79,15 +80,20 @@ export default {
       );
       if (status !== 200) return this.$message.error("登录失败");
       // let user =
+      let {cookie,token} = data
       const {
         nickname,
         userId,
         followeds,
         follows,
         eventCount,
+        signature,
+        gender,
         avatarUrl
       } = data.profile;
-      let user = { nickname, userId, followeds, follows, eventCount, avatarUrl };
+      let user = { nickname, userId, followeds, signature,gender,follows, eventCount, avatarUrl};
+      if(!this.user.isAuto) token = 0
+      setToken({token,userId,cookie})
       this.setIsLogin(true)
       this.setShowLogin(false);
       this.setUser(user)

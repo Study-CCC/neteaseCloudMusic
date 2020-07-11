@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Header />
-    <Extend />
+    <Extend/>
     <router-view />
     <Footer />
     <LogResBox v-show="showLogin" />
@@ -9,12 +9,13 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import Header from "../components/common/header";
 import Extend from "../components/common/extend";
 import Footer from "../components/common/footer";
 import MusicPlay from "../components/detailPage/musicPlay/musicPlay";
 import LogResBox from "../components/common/logResBox";
+import { getToken } from "../utils/storage";
 export default {
   name: "Home",
   components: {
@@ -24,8 +25,51 @@ export default {
     MusicPlay,
     LogResBox
   },
+  data() {
+    return {
+    };
+  },
+  created() {
+    this.isAuto();
+            
+  },
+  methods: {
+    async isAuto() {
+      let tokenUser = getToken();
+      if (tokenUser.token) {
+        const { data } = await this.$http.get(
+          `/user/detail?uid=${tokenUser.userId}&cookie=${tokenUser.cookie}`
+        );
+        const {
+          nickname,
+          userId,
+          followeds,
+          follows,
+          eventCount,
+          gender,
+          signature,
+          avatarUrl
+        } = data.profile;
+        let user = {
+          nickname,
+          userId,
+          followeds,
+          follows,
+          signature,
+          gender,
+          eventCount,
+          avatarUrl
+        };
+        this.setIsLogin(true);
+        this.setUser(user);
+        this.setCookie(tokenUser.cookie);
+      }
+    },
+    ...mapActions(["setUser"]),
+    ...mapMutations({ setIsLogin: "SET_SETISLOGIN", setCookie: "SET_COOKIE" })
+  },
   computed: {
-    ...mapGetters(["mvPlay","showLogin"])
+    ...mapGetters(["mvPlay", "showLogin"])
   }
 };
 </script>

@@ -71,17 +71,31 @@
             </li>
           </ul>
         </el-card>
-          <!-- 登录a标签 -->
+        <!-- 登录a标签 -->
         <div class="userInfo" v-if="isLogin">
           <i class="userPic">
             <a :href="'/#/user/home?id='+user.userId">
-            <img :src="user.avatarUrl" alt /></a>
+              <img :src="user.avatarUrl" alt />
+            </a>
           </i>
+          <div class="userCor">
+            <ul>
+              <li>
+                <a :href="'/#/user/home?id='+user.userId">我的主页</a>
+              </li>
+              <li>
+                <a href="/#/user/updata">个人设置</a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" @click="quit">退出</a>
+              </li>
+            </ul>
+          </div>
         </div>
         <span v-else class="login" @click="loginShow">登录</span>
         <!-- 按钮 -->
         <el-button size="mini" round>创作者中心</el-button>
-         </el-col>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -118,6 +132,9 @@ export default {
         this.getSearch();
       }, 100);
     },
+    quit(){
+      this.setLogin(false)
+    },
     async getSearch() {
       const { data, status } = await this.$http.get(
         `/search/suggest?keywords=${this.searchTxt}`
@@ -136,7 +153,8 @@ export default {
     },
     ...mapMutations({
       setSearch: "SET_SETSEARCH",
-      setLoginBox: "SET_LOGINBOX"
+      setLoginBox: "SET_LOGINBOX",
+      setLogin:'SET_SETISLOGIN'
     })
   },
   computed: {
@@ -244,6 +262,12 @@ export default {
     .userInfo {
       padding: 20px 10px;
       display: inline-block;
+      position: relative;
+        &:hover{
+          .userCor{
+            display: block;
+          }
+        }
       .userPic {
         width: 30px;
         height: 30px;
@@ -252,6 +276,33 @@ export default {
           width: 100%;
           height: 100%;
           border-radius: 50%;
+        }
+      }
+      .userCor {
+        display: none;
+        background-color: rgb(36, 36, 36);
+        position: absolute;
+        z-index: 99;
+        left: -40px;
+        &:hover{
+          display: block;
+        }
+        ul {
+          width: 130px;
+          li {
+            text-align: center;
+            font-size: 12px;
+            height: 34px;
+            color: #999;
+            line-height: 34px;
+            &:hover {
+              background-color: #555;
+              a {
+                color: #fff;
+                text-decoration: none;
+              }
+            }
+          }
         }
       }
     }

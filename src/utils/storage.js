@@ -1,5 +1,6 @@
 const PLAYLIST = 'playlist'
 const PLAYING = 'playing'
+const TOKEN = 'token'
 const LIST_Max_LENGTH = 200
 const addCor = (song, type) => {
     let playlist = JSON.parse(localStorage.getItem(PLAYLIST)) || []
@@ -17,13 +18,21 @@ const addCor = (song, type) => {
     // console.log(playlist)
     return playlist
 }
+// 设置用户信息
+export const setToken = (userToken)=>{
+    localStorage.setItem(TOKEN,JSON.stringify(userToken))
+}
+// 获取用户信息
+export const getToken = () =>{
+    return JSON.parse(localStorage.getItem(TOKEN)) || {}
+}
 // 获取播放列表
 export const getPlaylist = ()=>{
     return JSON.parse(localStorage.getItem(PLAYLIST)) || []
 }
 // 获取正在播放音乐
 export const getPlaying = ()=>{
-    return JSON.parse(localStorage.getItem(PLAYING)) || [] 
+    return JSON.parse(localStorage.getItem(PLAYING)) || {}
 }
 // 添加歌曲
 export const addSto = (song) => {

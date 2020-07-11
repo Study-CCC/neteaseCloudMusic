@@ -7,7 +7,7 @@
         <!-- 热门推荐 -->
         <HotRecommend />
         <!-- 个性化 -->
-        <Personal v-if="user.isLogin"/>
+        <Personal v-if="isLogin"/>
         <!-- 新碟上架 -->
         <New />
         <!-- 榜单 -->
@@ -34,7 +34,7 @@ export default {
     return {};
   },
   computed:{
-    ...mapGetters(['user'])
+    ...mapGetters(['isLogin'])
   },
   components: {
     Carousel,

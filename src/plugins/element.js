@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {Row,Col,Menu,Autocomplete,Tooltip,Slider,Form,FormItem,Loading,DropdownItem,Dropdown,DropdownMenu,Tag,ButtonGroup,MenuItem,Message,Table,Popover,Pagination,Card,TableColumn,Input,Button,Breadcrumb,BreadcrumbItem,Carousel,CarouselItem} from 'element-ui'
+import {Row,Col,Menu,Autocomplete,Tooltip,Radio,Slider,RadioGroup,Form,FormItem,Loading,DropdownItem,Dropdown,DropdownMenu,Tag,ButtonGroup,MenuItem,Message,Table,Popover,Pagination,Card,TableColumn,Input,Button,Breadcrumb,BreadcrumbItem,Carousel,CarouselItem} from 'element-ui'
 
 Vue.use(Row)
 Vue.use(Col)
@@ -19,6 +19,8 @@ Vue.use(Card)
 Vue.use(ButtonGroup)
 Vue.use(Carousel)
 Vue.use(CarouselItem)
+Vue.use(Radio)
+Vue.use(RadioGroup)
 Vue.use(Pagination)
 Vue.use(Loading)
 Vue.use(Tooltip)
