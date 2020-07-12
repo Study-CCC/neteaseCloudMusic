@@ -33,19 +33,9 @@ export default {
   },
   methods: {
     getData() {
-      // const id = this.$route.query.id
-      // // console.log(id)
-      // const { data, status } = await this.$http.get(
-      //   `/playlist/detail?id=${id}`
-      // );
-      // if (status !== 200) return this.$message.error("数据获取错误");
-      // this.detail = data.playlist;
-      //  const {tracks,trackCount, playCount} = data.playlist
-      // this.songList = {tracks,trackCount, playCount}
       this.detail = this.playlist;
       const { tracks, trackCount, playCount } = this.playlist;
       this.songList = { tracks, trackCount, playCount };
-      // console.log(this.detail)
     }
   },
 

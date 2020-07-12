@@ -1,76 +1,87 @@
 <template>
   <div class="albumBox pageCon">
-      <div class="hotAlb">
-        <div class="hotTit">
-          <h3>热门新碟</h3>
-        </div>
-        <ul class="itemGroup">
-          <li v-for="item in hotAlbums" :key="item.id">
-           <AlbumItem :item="item" />
-          </li>
-        </ul>
+    <div class="hotAlb">
+      <div class="hotTit">
+        <h3>热门新碟</h3>
       </div>
-      <div class="AllAlb">
-        <div class="AllTit">
-          <h3>全部新碟</h3>
-        </div>
-       <ul class="itemGroup">
-          <li v-for="item in allAlbums" :key="item.id">
+      <ul class="itemGroup">
+        <li v-for="item in hotAlbums" :key="item.id">
           <AlbumItem :item="item" />
-          </li>
-        </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="AllAlb">
+      <div class="AllTit">
+        <h3>全部新碟</h3>
       </div>
-      <div class="page"><el-pagination background layout="prev, pager, next" :page-size="35" :total="total"></el-pagination></div>
+      <ul class="itemGroup">
+        <li v-for="item in allAlbums" :key="item.id">
+          <AlbumItem :item="item" />
+        </li>
+      </ul>
+    </div>
+    <div class="page">
+      <el-pagination background layout="prev, pager, next" :page-size="35" :total="total"></el-pagination>
+    </div>
   </div>
 </template>
 
 <script>
-import AlbumItem from './albumItem'
+import AlbumItem from "./albumItem";
+import { hotAlbum, topAlbum } from "../../../utils/api/albumApi";
 export default {
   data() {
     return {
       hotAlbums: [],
-      allAlbums:[],
-      total:0
+      allAlbums: [],
+      total: 0
     };
   },
   created() {
     this.getHotAlbums();
-    this.getAllAlbums()
+    this.getAllAlbums();
   },
   methods: {
     async getHotAlbums() {
-      const { data, status } = await this.$http.get("/album/newest");
-      if (status !== 200) return this.$message.error("数据获取错误");
-      // console.log(data);
-      data.albums.length = 10;
-      this.hotAlbums = data.albums;
+      hotAlbum()
+        .then(res => {
+          res.data.albums.length = 10;
+          this.hotAlbums = res.data.albums;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
-    async getAllAlbums(){
-      const { data, status } = await this.$http.get("/top/album");
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.allAlbums = data.albums
-      this.total = data.total
+    async getAllAlbums() {
+      topAlbum()
+        .then(res => {
+          this.allAlbums = res.data.albums;
+          this.total = res.data.total;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
-
   },
-  components:{
+  components: {
     AlbumItem
   }
 };
 </script>
 <style lang='less' scoped>
-
 .albumBox {
-
   .itemGroup {
     display: flex;
     flex-wrap: wrap;
+  }
+  .AllTit,
+  .hotTit {
+    border-bottom: 2px solid #c20c0c;
+
+    h3 {
+      font-size: 24px;
+      font-weight: normal;
     }
-  .AllTit,.hotTit{
-        border-bottom: 2px solid #c20c0c;
-       
-     h3{   font-size: 24px; font-weight: normal;}
   }
 }
 </style>

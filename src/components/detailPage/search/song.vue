@@ -49,6 +49,7 @@
 <script>
 import BtnGroup from "../../common/btnGroup";
 import { mapActions } from "vuex";
+import { getSearch } from "../../../utils/api/searchApi";
 export default {
   data() {
     return {
@@ -67,21 +68,26 @@ export default {
       this.offset = (e - 1) * this.pageSize;
       this.getNext();
     },
-    async getNext() {
-      const { data, status } = await this.$http.get(
-        `/search?keywords=${this.search}&offset=${this.offset}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.songs = data.result.songs;
+    getNext() {
+      getSearch(this.search, 1, false, this.limit)
+        .then(res => {
+          this.songs = res.data.result.songs;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
-    async getData() {
+   getData() {
       this.search = this.$route.query.s;
-      const { data, status } = await this.$http.get(
-        `/search?keywords=${this.search}`
-      );
-      this.total = data.result.songCount;
-      this.songs = data.result.songs;
-      this.$emit('getNum',this.total)
+      getSearch(this.search, 1)
+        .then(res => {
+          this.total = res.data.result.songCount;
+          this.songs = res.data.result.songs;
+          this.$emit("getNum", this.total);
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
     ...mapActions(["playInfo"])
   },

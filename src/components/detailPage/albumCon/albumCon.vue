@@ -14,6 +14,7 @@
 <script>
 import LeftBar from "./leftBar";
 import RightBar from "./rightBar";
+import {getAlbum,getArtistAlbum} from '../../../utils/api/albumApi'
 export default {
   data() {
     return {
@@ -30,26 +31,26 @@ export default {
   methods: {
     async getLeftData() {
       this.id = this.$route.query.id;
-      const { data, status } = await this.$http.get(`/album?id=${this.id}`);
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.leftData.album = data.album;
-      this.leftData.songsList.tracks = data.songs;
-      this.leftData.songsList.trackCount = data.album.size;
-      this.leftData.btnValue.push(data.album.info.commentCount);
-      this.leftData.btnValue.push(data.album.info.shareCount);
-      this.authId = data.album.artist.id;
+      getAlbum(this.id).then(res=>{
+         this.leftData.album = res.data.album;
+      this.leftData.songsList.tracks = res.data.songs;
+      this.leftData.songsList.trackCount = res.data.album.size;
+      this.leftData.btnValue.push(res.data.album.info.commentCount);
+      this.leftData.btnValue.push(res.data.album.info.shareCount);
+      this.authId = res.data.album.artist.id;
+      }).catch(() => {
+          this.$message.error("唱片数据获取失败");
+        });
       this.flag = true
-      // console.log(this.leftData)
       this.getRigthData();
     },
-    async getRigthData() {
-      const { data, status } = await this.$http.get(
-        `/artist/album?id=${this.authId}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.rightData.hotAlbums = data.hotAlbums;
-      this.rightData.hotAlbums.length = 5;
-    }
+     getRigthData() {
+      getArtistAlbum(this.authId).then(res=>{
+        res.data.hotAlbums.length = 5
+        this.rightData.hotAlbums = res.data.hotAlbums;
+      }).catch(() => {
+          this.$message.error("唱片数据获取失败");
+        });}
   },
   watch:{
     $route(){

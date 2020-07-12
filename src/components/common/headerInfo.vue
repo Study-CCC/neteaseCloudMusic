@@ -64,12 +64,6 @@ export default {
         this.openShow = true;
       }
     });
-    // setTimeout(()=>{
-    //   this.changeValue = !this.changeValue
-    //   this.$nextTick(()=>{
-    //     console.log(this.$refs)
-    //   })
-    //       },0)
   },
   methods: {
     isOpen() {

@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import {getArtistMv} from '../../../utils/api/artistApi'
 export default {
   data() {
     return {
@@ -37,14 +38,13 @@ export default {
       this.offset = (e - 1) * 12;
       this.getData();
     },
-    async getData() {
+     getData() {
       this.id = this.$route.query.id;
-      const { data, status } = await this.$http.get(
-        `/artist/mv?id=${this.id}&limit=12&offset=${this.offset}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      //   console.log(data);
-      this.mvs = data.mvs;
+      getArtistMv(this.id,this.offset).then(res=>{
+              this.mvs = res.data.mvs;
+      }).catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
   },
   created() {

@@ -14,35 +14,31 @@
 <script>
 import LeftBar from "./leftBar";
 import RightBar from "./rightBar";
+import { getPlaylist } from "../../../utils/api/playlistApi";
 export default {
   data() {
     return {
-      playlist:{},
-      id:''
+      playlist: {}
     };
   },
   created() {
     this.getData();
   },
   methods: {
-  
-    async getData() {
+    getData() {
       const id = this.$route.query.id;
-      // console.log(id)
-      const { data, status } = await this.$http.get(
-        `/playlist/detail?id=${id}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      // this.detail = data.playlist;
-      // const { tracks, trackCount, playCount } = data.playlist;
-      // this.songList = { tracks, trackCount, playCount };
-      this.playlist = data.playlist
+      getPlaylist(id)
+        .then(res => {
+          this.playlist = res.data.playlist;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
   },
   watch: {
-    $route(){
-      // console.log(123)
-      this.getData()
+    $route() {
+      this.getData();
     }
   },
   components: {

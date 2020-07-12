@@ -7,7 +7,7 @@
         <a :href="'/#/artist?id='+leftData.artistId">{{leftData.artistName}}</a>
       </p>
       <div class="mv">
-         <Video  v-if="flag" :videoData="videoData" />
+        <Video v-if="flag" :videoData="videoData" />
       </div>
       <div class="mvBtn">
         <el-button>{{countData.likedCount}}</el-button>
@@ -15,43 +15,48 @@
         <el-button>{{countData.commentCount}}</el-button>
       </div>
     </div>
-    <CommentCon/>
+    <CommentCon />
   </div>
 </template>
 <script>
 import CommentCon from "../../common/commentCon";
-import Video from './video'
+import Video from "./video";
+import { getSongMv, getMv } from "../../../utils/api/songApi";
 export default {
   data() {
     return {
       countData: {},
-      videoData:{},
-      flag:false,
-      id:''
+      videoData: {},
+      flag: false,
+      id: ""
     };
   },
   created() {
-      this.getData()
-      this.getMvUrl()
+    this.getData();
+    this.getMvUrl();
   },
   methods: {
-    async getData() {
+    getData() {
       this.id = this.$route.query.id;
-      const { data, status } = await this.$http.get(
-        `/mv/detail/info?mvid=${this.id}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.countData = data;
+      getMv(getSongMv, id)
+        .then(res => {
+          this.countData = res.data;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
-    async getMvUrl(){
-      this.flag = false
-  const { data, status } = await this.$http.get(
-        `/mv/url?id=${this.id}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.videoData.mvUrl = data.data.url
-      this.videoData.duration = this.leftData.duration
-      this.flag = true
+    getMvUrl() {
+      this.flag = false;
+      getSongMv(this.id)
+        .then(res => {
+          this.videoData.mvUrl = res.data.data.url;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
+      this.videoData.duration = this.leftData.duration;
+      this.flag = true;
     }
   },
   components: {
@@ -59,10 +64,10 @@ export default {
     Video
   },
   props: ["leftData"],
-  watch:{
-    $route(){
-       this.getData()
-      this.getMvUrl()
+  watch: {
+    $route() {
+      this.getData();
+      this.getMvUrl();
     }
   }
 };
@@ -79,13 +84,13 @@ export default {
         background-position: -230px -480px;
         display: inline-block;
       }
-      span{
-          font-size: 24px;
-          color:#333;
+      span {
+        font-size: 24px;
+        color: #333;
       }
-      a{
-          color: #0c73c2;
-          font-size: 12px;
+      a {
+        color: #0c73c2;
+        font-size: 12px;
       }
     }
   }

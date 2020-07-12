@@ -45,6 +45,7 @@
 import Comment from "../../common/comment";
 import CommentCon from "../../common/commentCon";
 import HeaderBtn from "../../common/headerBtn";
+import { getSong, getSongLyric} from "../../../utils/api/songApi";
 export default {
   data() {
     return {
@@ -63,43 +64,28 @@ export default {
     this.getDetail();
     this.getLyric();
   },
-  mounted() {
-    this.isShow();
-  },
+
   methods: {
     async getDetail() {
       this.id = this.$route.query.id;
-      const { data, status } = await this.$http.get(
-        `/song/detail?ids=${this.id}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.detail = data.songs[0];
-      //   console.log(this.detail);
+      getSong(this.id).then(res=>{
+        this.detail = res.data.songs[0];
+      }).catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
     async getLyric() {
-      const { data, status } = await this.$http.get(`/lyric?id=${this.id}`);
-      if (status !== 200) return this.$message.error("数据获取错误");
-      if(data.nolyric) return this.lyric = false;
-      this.lyric = data.lrc.lyric.split('\n');
+      getSongLyric(this.id).then(res=>{
+        if(res.data.nolyric) return this.lyric = false;
+      this.lyric = res.data.lrc.lyric.split('\n');
+      }).catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
     isOpen() {
       this.openFlag = !this.openFlag;
     },
-    isShow() {
-      // if (!this.$refs.descCon) return;
-        setTimeout(()=>{
-          // console.log(this.$refs.descCon.clientHeight);
-          console.log(this.$refs.descCon.offsetHeight);
-          // console.log(this.$refs)
-        },50)
-        
-
-      // if (this.$refs.descCon.clientHeight > 318) {
-      //   this.openFlag = false;
-      //   this.openShow = true;
-      //   console.log(111)
-      // }
-    }
+  
   },
   components: {
     Comment,

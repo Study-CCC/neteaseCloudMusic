@@ -38,10 +38,7 @@
             <el-col :span="3">
               <div class="rank">
                 <span>{{count-i}}</span>
-                <i
-                  class="play"
-                 @click="playInfo(item)"
-                ></i>
+                <i class="play" @click="playInfo(item)"></i>
               </div>
             </el-col>
             <el-col :span="10">
@@ -59,7 +56,10 @@
             </el-col>
             <el-col :span="6">
               <div class="creatTime">
-                <span>{{item.createTime|creatTimeFilter}}<span class="dt">{{item.duration|timeFilter}}</span></span>
+                <span>
+                  {{item.createTime|creatTimeFilter}}
+                  <span class="dt">{{item.duration|timeFilter}}</span>
+                </span>
               </div>
             </el-col>
           </el-row>
@@ -81,6 +81,7 @@
 
 <script>
 import BtnGroup from "../../common/btnGroup";
+import { getDj, getProgram } from "../../../utils/api/djApi";
 import { mapActions } from "vuex";
 export default {
   data() {
@@ -102,28 +103,34 @@ export default {
     BtnGroup
   },
   methods: {
-    async getDjRadio() {
+    getDjRadio() {
       this.id = this.$route.query.id;
-      const { data, status } = await this.$http.get(
-        `/dj/detail?rid=${this.id}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.djRadio = data.djRadio;
+      getDj(this.id)
+        .then(res => {
+          this.djRadio = res.data.djRadio;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
-    async getPrograms() {
-      const { data, status } = await this.$http.get(
-        `/dj/program?rid=${this.id}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.count = data.count;
-      this.programs = data.programs;
+    getPrograms() {
+      getProgram(this.id)
+        .then(res => {
+          this.count = res.data.count;
+          this.programs = res.data.programs;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
-    async getNext() {
-      const { data, status } = await this.$http.get(
-        `/dj/program?rid=${this.id}&offset=${this.offset}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.programs = data.programs;
+    getNext() {
+      getProgram(this.id, this.offset)
+        .then(res => {
+          this.programs = res.data.programs;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
     cliCate() {
       this.$router.push(`/discover/djradio/category?id=${djRadio.categoryId}`);
@@ -132,7 +139,7 @@ export default {
       this.offset = (e - 1) * 30;
       this.getNext();
     },
-    ...mapActions(["playInfo","addSong","addList"])
+    ...mapActions(["playInfo", "addSong", "addList"])
   }
 };
 </script>
@@ -144,9 +151,9 @@ export default {
       text-decoration: underline;
     }
   }
-     .dt{
-      margin-left: 20px;
-    }
+  .dt {
+    margin-left: 20px;
+  }
   .headImg {
     float: left;
     width: 200px;

@@ -21,6 +21,7 @@
 </template>
 <script>
 import { mapGetters, mapMutations } from "vuex";
+import { updata } from "../../../utils/api/userApi";
 export default {
   data() {
     return {
@@ -40,22 +41,25 @@ export default {
       this.userInfo.signature = this.user.signature;
       this.userInfo.name = this.user.nickname;
     },
-    async onSubmit() {
-      const { data } = await this.$http.post(
-        `/user/update?gender=${this.userInfo.gender}&signature=${this.userInfo.signature}&nickname=${this.userInfo.name}&cookie=${this.cookie}`
-      );
-      this.user.gender = this.userInfo.gender
-      this.user.signature = this.userInfo.signature
-      this.user.nickname = this.userInfo.name
-      this.setUser(this.user)
-      this.$message.success('保存成功')
+     onSubmit() {
+      updata(this.userInfo, this.cookie)
+        .then(res => {
+          this.user.gender = this.userInfo.gender;
+          this.user.signature = this.userInfo.signature;
+          this.user.nickname = this.userInfo.name;
+          this.setUser(this.user);
+          this.$message.success("保存成功");
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
     ...mapMutations({
-        setUser:'SET_SETISLOGIN'
+      setUser: "SET_SETISLOGIN"
     })
   },
   computed: {
-    ...mapGetters(["user","cookie"])
+    ...mapGetters(["user", "cookie"])
   }
 };
 </script>

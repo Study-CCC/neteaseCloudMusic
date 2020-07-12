@@ -36,7 +36,7 @@
                   </p>
                 </div>
               </div>
-              <img class="pics" v-if="item.pics.length!=0" :src="item.pics[0].originUrl" alt="">
+              <img class="pics" v-if="item.pics.length!=0" :src="item.pics[0].originUrl" alt />
             </div>
             <div class="iconBox clearFloat">
               <div class="icon">
@@ -65,7 +65,8 @@
 </template>
 
 <script>
-import {mapGetters,mapActions} from 'vuex'
+import { mapGetters, mapActions } from "vuex";
+import { userEvent } from "../../../../utils/api/userApi";
 export default {
   data() {
     return {
@@ -92,10 +93,14 @@ export default {
   methods: {
     async getData() {
       const id = this.$route.query.id;
-      const { data, status } = await this.$http.get(`/user/event?uid=${id}`);
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.eventNum = data.size;
-      this.events = data.events;
+      userEvent(id)
+        .then(res => {
+          this.eventNum = res.data.size;
+          this.events = res.data.events;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
   }
 };
@@ -145,7 +150,7 @@ export default {
           }
           .eventCon {
             margin-left: 60px;
-            .pics{
+            .pics {
               width: 224px;
               height: 224px;
             }

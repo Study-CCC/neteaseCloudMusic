@@ -1,9 +1,11 @@
 <template>
   <div class="albumBox">
-      <ul>
-          <li v-for="item in albums" :key="item.id"><AlbumItem :item="item"/></li>
-      </ul>
-       <div class="page">
+    <ul>
+      <li v-for="item in albums" :key="item.id">
+        <AlbumItem :item="item" />
+      </li>
+    </ul>
+    <div class="page">
       <el-pagination
         v-if="total>pageSize"
         background
@@ -17,54 +19,60 @@
 </template>
 
 <script>
-import AlbumItem from '../../common/albumItem'
-  export default {
-    data () {
-      return {
- albums: [],
+import AlbumItem from "../../common/albumItem";
+import { getSearch } from "../../../utils/api/searchApi";
+export default {
+  data() {
+    return {
+      albums: [],
       total: 0,
       offset: 0,
       pageSize: 90,
       search: ""
-      };
-    },
-     created() {
+    };
+  },
+  created() {
     this.getData();
   },
-    methods: {
-         handleCurrentChange(e) {
+  methods: {
+    handleCurrentChange(e) {
       this.offset = (e - 1) * this.pageSize;
       this.getNext();
     },
-    async getNext() {
-      const { data, status } = await this.$http.get(
-        `/search?keywords=${this.search}&offset=${this.offset}&type=10&limit=90`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.albums = data.result.albums;
+    getNext() {
+      getSearch(this.search, 10, this.offset)
+        .then(res => {
+          this.albums = res.data.result.albums;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
-    async getData() {
-        this.search = this.$route.query.s;
-      const { data, status } = await this.$http.get(
-        `/search?keywords=${this.search}&type=10&limit=90`
-      );
-      this.total = data.result.albumCount;
-      this.albums = data.result.albums;
-      this.$emit('getNum',this.total)
+    getData() {
+      this.search = this.$route.query.s;
+      getSearch(this.search, 10)
+        .then(res => {
+          this.total = res.data.result.albumCount;
+          this.albums = res.data.result.albums;
+          this.$emit("getNum", this.total);
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
-    },
-    components:{
-        AlbumItem
-    }
+  },
+  components: {
+    AlbumItem
   }
-
+};
 </script>
 <style lang='less' scoped>
-.albumBox{
+.albumBox {
   margin-top: 20px;
   ul {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-}}
+  }
+}
 </style>

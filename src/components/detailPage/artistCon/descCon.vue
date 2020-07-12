@@ -12,7 +12,7 @@
 </template>
 
 <script>
-
+import { getDesc }from '../../../utils/api/artistApi'
   export default {
     data () {
       return {
@@ -21,13 +21,14 @@
       };
     },
     methods: {
-      async getData(){
+       getData(){
  const id = this.$route.query.id;
-      const { data, status } = await this.$http.get(`/artist/desc?id=${id}`);
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.desc = data.introduction
-      this.briefDesc = data.briefDesc
-      console.log(data)
+ getDesc(id).then(res=>{
+   this.desc = res.data.introduction
+      this.briefDesc = res.data.briefDesc
+ }).catch(() => {
+          this.$message.error("数据获取失败");
+        });
       }
     },
     created() {

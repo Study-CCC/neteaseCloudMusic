@@ -40,6 +40,7 @@ import SongList from './songList'
 import Lyric from './lyric'
 import Dj from './dj'
 import {mapGetters} from 'vuex'
+import { getSearch } from "../../../utils/api/searchApi";
 export default {
   data() {
     return {
@@ -58,15 +59,18 @@ export default {
     getNum(num){
       this.num = num
     },
-    async eve(e){
+     eve(e){
       this.limit = (e==100||e==10)?90:30
       if(!this.value) return this.noFind=true
-       const { data, status } = await this.$http.get(
-        `/search?keywords=${this.value}&type=${e}&limit=${this.limit}`
-      );
-      this.noFind =data.result[Object.keys(data.result)[0]]==0?true:false
-      this.data = data.result
+  getSearch(this.value, e,false,this.limit)
+        .then(res => {
+          this.noFind =res.data.result[Object.keys(res.data.result)[0]]==0?true:false
+      this.data =res.data.result
       this.$router.push(`/search/m?type=${e}`)
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
   },
   components: {

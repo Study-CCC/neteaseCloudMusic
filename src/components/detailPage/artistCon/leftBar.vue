@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import {getArtist} from '../../../utils/api/artistApi'
 export default {
   data() {
     return {
@@ -40,14 +41,15 @@ export default {
     this.getData();
   },
   methods: {
-    async getData() {
+     getData() {
        this.id = this.$route.query.id;
-      const { data, status } = await this.$http.get(`/artists?id=${this.id}`);
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.artist = data.artist;
-      this.hotSongs = data.hotSongs;
-      this.mvSize = data.artist.mvSize
-      // console.log(data)
+       getArtist(this.id).then(res=>{
+         this.artist = res.data.artist;
+      this.hotSongs = res.data.hotSongs;
+      this.mvSize = res.data.artist.mvSize
+       }).catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
   },
   watch: {

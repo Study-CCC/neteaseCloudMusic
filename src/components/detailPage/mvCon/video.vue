@@ -74,15 +74,15 @@ export default {
           if (
             video.buffered.end(video.buffered.length - 1) < video.currentTime
           ) {
+            
             this.loading = true;
           } else {
             this.loading = false
-            this.playInfo.currentTime += 1000;
+            this.playInfo.currentTime = video.currentTime*1000;
             this.value = parseInt(
               (this.playInfo.currentTime * 100) / this.videoData.duration
             );
           }
-
           // console.log("111", video.buffered.end(video.buffered.length - 1));
         }, 1000);
         video.play();

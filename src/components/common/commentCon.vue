@@ -35,7 +35,9 @@
                       class="name"
                     >{{item.beReplied[0].user.nickname}}</a>
                     :
-                    <span class="itemCon">{{item.beReplied[0].content||item.beReplied[0].user.content||'已删除'}}</span>
+                    <span
+                      class="itemCon"
+                    >{{item.beReplied[0].content||item.beReplied[0].user.content||'已删除'}}</span>
                   </div>
                   <div class="itemFoot">
                     <span class="time">{{item.time|creatTimeFilter}}</span>
@@ -94,19 +96,22 @@
           </li>
         </ul>
       </div>
-     <div class="page"> <el-pagination
-        v-if="total>pageSize"
-        background
-        layout="prev, pager, next"
-        @current-change="handleCurrentChange"
-        :page-size="pageSize"
-        :total="total"
-      ></el-pagination></div>
+      <div class="page">
+        <el-pagination
+          v-if="total>pageSize"
+          background
+          layout="prev, pager, next"
+          @current-change="handleCurrentChange"
+          :page-size="pageSize"
+          :total="total"
+        ></el-pagination>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { getComment } from "../../utils/api/commentApi";
 import Comment from "../common/comment";
 export default {
   data() {
@@ -119,7 +124,7 @@ export default {
       offset: 0,
       id: 0,
       path: "",
-      url: "",
+      type: 0,
       isShow: true,
       pageSize: 20
     };
@@ -130,53 +135,59 @@ export default {
   methods: {
     //处理当前页码
     handleCurrentChange(e) {
-      this.offset = (e - 1) *this.pageSize;
+      this.offset = (e - 1) * this.pageSize;
       this.isShow = false;
       this.getNext();
     },
     // 获取评论信息
     async getCmts() {
-      this.id = this.$route.query.id||19723756;
+      this.id = this.$route.query.id || 19723756;
       this.path = this.$route.path;
       if (this.path == "/playlist") {
-        this.url = `/comment/playlist?id=${this.id}`;
+        this.type = 0;
         this.pageSize = 35;
       } else if (this.path == "/song") {
-        this.url = `/comment/music?id=${this.id}`;
+        this.type = 1;
       } else if (this.path == "/discover/toplist") {
-        this.url = `/comment/playlist?id=${this.id}`;
-      }else if(this.path == "/program"){
-        this.url=`/comment/dj?id=${this.id}`
-      }else if(this.path == "/album"){
-        this.url = `/comment/album?id=${this.id}`
-      }else if(this.path=="/mv"){
-        this.url = `/comment/mv?id=${this.id}`
+        this.type = 0;
+      } else if (this.path == "/program") {
+        this.type = 3;
+      } else if (this.path == "/album") {
+        this.type = 4;
+      } else if (this.path == "/mv") {
+        this.type = 5;
       }
-      const { data, status } = await this.$http.get(this.url);
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.comments = data.comments;
-      this.commentCount = data.total;
-      this.hotComments = data.hotComments;
-      this.hotcommentCount = data.hotComments.length;
-      this.total = data.total;
+      getComment(this.id, this.type)
+        .then(res => {
+          this.comments = res.data.comments;
+          this.commentCount = res.data.total;
+          this.hotComments = res.data.hotComments;
+          this.hotcommentCount = res.data.hotComments.length;
+          this.total = res.data.total;
+        })
+        .catch(() => {
+          this.$message.error("评论数据获取失败");
+        });
     },
     // 获取下一页
     async getNext() {
-      const { data, status } = await this.$http.get(
-        `${this.url}&offset=${this.offset}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.comments = data.comments;
+      getComment(this.id, this.type, this.offset)
+        .then(res => {
+          this.comments = res.data.comments;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
   },
   components: {
     Comment
   },
   watch: {
-    $route(){
-      this.getCmts()
+    $route() {
+      this.getCmts();
     }
-  },
+  }
 };
 </script>
 <style lang='less' scoped>
@@ -208,12 +219,11 @@ a {
     .hotTit {
       height: 30px;
       border-bottom: 1px solid #cfcfcf;
-        line-height: 30px;
-      span{
+      line-height: 30px;
+      span {
         font-size: 12px;
-        color:#333;
+        color: #333;
         font-weight: bold;
-      
       }
     }
     .newCon,

@@ -14,38 +14,51 @@
 <script>
 import LeftBar from "./leftBar";
 import RightBar from "./rightBar";
-import {mapActions} from 'vuex'
+import { mapActions } from "vuex";
+import { getMvInfo } from "../../../utils/api/songApi";
 export default {
   data() {
     return {
       leftData: {},
       rightData: {},
-      flag:false
+      flag: false
     };
   },
   methods: {
-    async getData() {
+     getData() {
       const id = this.$route.query.id;
-      const { data, status } = await this.$http.get(`/mv/detail?mvid=${id}`);
-      if (status !== 200) return this.$message.error("数据获取错误");
-      const { desc, playCount, publishTime, name, artistName,artistId,duration } = data.data;
-      this.rightData = { desc, playCount, publishTime };
-      this.leftData = { name, artistName,artistId,duration };
-    this.flag = true
+      getMvInfo(id)
+        .then(res => {
+          const {
+            desc,
+            playCount,
+            publishTime,
+            name,
+            artistName,
+            artistId,
+            duration
+          } = res.data.data;
+          this.rightData = { desc, playCount, publishTime };
+          this.leftData = { name, artistName, artistId, duration };
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
+      this.flag = true;
     },
-    ...mapActions(['isMvPage'])
+    ...mapActions(["isMvPage"])
   },
   created() {
     this.getData();
-    this.isMvPage(true)
+    this.isMvPage(true);
   },
-  watch:{
-    $route(){
-      this.getData()
+  watch: {
+    $route() {
+      this.getData();
     }
   },
   beforeDestroy() {
-    this.isMvPage(false)
+    this.isMvPage(false);
   },
   components: {
     LeftBar,
@@ -58,6 +71,6 @@ export default {
   width: 980px;
   margin: 0 auto;
   border: 1px solid #d3d3d3;
-    background-color: #fff;
+  background-color: #fff;
 }
 </style>

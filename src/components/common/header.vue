@@ -102,6 +102,7 @@
 
 <script>
 import clickOutSide from "../../utils/clickoutside";
+import { getSearchList } from "../../utils/api/searchApi";
 import { mapMutations, mapGetters, mapActions } from "vuex";
 export default {
   data() {
@@ -132,29 +133,36 @@ export default {
         this.getSearch();
       }, 100);
     },
-    quit(){
-      this.setLogin(false)
+    quit() {
+      this.setLogin(false);
     },
-    async getSearch() {
-      const { data, status } = await this.$http.get(
-        `/search/suggest?keywords=${this.searchTxt}`
-      );
-      const { albums, artists, playlists, songs } = data.result;
-      let obj = { albums, artists, playlists, songs };
-      let i = 0;
-      this.searchCon = [];
-      for (let key in obj) {
-        if (obj[key]) {
-          let item = { type: this.type[i], data: obj[key], url: this.url[i] };
-          this.searchCon.push(item);
-        }
-        i++;
-      }
+    getSearch() {
+      getSearchList(this.searchTxt)
+        .then(res => {
+          const { albums, artists, playlists, songs } = res.data.result;
+          let obj = { albums, artists, playlists, songs };
+          let i = 0;
+          this.searchCon = [];
+          for (let key in obj) {
+            if (obj[key]) {
+              let item = {
+                type: this.type[i],
+                data: obj[key],
+                url: this.url[i]
+              };
+              this.searchCon.push(item);
+            }
+            i++;
+          }
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
     ...mapMutations({
       setSearch: "SET_SETSEARCH",
       setLoginBox: "SET_LOGINBOX",
-      setLogin:'SET_SETISLOGIN'
+      setLogin: "SET_SETISLOGIN"
     })
   },
   computed: {
@@ -263,11 +271,11 @@ export default {
       padding: 20px 10px;
       display: inline-block;
       position: relative;
-        &:hover{
-          .userCor{
-            display: block;
-          }
+      &:hover {
+        .userCor {
+          display: block;
         }
+      }
       .userPic {
         width: 30px;
         height: 30px;
@@ -284,7 +292,7 @@ export default {
         position: absolute;
         z-index: 99;
         left: -40px;
-        &:hover{
+        &:hover {
           display: block;
         }
         ul {

@@ -7,7 +7,7 @@
         <div class="userInfo">
           <p class="userName">
             <a :href="'/#/user/home?id='+item.userId">{{item.nickname}}</a>
-            <i  v-if="item.gender!=0" :class="['sex',item.gender==0?'woman':'man']"></i>
+            <i v-if="item.gender!=0" :class="['sex',item.gender==0?'woman':'man']"></i>
           </p>
           <p class="userText">
             <a :href="'/#/user/event?id='+item.userId">
@@ -31,7 +31,7 @@
       </li>
     </ul>
     <el-pagination
-    v-if="num>20"
+      v-if="num>20"
       layout="prev, pager, next"
       @current-change="handleCurrentChange"
       :pageSize="20"
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { userFans } from "../../../../utils/api/userApi";
 export default {
   data() {
     return {
@@ -48,7 +49,7 @@ export default {
       url: "",
       tit: "",
       num: 0,
-      offset:0
+      offset: 0
     };
   },
   created() {
@@ -59,22 +60,25 @@ export default {
       this.offset = (e - 1) * 20;
       this.getData();
     },
-    async getData() {
+    getData() {
       const id = this.$route.query.id;
       const path = this.$route.path;
+      let type = 0;
       if (path == "/user/fans") {
         this.tit = "粉丝";
-        this.url = `/user/followeds?limit=20&uid=${id}&offset=${this.offset}`;
         this.num = this.fansNum;
+        type = 1;
       } else {
         this.tit = "关注";
-        this.url = `/user/follows?limit=20&uid=${id}&offset=${this.offset}`;
         this.num = this.followsNum;
       }
-      const { data, status } = await this.$http.get(this.url);
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.followeds = data.followeds || data.follow;
-        // console.log(this.followeds);
+      userFans(id, offset, type)
+        .then(res => {
+          this.followeds = res.data.followeds || res.data.follow;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
   },
   props: ["fansNum", "followsNum"],

@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { getArtistList } from "../../../utils/api/artistApi";
 export default {
   data() {
     return {
@@ -74,10 +75,12 @@ export default {
   methods: {
     async getData() {
       this.id = this.$route.query.id
-      const { data, status } = await this.$http.get(`/artist/list?limit=100&type=${this.id}&initial=${this.initial}`);
-      if (status !== 200) return this.$message.error("数据获取错误");
-      // console.log(data);
-      this.singerList = data.artists;
+      getArtistList(this.id,this.initial).then(res=>{
+              this.singerList = res.data.artists;
+      }).catch(() => {
+          this.$message.error("数据获取失败");
+        });
+      
     },
   },
   watch: {

@@ -3,7 +3,7 @@
     <div class="extend-content" v-if="showExtend">
       <el-row>
         <el-col :offset="6">
-          <el-menu default-active="1" mode="horizontal" active-background-color="#9B0909">
+          <el-menu :efault-active="activeIndex" mode="horizontal" active-background-color="#9B0909">
             <el-menu-item index="1"><router-link to="/discover/recommend">推荐</router-link></el-menu-item>
             <el-menu-item index="2"><router-link to="/discover/toplist">排行榜</router-link></el-menu-item>
             <el-menu-item index="3"><router-link to="/discover/playlist">歌单</router-link></el-menu-item>
@@ -22,7 +22,9 @@
 import {mapGetters} from 'vuex'
 export default {
   data() {
-    return {};
+    return {
+      activeIndex:1
+    };
   },
   computed:{
     ...mapGetters(['showExtend'])

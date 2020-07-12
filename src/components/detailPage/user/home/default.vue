@@ -75,6 +75,7 @@
 <script>
 import BtnGroup from "../../../common/btnGroup";
 import {mapGetters} from 'vuex'
+import { userPlaylist,userRecord} from "../../../../utils/api/userApi";
 export default {
   data() {
     return {
@@ -92,25 +93,22 @@ export default {
   methods: {
     async getData() {
       this.id =  this.$route.query.id||this.user.userId;
-      const { data, status } = await this.$http.get(
-        `/user/playlist?uid=${this.id}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.playlist = data.playlist;
-      this.creatName = data.playlist[0].creator.nickname;
+        userPlaylist(this.id).then(res=>{
+          this.playlist = res.data.playlist;
+      this.creatName = res.data.playlist[0].creator.nickname;
+        })  .catch(() => {
+          this.$message.error("数据获取失败");
+        });
+
     },
    async getSongData(type = 1) {
-      try{
-        const data = await this.$http.get(
-          `/user/record?uid=${this.id}&type=${type}`
-        )
-        if (status !== 200) return;
-        this.songs = data.allData || data.weekData;
-        // console.log(this.songs);
-        this.songs.length = this.songs.length > 10 ? 10 : this.songs.length;
-      } catch (error) {
-        console.log(error);
-      }
+     userRecord(this.id,type).then(res=>{
+       this.songs = res.data.allData || res.data.weekData;
+       this.songs.length = this.songs.length > 10 ? 10 : this.songs.length;
+     })  .catch(() => {
+          this.$message.error("数据获取失败");
+        });
+  
     },
     timeClick(e) {
       if (this.showIndex != e) {

@@ -21,12 +21,13 @@
 </template>
 
 <script>
+import {getRelated} from '../../utils/api/relatedApi'
 export default {
   data() {
     return {
         playlists:[],
         id:'',
-        url:'',
+        type:0,
         tit:''
     };
   },
@@ -39,24 +40,23 @@ export default {
      this.path = this.$route.path;
       if (this.path == "/playlist") {
        
-         this.url =  `/related/playlist?id=${this.id}`
+         this.type = 0
          this.tit='热门歌单'
        
       } else if (this.path == "/song") {
-         this.url=  `/simi/playlist?id=${this.id}`
+         this.type=  1
          this.tit = '包含这首歌的歌单'
       } else if(this.path == "/artist"){
-         this.url=  `/simi/playlist?id=${this.id}`
+         this.type=  1
          this.tit = '热门歌手'
-      } else if(this,path == "/djradio"){
-        // this.url = `/dj/radio/hot?cateId=${}&limit=10`
+      } else if(this.path == "/djradio"){
         this.tit = '你可能也喜欢'
       }
-       const { data, status } = await this.$http.get(this.url)
-      if (status !== 200) return this.$message.error("数据获取错误");
-      // console.log(id)
-      this.playlists = data.playlists
-      // console.log(this.playlists)
+      getRelated(this.id,this.type).then(res=>{
+              this.playlists = res.data.playlists
+      }).catch(() => {
+          this.$message.error("歌曲列表获取失败");
+        });
     }
   }
 };

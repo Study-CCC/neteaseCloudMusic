@@ -35,7 +35,6 @@ const mutations = {
     },
     [types.SET_EXTEND](state,flag){
         state.showExtend = flag
-        console.log(state.showExtend)
     }
 }
 export default mutations

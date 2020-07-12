@@ -10,7 +10,10 @@
         <h3 class="textOver">
           <a :href="'/#/djradio?id='+item.id">{{item.name}}</a>
         </h3>
-        <p>by <a :href="'/#/user/home?id='+item.dj.userId">{{item.dj.nickname}}</a></p>
+        <p>
+          by
+          <a :href="'/#/user/home?id='+item.dj.userId">{{item.dj.nickname}}</a>
+        </p>
       </li>
     </ul>
     <div class="page">
@@ -27,6 +30,7 @@
 </template>
 
 <script>
+import { getSearch } from "../../../utils/api/searchApi";
 export default {
   data() {
     return {
@@ -41,38 +45,43 @@ export default {
     this.getData();
   },
   methods: {
-    async getData() {
-            this.search = this.$route.query.s;
-      const { data, status } = await this.$http.get(
-        `/search?keywords=${this.search}&type=1009`
-      );
-      this.total = data.result.djRadiosCount;
-      this.djRadios = data.result.djRadios;
-      this.$emit('getNum',this.total)
+     getData() {
+      this.search = this.$route.query.s;
+      getSearch(this.search, 1009)
+        .then(res => {
+          this.total = res.data.result.djRadiosCount;
+          this.djRadios = res.data.result.djRadios;
+          this.$emit("getNum", this.total);
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
     handleCurrentChange(e) {
       this.offset = (e - 1) * this.pageSize;
       this.getNext();
     },
-    async getNext() {
-      const { data, status } = await this.$http.get(
-        `/search?keywords=${this.search}&offset=${this.offset}&type=1009`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.djRadios = data.result.djRadios;
+    getNext() {
+      getSearch(this.search, 1009, this.offset)
+        .then(res => {
+          this.djRadios = res.data.result.djRadios;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
   }
 };
 </script>
 <style lang='less' scoped>
 .djBox {
-    margin-top: 20px;
+  margin-top: 20px;
   ul {
-      display: flex;
-      flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
     li {
       width: 150px;
-      margin: 20px 30px 0 0 ;
+      margin: 20px 30px 0 0;
       .imgBox {
         height: 150px;
         img {
@@ -84,20 +93,20 @@ export default {
         width: 100%;
         margin: 5px 0;
         a {
-            line-height: 16px;
-    font-size: 14px;
-    font-weight: normal;
-    color:#333;
+          line-height: 16px;
+          font-size: 14px;
+          font-weight: normal;
+          color: #333;
         }
       }
-      p{
-          color:#999;
-          line-height: 18px;
-          font-size: 12px;
-          a{
-              color:#333;
-              font-size: 14px;
-          }
+      p {
+        color: #999;
+        line-height: 18px;
+        font-size: 12px;
+        a {
+          color: #333;
+          font-size: 14px;
+        }
       }
     }
   }

@@ -29,6 +29,7 @@
 
 <script>
 import MoreDown from '../../common/moreDown'
+import { getSimiMv } from "../../../utils/api/relatedApi";
 export default {
   data() {
     return {
@@ -36,11 +37,13 @@ export default {
     };
   },
   methods: {
-    async getData() {
+     getData() {
       const id = this.$route.query.id;
-      const { data, status } = await this.$http.get(`/simi/mv?mvid=${id}`);
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.simiMv = data.mvs
+      getSimiMv(id).then(res=>{
+              this.simiMv = res.data.mvs
+      }).catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
   },
   created() {

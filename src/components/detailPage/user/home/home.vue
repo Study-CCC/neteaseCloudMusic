@@ -32,31 +32,40 @@
         <p v-if="profile.signature">个人介绍: {{profile.signature}}</p>
       </div>
     </div>
-    <router-view :listenSongs="listenSongs" :fansNum="profile.followeds" :followsNum="profile.follows"></router-view>
+    <router-view
+      :listenSongs="listenSongs"
+      :fansNum="profile.followeds"
+      :followsNum="profile.follows"
+    ></router-view>
   </div>
 </template>
 
 <script>
+import { userInfo } from "../../../../utils/api/userApi";
 export default {
   data() {
     return {
       profile: {},
       level: 0,
-      gender:['','man','woman'],
-      listenSongs:0
+      gender: ["", "man", "woman"],
+      listenSongs: 0
     };
   },
   created() {
     this.getData();
   },
   methods: {
-    async getData() {
+    getData() {
       const id = this.$route.query.id;
-      const { data, status } = await this.$http.get(`/user/detail?uid=${id}`);
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.profile = data.profile;
-      this.level = data.level;
-      this.listenSongs = data.listenSongs
+      userInfo(id)
+        .then(res => {
+          this.profile = res.data.profile;
+          this.level = res.data.level;
+          this.listenSongs = res.data.listenSongs;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
   },
   watch: {
@@ -68,14 +77,14 @@ export default {
 </script>
 <style lang='less' scoped>
 .homeBox {
- p{
-   margin-top: 10px;
-   font-size: 12px;
-   color:#999;
- }
- .el-button{
-   margin-left: 10px;
- }
+  p {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #999;
+  }
+  .el-button {
+    margin-left: 10px;
+  }
   .userBox {
     display: flex;
     .imgBox {

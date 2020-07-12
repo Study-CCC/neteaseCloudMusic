@@ -3,7 +3,7 @@
     <div class="newDj">
       <h3 class="tit">优秀新电台</h3>
       <ul>
-        <li v-for="item in newList" :key="item.id"> 
+        <li v-for="item in newList" :key="item.id">
           <a :href="'/#/djradio?id='+item.id">
             <img :src="item.picUrl" alt />
           </a>
@@ -28,68 +28,74 @@
             <p class="auth clearFloat">
               <i></i>
               <a :href="'/#/user/home?id='+item.dj.userId">{{item.dj.nickname}}</a>
-              
             </p>
             <p>共{{item.programCount}}期 订阅{{item.subCount}}次</p>
           </div>
         </li>
       </ul>
     </div>
-    <div class="page"> <el-pagination
+    <div class="page">
+      <el-pagination
         background
         layout="prev, pager, next"
         @current-change="handleCurrentChange"
         :page-size="28"
         :total="total"
-      ></el-pagination></div>
+      ></el-pagination>
+    </div>
   </div>
 </template>
 
 <script>
+import { getDjRecommend, getDjRadio } from "../../../utils/api/djApi";
 export default {
   data() {
     return {
-        id:0,
-        newList:[],
-        topList:[],
-        total:0,
-        offset:0
-            };
+      id: 0,
+      newList: [],
+      topList: [],
+      total: 0,
+      offset: 0
+    };
   },
   created() {
-      this.getNewList()
-      this.getTopList()
+    this.getNewList();
+    this.getTopList();
   },
   methods: {
-      async getNewList(){
-          this.id = this.$route.query.id
-           const { data, status } = await this.$http.get(
-          `/dj/recommend/type?type=${this.id}`
-        );
-        if (status !== 200) return this.$message.error("数据获取错误");
-        data.djRadios.length=5
-        this.newList = data.djRadios
-      },
-      async getTopList(){
-            const { data, status } = await this.$http.get(
-          `/dj/radio/hot?cateId=${this.id}&limit=28&offset=${this.offset}`
-        );
-        if (status !== 200) return this.$message.error("数据获取错误");
-        this.topList = data.djRadios
-        this.total = data.count
-      },
-     handleCurrentChange(e) {
+    getNewList() {
+      this.id = this.$route.query.id;
+      getDjRecommend(this.id)
+        .then(res => {
+          res.data.djRadios.length = 5;
+          this.newList = res.data.djRadios;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
+    },
+    getTopList() {
+      getDjRadio(this.id, this.offset)
+        .then(res => {
+          this.topList = res.data.djRadios;
+          this.total = res.data.count;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
+    },
+    handleCurrentChange(e) {
       this.offset = (e - 1) * 28;
       this.getTopList();
-    },
-  },
-  watch: {
-    $route(){
-      this.id = this.$route.query.id
-      this.getNewList()
-      this.getTopList()
     }
   },
+  watch: {
+    $route() {
+      this.id = this.$route.query.id;
+      this.getNewList();
+      this.getTopList();
+    }
+  }
 };
 </script>
 <style lang='less' scoped>
@@ -133,7 +139,7 @@ export default {
     ul {
       display: flex;
       flex-wrap: wrap;
-      justify-content:space-between;
+      justify-content: space-between;
       li {
         width: 435px;
         height: 120px;
@@ -148,19 +154,19 @@ export default {
         }
         .itemText {
           float: left;
-           margin-left: 20px;
+          margin-left: 20px;
           h3 {
             font-size: 18px;
             height: 64px;
             line-height: 64px;
-            a{
-               color: #333;
+            a {
+              color: #333;
             }
           }
           .auth {
-          a{
+            a {
               color: #333;
-          }
+            }
             margin-bottom: 10px;
             i {
               background: url("../../../assets/icon.png");
@@ -179,7 +185,7 @@ export default {
       }
     }
   }
-  .page{
+  .page {
     margin-top: 20px;
     text-align: center;
   }

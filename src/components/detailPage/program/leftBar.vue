@@ -18,7 +18,11 @@
       </div>
     </div>
     <div class="btnGroup">
-      <el-button class="el-icon-video-play" @click="playInfo(program)"  type="primary">播放{{program.duration|timeFilter}}</el-button>
+      <el-button
+        class="el-icon-video-play"
+        @click="playInfo(program)"
+        type="primary"
+      >播放{{program.duration|timeFilter}}</el-button>
       <el-button class="el-icon-star-off">
         <span v-if="program.likedCount">({{program.likedCount}})</span>
       </el-button>
@@ -33,27 +37,29 @@
     <div class="desc">
       <div class="programInfo">
         <el-button click="cliCate">{{program.radio.category}}</el-button>
-        <span class="name">{{program.dj.brand}}  第{{program.serialNum}}期</span>
+        <span class="name">{{program.dj.brand}} 第{{program.serialNum}}期</span>
         <span class="time">{{program.createTime|timeFilter}}</span>
-        <span class="play">播放: <span class="count">{{program.listenerCount}}</span>次</span>
+        <span class="play">
+          播放:
+          <span class="count">{{program.listenerCount}}</span>次
+        </span>
       </div>
-      <div class="descCon">
-          介绍:  {{program.description}}
-      </div>
+      <div class="descCon">介绍: {{program.description}}</div>
     </div>
     <CommentCon />
   </div>
 </template>
 
 <script>
-import CommentCon from '../../common/commentCon'
-import {mapActions} from 'vuex'
+import CommentCon from "../../common/commentCon";
+import { mapActions } from "vuex";
+import { getProgramInfo } from "../../../utils/api/djApi";
 export default {
   data() {
     return {
       program: {
-          radio:{},
-          dj:{}
+        radio: {},
+        dj: {}
       }
     };
   },
@@ -61,21 +67,25 @@ export default {
     this.getData();
   },
   methods: {
-    async getData() {
+    getData() {
       const id = this.$route.query.id;
-      const { data, status } = await this.$http.get(
-        `/dj/program/detail?id=${id}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.program = data.program;
+      getProgramInfo(id)
+        .then(res => {
+          this.program = res.data.program;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
     cliCate() {
-      this.$router.push(`/discover/djradio/category?id=${program.radio.categoryId}`);
+      this.$router.push(
+        `/discover/djradio/category?id=${program.radio.categoryId}`
+      );
     },
-     ...mapActions(["playInfo"])
+    ...mapActions(["playInfo"])
   },
-  components:{
-      CommentCon
+  components: {
+    CommentCon
   }
 };
 </script>
@@ -152,7 +162,7 @@ export default {
   }
   .desc {
     .programInfo {
-        margin-top: 40px;
+      margin-top: 40px;
       .el-button {
         color: #cc0000;
         border-color: #cc0000;
@@ -163,28 +173,29 @@ export default {
         border-radius: 0;
         margin-right: 10px;
       }
-      .name{
-          font-size: 14px;
-          color:#333;
-          font-weight: bold;
+      .name {
+        font-size: 14px;
+        color: #333;
+        font-weight: bold;
       }
-      .time,.play{
-          font-size: 12px;
-          color:#999;
+      .time,
+      .play {
+        font-size: 12px;
+        color: #999;
       }
-      .time{
+      .time {
         margin: 0 10px;
       }
-      .count{
-          color:#C20C0C;
+      .count {
+        color: #c20c0c;
       }
     }
-    .descCon{
+    .descCon {
       margin-top: 10px;
-        font-size: 12px;
-        color:#666;
-        white-space: pre-wrap;
-        line-height: 20px;
+      font-size: 12px;
+      color: #666;
+      white-space: pre-wrap;
+      line-height: 20px;
     }
   }
   .btnGroup {

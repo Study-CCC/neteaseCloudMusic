@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import {getArtistAlbum} from '../../../utils/api/albumApi'
 export default {
   data() {
     return {
@@ -42,12 +43,12 @@ export default {
     },
     async getData() {
       const id = this.$route.query.id;
-      const { data, status } = await this.$http.get(
-        `/artist/album?id=${id}&limit=12&offset=${this.offset}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.hotAlbums = data.hotAlbums
-      this.total = data.artist.albumSize
+  getArtistAlbum(id,this.offset).then(res=>{
+       this.hotAlbums = res.data.hotAlbums
+      this.total = res.data.artist.albumSize
+      }).catch(() => {
+          this.$message.error("唱片数据获取失败");
+        });
     }
   }
 };

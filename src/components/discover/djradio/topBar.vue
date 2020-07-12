@@ -4,7 +4,7 @@
       <el-carousel-item v-for="(item,i) in categories" :key="i">
         <ul>
           <li :class="{iconCli:item1.id==iconFlag}" v-for="(item1,i1) in item" :key="i1">
-            <a @click="cliIcon(item1.id)" >
+            <a @click="cliIcon(item1.id)">
               <div class="icon" :style="{backgroundImage:'url('+item1.picWebUrl+')'}"></div>
               <p>{{item1.name}}</p>
             </a>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { getCatelist } from "../../../utils/api/djApi";
 export default {
   data() {
     return {
@@ -28,42 +29,45 @@ export default {
   },
   methods: {
     async getData() {
-      const id = this.$route.query.id
-      if(id)  this.iconFlag = id
-      const { data, status } = await this.$http.get("/dj/catelist");
-      if (status !== 200) return this.$message.error("数据获取错误");
-      let i = 0;
-      let j = 0;
-      data.categories.map(item => {
-        if (i == 18) {
-          i = 0;
-          j++;
-          this.categories[j] = [];
-        }
+      const id = this.$route.query.id;
+      if (id) this.iconFlag = id;
+      getCatelist()
+        .then(res => {
+          let i = 0;
+          let j = 0;
+          res.data.categories.map(item => {
+            if (i == 18) {
+              i = 0;
+              j++;
+              this.categories[j] = [];
+            }
 
-        this.categories[j].push(item);
-        i++;
-      });
+            this.categories[j].push(item);
+            i++;
+          });
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
       // console.log(this.categories)
     },
     cliIcon(id) {
-            if(id==this.iconFlag) return;
+      if (id == this.iconFlag) return;
       this.iconFlag = id;
-      this.$router.push(`/discover/djradio/category?id=${id}`)
+      this.$router.push(`/discover/djradio/category?id=${id}`);
     }
   }
 };
 </script>
 <style lang='less' scoped>
 .topBarBox {
-
   ul {
     display: flex;
     flex-wrap: wrap;
     // justify-content: space-between;
     li {
       margin: 0 0 25px 33px;
-              color: #888;
+      color: #888;
 
       &:hover {
         background: url("../../../assets/radio_bg.png");
@@ -85,15 +89,15 @@ export default {
       }
     }
     .iconCli {
-       background: url("../../../assets/radio_bg.png");
+      background: url("../../../assets/radio_bg.png");
       background-position: -70px 0;
       color: #d35757;
-     &:hover{
+      &:hover {
         background-position: -70px 0;
-     }
-     .icon{
-       background-position: -48px 0;
-     }
+      }
+      .icon {
+        background-position: -48px 0;
+      }
     }
   }
 }

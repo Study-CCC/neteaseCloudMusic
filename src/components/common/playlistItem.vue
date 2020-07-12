@@ -10,27 +10,32 @@
       </div>
     </div>
     <a class="itemTit" :href="'/#/playlist?id='+item.id">{{item.name}}</a>
-    <p v-if="personal">
-        {{item.copywriter}}
-    </p>
+    <p v-if="personal">{{item.copywriter}}</p>
   </div>
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from "vuex";
+import { getPlaylist } from "../../utils/api/playlistApi";
 export default {
   data() {
     return {};
-  },methods:{
-    async listPlay(){
-      const {data,status} = await this.$http.get(`/playlist/detail?id=${this.item.id}`)
-      let tracks = data.playlist.tracks
-     this.addList(tracks)
+  },
+  methods: {
+    async listPlay() {
+      getPlaylist(this.item.id)
+        .then(res => {
+          let tracks = res.data.playlist.tracks;
+          this.addList(tracks);
+        })
+        .catch(() => {
+          this.$message.error("歌曲列表获取失败");
+        });
     },
-    ...mapActions(['addList']),
-    ...mapActions(['addList'])
-     },
-  props: ["item","personal"]
+    ...mapActions(["addList"]),
+    ...mapActions(["addList"])
+  },
+  props: ["item", "personal"]
 };
 </script>
 <style lang='less' scoped>
@@ -64,30 +69,31 @@ export default {
     background-position: 0 -537px;
     font-size: 12px;
     color: #ccc;
-    .headset,.video-play {
+    .headset,
+    .video-play {
       background: url("../../assets/iconall.png");
     }
     .headset {
       width: 14px;
       height: 11px;
       background-position: 0 -24px;
-      margin:0 5px;
+      margin: 0 5px;
     }
     .video-play {
-        cursor: pointer;
+      cursor: pointer;
       margin-left: auto;
-         width: 16px;
-    height: 17px;
-    background-position: 0 0;
-    margin-right: 5px;
-    &:hover{
+      width: 16px;
+      height: 17px;
+      background-position: 0 0;
+      margin-right: 5px;
+      &:hover {
         background-position: 0 -60px;
-    }
+      }
     }
   }
-  p{
-      font-size: 12px;
-      color:#999;
+  p {
+    font-size: 12px;
+    color: #999;
   }
   .itemTit {
     color: #000;
@@ -95,8 +101,8 @@ export default {
     font-size: 14px;
     width: 100%;
     word-break: break-all;
-    &:hover{
-        text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
     }
   }
 }

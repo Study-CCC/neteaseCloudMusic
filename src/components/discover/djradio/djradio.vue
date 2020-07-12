@@ -11,12 +11,9 @@
     </el-row>
     <ContentBar />
   </div>
-  <!-- <PlaylistCon></PlaylistCon> -->
 </template>
 
 <script>
-// 测试
-// import PlaylistCon from '../../detailPage/playlistCon/playlistCon'
 import TopBar from "./topBar";
 import ContentBar from "./contentBar";
 import LeftBar from "./leftBar";

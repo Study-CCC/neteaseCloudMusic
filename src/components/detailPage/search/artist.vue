@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { getSearch } from "../../../utils/api/searchApi";
 export default {
   data() {
     return {
@@ -43,21 +44,26 @@ export default {
       this.offset = (e - 1) * this.pageSize;
       this.getNext();
     },
-    async getNext() {
+    getNext() {
       this.search = this.$route.query.s;
-      const { data, status } = await this.$http.get(
-        `/search?keywords=${this.search}&offset=${this.offset}&type=100&limit=90`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.artists = data.result.artists;
+      getSearch(this.search, 100, this.offset)
+        .then(res => {
+          this.artists = res.data.result.artists;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
     async getData() {
       //   this.search = this.$route.query.s;
-      const { data, status } = await this.$http.get(
-        `/search?keywords=${this.search}&type=100&limit=90`
-      );
-      this.total = data.result.artistCount;
-      this.artists = data.result.artists;
+      getSearch(this.search, 100)
+        .then(res => {
+          this.total = res.data.result.artistCount;
+          this.artists = res.data.result.artists;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
   }
 };
@@ -70,7 +76,7 @@ export default {
     justify-content: space-between;
     flex-wrap: wrap;
     li {
-        margin-top: 10px;
+      margin-top: 10px;
       width: 130px;
       height: 154px;
       .item {
@@ -90,10 +96,12 @@ export default {
           height: 100%;
         }
       }
-      p{
-          width: 130px;
-          a{font-size: 12px;
-          color:#000;}
+      p {
+        width: 130px;
+        a {
+          font-size: 12px;
+          color: #000;
+        }
       }
     }
   }

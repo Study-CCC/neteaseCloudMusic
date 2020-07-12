@@ -58,6 +58,7 @@
 <script>
 import BtnGroup from "../../common/btnGroup";
 import { mapActions } from "vuex";
+import { getSearch } from "../../../utils/api/searchApi";
 export default {
   data() {
     return {
@@ -80,24 +81,29 @@ export default {
       this.getNext();
     },
     async getNext() {
-      const { data, status } = await this.$http.get(
-        `/search?keywords=${this.search}&offset=${this.offset}&type=1006`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.songs = data.result.songs;
+      getSearch(this.search, 1006,this.offset)
+        .then(res => {
+                this.songs = res.data.result.songs;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
     async getData() {
             this.search = this.$route.query.s;
-      const { data, status } = await this.$http.get(
-        `/search?keywords=${this.search}&type=1006`
-      );
-      this.total = data.result.songCount;
-      this.songs = data.result.songs;
+            getSearch(this.search, 1006)
+        .then(res => {
+          this.total = res.data.result.songCount;
+      this.songs = res.data.result.songs;
       this.$emit('getNum',this.total)
       this.songs.map(item => {
         item.lyrics = item.lyrics.txt.slice(item.lyrics.range[0].first);
         this.$set(item,'openFlag',false)
       });
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
 
     ...mapActions(["playInfo"])

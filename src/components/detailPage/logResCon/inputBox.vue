@@ -36,6 +36,7 @@
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
 import {setToken} from '../../../utils/storage'
+import {login} from '../../../utils/api/userApi'
 export default {
   data() {
     var checkPsw = (rule, value, callback) => {
@@ -53,8 +54,8 @@ export default {
     };
     return {
       user: {
-        phoneNum: "18370859575",
-        psw: "1013409555c",
+        phoneNum: "",
+        psw: "",
         isAuto: true
       },
       loginText: {
@@ -74,14 +75,10 @@ export default {
     };
   },
   methods: {
-    async sendloginForm() {
-      const { data, status } = await this.$http.post(
-        `/login/cellphone?phone=${this.user.phoneNum}&password=${this.user.psw}`
-      );
-      if (status !== 200) return this.$message.error("登录失败");
-      // let user =
-      let {cookie,token} = data
-      const {
+     sendloginForm() {
+      login(this.user.phoneNum,this.user.psw).then(res=>{
+        let {cookie,token} = res.data
+        const {
         nickname,
         userId,
         followeds,
@@ -90,19 +87,19 @@ export default {
         signature,
         gender,
         avatarUrl
-      } = data.profile;
-      let user = { nickname, userId, followeds, signature,gender,follows, eventCount, avatarUrl};
+      } = res.data.profile;
+       let user = { nickname, userId, followeds, signature,gender,follows, eventCount, avatarUrl};
       if(!this.user.isAuto) token = 0
       setToken({token,userId,cookie})
       this.setIsLogin(true)
       this.setShowLogin(false);
       this.setUser(user)
+      }).catch(() => {
+          this.$message.error("唱片数据获取失败");
+        });
     },
-    async sendRegForm() {
-      const { data, status } = await this.$http.post(
-        `/login/cellphone?phone=${this.user.phoneNum}&password=${this.user.psw}`
-      );
-      if (status !== 200) return this.$message.error("请求发起失败");
+   sendRegForm() {
+      login(this.user.phoneNum,this.user.psw)
     },
     ...mapActions(["setUser"]),
     ...mapMutations({

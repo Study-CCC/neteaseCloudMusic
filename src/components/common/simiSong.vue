@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { getSimiSongs } from "../../utils/api/relatedApi";
 export default {
   data() {
     return {
@@ -37,17 +38,20 @@ export default {
   methods: {
     async getData() {
       const id = this.$route.query.id;
-      const { data, status } = await this.$http.get(`/simi/song?id=${id}`);
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.songs = data.songs;
-      //   console.log(this.songs);
+      getSimiSongs(id)
+        .then(res => {
+          this.songs = res.data.songs;
+        })
+        .catch(() => {
+          this.$message.error("歌曲列表获取失败");
+        });
     }
   },
   watch: {
-    $route(){
-      this.getData()
+    $route() {
+      this.getData();
     }
-  },
+  }
 };
 </script>
 <style lang='less' scoped>
@@ -61,12 +65,12 @@ export default {
   }
   ul {
     li {
-        margin-top: 10px;
+      margin-top: 10px;
       .songInfo {
         width: 150px;
         float: left;
         margin-left: 5px;
-       
+
         p {
           font-size: 14px;
           color: #000;
@@ -85,21 +89,21 @@ export default {
           }
         }
       }
-       .btn {
-          i {
-            width: 10px;
-            height: 11px;
-            background: url("../../assets/icon2.png");
-            margin-left: 10px;
-            display: inline-block;
-          }
-          .play {
-            background-position: -69px -455px;
-          }
-          .add {
-            background-position: -87px -454px;
-          }
+      .btn {
+        i {
+          width: 10px;
+          height: 11px;
+          background: url("../../assets/icon2.png");
+          margin-left: 10px;
+          display: inline-block;
         }
+        .play {
+          background-position: -69px -455px;
+        }
+        .add {
+          background-position: -87px -454px;
+        }
+      }
     }
   }
 }

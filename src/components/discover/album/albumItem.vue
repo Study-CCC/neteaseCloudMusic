@@ -14,17 +14,20 @@
 
 <script>
 import {mapActions} from 'vuex'
+import {getAlbum } from "../../../utils/api/albumApi";
+
 export default {
   data() {
     return {
      
     };
   },methods: {
-     async playData() {
-        const { data, status } = await this.$http.get(
-          `/album?id=${this.item.id}`
-        );
-        this.addList(data.songs)
+      playData() {
+       getAlbum(this.item.id).then(res=>{
+                 this.addList(res.data.songs)
+       }) .catch(() => {
+          this.$message.error("数据获取失败");
+        });
       },
     ...mapActions(['addList'])
   },

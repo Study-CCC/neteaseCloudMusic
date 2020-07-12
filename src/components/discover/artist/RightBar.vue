@@ -30,6 +30,7 @@
   </div>
 </template>
 <script>
+import { getArtistList } from "../../../utils/api/artistApi";
 export default {
   data() {
     return {
@@ -75,12 +76,12 @@ export default {
       this.id = this.$route.query.id||71;
       const type = this.id%10
       const area = parseInt(this.id/10)
-      const { data, status } = await this.$http.get(
-        `/artist/list?limit=100&type=${type}&area=${area}&initial=${this.initial}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      // console.log(data);
-      this.singerList = data.artists;
+      getArtistList(type,area,this.initial).then(res=>{
+              this.singerList = res.data.artists;
+      }) .catch(() => {
+          this.$message.error("数据获取失败");
+        });
+  
     }
   },
   watch: {
