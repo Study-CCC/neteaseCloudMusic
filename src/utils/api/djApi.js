@@ -11,8 +11,13 @@ export const getDjRecommend = id=>{
     return axios.get(url)
 }
 
+export const getHotDj = ()=>{
+    const url = HOST +"/dj/toplist?type=hot&limit=5"
+    return axios.get(url)
+}
+
 export const getProRec=()=>{
-    const url = HOST +`"/program/recommend"`
+    const url = HOST +"/program/recommend"
     return axios.get(url)
 }
 

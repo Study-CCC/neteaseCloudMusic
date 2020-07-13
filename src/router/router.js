@@ -1,42 +1,35 @@
-import Vue from 'vue'
+import Vue  from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home'
-import Discover from '../components/discover/discover'
-import myPage from '../components/my/myPage'
-import FriendLogin from '../components/friend/friendLogin'
-import Mv from '../components/detailPage/mvCon/mv'
-import PlaylistCon from '../components/detailPage/playlistCon/playlistCon'
-import SongCon from '../components/detailPage/songCon/songCon'
-import AlbumCon from '../components/detailPage/albumCon/albumCon'
-import ArtistCon from '../components/detailPage/artistCon/artist'
-import AllAlbum from '../components/detailPage/artistCon/allAlbum'
-import HotWork from '../components/detailPage/artistCon/hotWork'
-import MvCon from '../components/detailPage/artistCon/mvBar'
-import DescCon from '../components/detailPage/artistCon/descCon'
-import UserHome from '../components/detailPage/user/Home/home'
-import Fans from '../components/detailPage/user/Home/fans'
-import EventCon from '../components/detailPage/user/Home/event'
-import Default from '../components/detailPage/user/Home/default'
-import Category from '../components/detailPage/category/category'
-import DjradioCon from '../components/detailPage/djradio/djradio'
-import ProgramCon from '../components/detailPage/program/program'
-import Toplist from '../components/discover/toplist/toplist'
-import Recommend from '../components/discover/recommend/recommend'
-import Taste from '../components/discover/taste/taste'
-import Playlist from '../components/discover/playlist/playlist'
-import Djradio from '../components/discover/djradio/djradio'
-import Artist from '../components/discover/artist/artist'
-import Album from '../components/discover/album/album'
-import Search from '../components/detailPage/search/search'
-import SearchSong from "../components/detailPage/search/song";
-import SearchArtist from "../components/detailPage/search/artist";
-import SearchAlbum from "../components/detailPage/search/album";
-import SearchSongList from '../components/detailPage/search/songList'
-import SearchLyric from '../components/detailPage/search/lyric'
-import SearchDj from '../components/detailPage/search/dj'
-import Updata from '../components/detailPage/user/updata'
+const Home =()=> import('../views/Home')
+const Discover =()=> import('../components/discover/discover')
+const myPage =()=> import('../components/my/myPage')
+const FriendLogin =()=> import('../components/friend/friendLogin')
+const Mv =()=> import('../page/mvCon/mv')
+const PlaylistCon =()=> import('../page/playlistCon/playlistCon')
+const SongCon =()=> import('../page/songCon/songCon')
+const AlbumCon =()=> import('../page/albumCon/albumCon')
+const ArtistCon =()=> import('../page/artistCon/artist')
+const AllAlbum =()=> import('../page/artistCon/allAlbum')
+const HotWork =()=> import('../page/artistCon/hotWork')
+const MvCon =()=> import('../page/artistCon/mvBar')
+const DescCon =()=> import('../page/artistCon/descCon')
+const UserHome =()=> import('../page/user/Home/home')
+const Fans =()=> import('../page/user/Home/fans')
+const EventCon =()=> import('../page/user/Home/event')
+const Default =()=> import('../page/user/Home/default')
+const Category =()=> import('../page/category/category')
+const DjradioCon =()=> import('../page/djradio/djradio')
+const ProgramCon =()=> import('../page/program/program')
+const Toplist =()=> import('../components/discover/toplist/toplist')
+const Recommend =()=> import('../components/discover/recommend/recommend')
+const Taste =()=> import('../components/discover/taste/taste')
+const Playlist =()=> import('../components/discover/playlist/playlist')
+const Djradio =()=> import('../components/discover/djradio/djradio')
+const Artist =()=> import('../components/discover/artist/artist')
+const Album =()=> import('../components/discover/album/album')
+const Search =()=> import('../page/search/search')
+const Updata =()=> import('../page/user/updata')
 Vue.use(VueRouter)
-
 const routes = [
     {
         path: '/',
@@ -122,28 +115,7 @@ const routes = [
             },
             {
                 path: '/search',
-                component: Search,
-                children: [
-                    {
-                        path: '/search/m:type',
-                        component: SearchSong
-                    }, {
-                        path: '/search:type=101',
-                        component: SearchArtist
-                    }, {
-                        path: '/search:type=110',
-                        component: SearchAlbum
-                    }, {
-                        path: '/search:type=1220',
-                        component: SearchSongList
-                    }, {
-                        path: '/search:type=120',
-                        component: SearchLyric
-                    }, {
-                        path: '/search:type=103',
-                        component: SearchDj
-                    }
-                ]
+                component: Search
             },
             {
                 path: '/friend',

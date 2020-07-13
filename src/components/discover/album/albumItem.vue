@@ -15,7 +15,6 @@
 <script>
 import {mapActions} from 'vuex'
 import {getAlbum } from "../../../utils/api/albumApi";
-
 export default {
   data() {
     return {

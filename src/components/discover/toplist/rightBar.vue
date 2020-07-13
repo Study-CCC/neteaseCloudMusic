@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <div class="rightList">
+    <div class="rightList" v-loading="loading">
       <div class="listTitle">
         <h3>歌曲列表</h3>
         <span>{{trackCount}}首歌</span>
@@ -39,10 +39,7 @@
         <el-table-column prop="name" label="标题" width="327">
           <template v-slot="songData">
             <div class="songItem" v-if="songData.$index>2">
-              <i
-                class="play"
-                @click="playInfo(songDatas)"
-              ></i>
+              <i class="play" @click="playInfo(songDatas)"></i>
               <div class="itemText">
                 <a :href="'/#/song?id='+songData.row.id">
                   <span>{{songData.row.name}}</span>
@@ -57,10 +54,7 @@
               <a :href="'/#/song?id='+songData.row.id">
                 <img class="titImg" :src="songData.row.al.picUrl" alt />
               </a>
-              <i
-                class="play"
-                @click="playInfo(songData.row)"
-              ></i>
+              <i class="play" @click="playInfo(songData.row)"></i>
               <div class="itemText">
                 <a :href="'/#/song?id='+songData.row.id">
                   <span>{{songData.row.name}}</span>
@@ -75,10 +69,7 @@
         </el-table-column>
         <el-table-column prop label="时长" width="140">
           <template v-slot="songData">
-            <BtnGroup
-              :song=" songData.row "
-              class="btnShow"
-            />
+            <BtnGroup :song=" songData.row " class="btnShow" />
             <span class="timeShow">{{songData.row.dt|timeFilter}}</span>
           </template>
         </el-table-column>
@@ -97,6 +88,7 @@
 import CommentCon from "../../common/commentCon";
 import BtnGroup from "../../common/btnGroup";
 import { mapActions } from "vuex";
+import { getTopList } from "../../../utils/api/playlistApi";
 export default {
   data() {
     return {
@@ -109,28 +101,32 @@ export default {
       trackCount: 0,
       subscribedCount: 0,
       shareCount: 0,
-      commentCount: 0
+      commentCount: 0,
+      loading:true
     };
   },
   created() {
     this.getData();
   },
   methods: {
-    
     async getData() {
       const id = this.$route.query.id || 19723756;
-      const { data, status } = await this.$http.get(`/top/list?id=${id}`);
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.songsList = data.playlist.tracks;
-      this.tit = data.playlist.name;
-      this.updataTime = data.playlist.trackNumberUpdateTime;
-      this.playCount = data.playlist.playCount;
-      this.coverImgUrl = data.playlist.coverImgUrl;
-      this.trackCount = data.playlist.trackCount;
-      this.subscribedCount = data.playlist.subscribedCount;
-      this.shareCount = data.playlist.shareCount;
-      this.commentCount = data.playlist.commentCount;
-      // console.log(this.songsList)
+      getTopList(id, 1)
+        .then(res => {
+          this.songsList = res.data.playlist.tracks;
+          this.tit = res.data.playlist.name;
+          this.updataTime = res.data.playlist.trackNumberUpdateTime;
+          this.playCount = res.data.playlist.playCount;
+          this.coverImgUrl = res.data.playlist.coverImgUrl;
+          this.trackCount = res.data.playlist.trackCount;
+          this.subscribedCount = res.data.playlist.subscribedCount;
+          this.shareCount = res.data.playlist.shareCount;
+          this.commentCount = res.data.playlist.commentCount;
+          this.loading = false
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
     ...mapActions(["playInfo"])
   },

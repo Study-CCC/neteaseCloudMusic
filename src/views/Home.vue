@@ -13,7 +13,7 @@ import { mapGetters, mapActions, mapMutations } from "vuex";
 import Header from "../components/common/header";
 import Extend from "../components/common/extend";
 import Footer from "../components/common/footer";
-import MusicPlay from "../components/detailPage/musicPlay/musicPlay";
+import MusicPlay from "../page/musicPlay/musicPlay";
 import LogResBox from "../components/common/logResBox";
 import { getToken } from "../utils/storage";
 export default {

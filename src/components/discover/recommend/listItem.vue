@@ -75,6 +75,7 @@
 </template>
 
 <script>
+import { getTopList } from "../../../utils/api/playlistApi";
 import {mapActions} from 'vuex'
 export default {
   data() {
@@ -89,15 +90,17 @@ export default {
   props: ["id"],
   methods: {
 
-    async getData() {
-      const { data, status } = await this.$http.get(`/top/list?idx=${this.id}`);
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.titData.coverImgUrl = data.playlist.coverImgUrl;
-      this.titData.name = data.playlist.name;
-      this.titData.id = data.playlist.id;
-      data.playlist.tracks.length = 10;
-      this.listData = data.playlist.tracks;
-      // this.listData.type=1
+     getData() {
+      getTopList(this.id).then(res=>{
+         this.titData.coverImgUrl = res.data.playlist.coverImgUrl;
+      this.titData.name = res.data.playlist.name;
+      this.titData.id = res.data.playlist.id;
+      res.data.playlist.tracks.length = 10;
+      this.listData = res.data.playlist.tracks;
+      }) .catch(() => {
+          this.$message.error("数据获取失败");
+        });
+
     },
   ...mapActions(['addSong','playInfo','addList'])
   }

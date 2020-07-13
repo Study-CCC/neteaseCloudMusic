@@ -16,28 +16,33 @@
   </div>
 </template>
 <script>
-import AlbumItem from '../../common/albumItem'
+import AlbumItem from "../../common/albumItem";
+import { hotAlbum } from "../../../utils/api/albumApi";
 export default {
   data() {
     return {
-      albums:[[],[]]
+      albums: [[], []]
     };
   },
   methods: {
-    async getData(){
-      const { data, status } = await this.$http.get("/album/newest");
-      if (status !== 200) return this.$message.error("数据获取错误");
-      data.albums.length = 10;
-      data.albums.map((item,index)=>{
-        if(index<5) this.albums[0].push(item)
-        else this.albums[1].push(item)
-      })
+    getData() {
+      hotAlbum()
+        .then(res => {
+          res.data.albums.length = 10;
+          res.data.albums.map((item, index) => {
+            if (index < 5) this.albums[0].push(item);
+            else this.albums[1].push(item);
+          });
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
   },
   created() {
-    this.getData()
+    this.getData();
   },
-  components:{
+  components: {
     AlbumItem
   }
 };
@@ -53,14 +58,14 @@ export default {
       margin-left: auto;
     }
   }
-  ul{
+  ul {
     display: flex;
   }
-  .el-carousel{
+  .el-carousel {
     margin: 20px 0;
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
     padding: 0 10px;
-    border: 1px solid #CACACA;
+    border: 1px solid #cacaca;
   }
 }
 </style>

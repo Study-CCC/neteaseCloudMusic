@@ -42,7 +42,7 @@
             <span class="headset"></span>
             <!-- 已听人数 -->
             <span>{{parseInt(item.playCount/10000)}}万</span>
-            <router-link class="video-play" to="/playlist"></router-link>
+            <a class="video-play" @click="playlist(item.id)"></a>
           </div>
         </div>
         <p class="hotp1">
@@ -66,7 +66,8 @@
 </template>
 
 <script>
-import { getCatlist, getTopPlaylist } from "../../../utils/api/playlistApi";
+import { getCatlist, getTopPlaylist,getPlaylist } from "../../../utils/api/playlistApi";
+import {mapActions} from 'vuex'
 export default {
   data() {
     return {
@@ -122,7 +123,7 @@ export default {
         });
     },
     getListData() {
-      getTopPlaylist(1, this.offset)
+      getTopPlaylist(this.cat, this.offset)
         .then(res => {
           this.playlists = res.data.playlists;
           this.total = res.data.total;
@@ -130,7 +131,16 @@ export default {
         .catch(() => {
           this.$message.error("数据获取失败");
         });
-    }
+    },
+    playlist(id){
+      getPlaylist(id).then(res=>{
+        let tracks = res.data.playlist.tracks
+        this.addList(tracks)
+      }).catch(() => {
+          this.$message.error("数据获取失败");
+        });
+    },
+    ...mapActions(['addList'])
   },
   watch: {
     $route() {

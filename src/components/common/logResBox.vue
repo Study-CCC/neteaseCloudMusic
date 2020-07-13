@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import InputBox from "../../components/detailPage/logResCon/inputBox";
+import InputBox from "../../page/logResCon/inputBox";
 import {mapMutations} from 'vuex'
 export default {
   data() {

@@ -55,6 +55,7 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
+import { getHotDj } from "../../../utils/api/djApi";
 export default {
   data() {
     return {
@@ -63,11 +64,11 @@ export default {
   },
   methods: {
     async getData() {
-      const { data, status } = await this.$http.get(
-        "/dj/toplist?type=hot&limit=5"
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.hotAnchor = data.toplist;
+      getHotDj().then(res=>{
+              this.hotAnchor = res.data.toplist;
+      }).catch(() => {
+          this.$message.error("数据获取失败");
+        });
     },
     ...mapMutations({
       setLoginBox: "SET_LOGINBOX"

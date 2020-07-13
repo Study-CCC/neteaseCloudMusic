@@ -151,11 +151,11 @@ export default {
       } else if (this.path == "/discover/toplist") {
         this.type = 0;
       } else if (this.path == "/program") {
-        this.type = 3;
+        this.type = 2;
       } else if (this.path == "/album") {
-        this.type = 4;
+        this.type = 3;
       } else if (this.path == "/mv") {
-        this.type = 5;
+        this.type = 4;
       }
       getComment(this.id, this.type)
         .then(res => {

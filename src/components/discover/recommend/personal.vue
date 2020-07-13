@@ -23,6 +23,7 @@
 
 <script>
 import PlaylistItem from '../../common/playlistItem'
+import { userRecommend } from "../../../utils/api/userApi";
 import {mapGetters} from 'vuex'
 export default {
   data() {
@@ -36,14 +37,17 @@ export default {
     this.getData()
   },
   methods: {
-    async getData(){
-        const { data, status } = await this.$http.get(`/recommend/resource?cookie=${this.cookie}`);
-      if (status !== 200) return this.$message.error("数据获取错误");      
-        this.playlist=data.recommend
-        this.playlist.length = 3
+     getData(){
+       userRecommend(this.cookie).then(res=>{
+       res.data.recommend.length = 3
+       this.playlist=res.data.recommend
           let nowDate = new Date()
       this.date.week = nowDate.getDay()
       this.date.day = nowDate.getDate()
+       }) .catch(() => {
+          this.$message.error("数据获取失败");
+        });
+   
     }
     
   },

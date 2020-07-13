@@ -6,6 +6,11 @@ export const login = (id,psw)=>{
     return axios.post(url)
 }
 
+export const userRecommend = (cookie)=>{
+    const url = HOST + `/recommend/resource?cookie=${cookie}`
+    return axios.get(url)
+}
+
 export const userPlaylist = id=>{
     const url = HOST + `/user/playlist?uid=${id}`
     return axios.get(url)
@@ -16,8 +21,9 @@ export const userRecord = (id,type)=>{
     return axios.get(url)
 }
 
-export const userInfo = id =>{
-    const url = HOST + `/user/detail?uid=${id}`
+export const userInfo = (id,cookie) =>{
+    const url = HOST + `/user/detail?uid=${id}&cookie=${cookie}`
+    console.log(url)
     return axios.get(url)
 }
 

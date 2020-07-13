@@ -30,7 +30,7 @@
       <el-col :span="18">
         <div class="rightBox">
           <HeaderInfo v-if="detail.creator" :detail="detail" />
-          <SongCon :songsList="detail" />
+          <SongCon :songsList="detail" v-loading="loading"/>
           <CmtCon />
         </div>
       </el-col>
@@ -41,39 +41,47 @@
 <script>
 import HeaderInfo from "../common/headerInfo";
 import SongCon from "../common/songCon";
-import CmtCon from '../common/commentCon'
-import {mapGetters} from 'vuex'
+import CmtCon from "../common/commentCon";
+import { mapGetters } from "vuex";
+import { userInfo,userPlaylist } from "../../utils/api/userApi";
+import { getPlaylist } from '../../utils/api/playlistApi'
 export default {
   data() {
     return {
       detail: {},
       playlist: [],
-      id:''
-     };
+      id: "",
+      loading:true
+    };
   },
   created() {
     this.getData();
   },
   methods: {
-    async getData() {
-      const { data, status } = await this.$http.get(
-        `/user/playlist?uid=${this.user.userId}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.playlist = data.playlist;
-          this.getId(this.playlist[0].id)
+     getData() {
+      userPlaylist(this.user.userId)
+        .then(res => {
+          this.playlist = res.data.playlist;
+          this.getId(this.playlist[0].id);
+        }).catch(() => {
+          this.$message.error("数据获取失败");
+        });
+       
     },
-    getId(id){
-      this.id = id
-        this.$router.push(`my?id=${id}`)
-        this.getList()
+    getId(id) {
+      this.id = id;
+      this.$router.push(`my?id=${id}`);
+      this.getList();
     },
-   async getList(){
-        const { data, status } = await this.$http.get(
-        `/playlist/detail?id=${this.id}&cookie=${this.cookie}`
-      );
-      if (status !== 200) return this.$message.error("数据获取错误");
-      this.detail = data.playlist
+    async getList() {
+      getPlaylist(this.id, this.cookie)
+        .then(res => {
+          this.detail = res.data.playlist;
+          this.loading = false
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
   },
   components: {
@@ -81,8 +89,8 @@ export default {
     HeaderInfo,
     CmtCon
   },
-  computed:{
-    ...mapGetters(['user','cookie'])
+  computed: {
+    ...mapGetters(["user", "cookie"])
   }
 };
 </script>
@@ -95,7 +103,7 @@ export default {
   padding: 30px 0;
   .leftBox {
     width: 220px;
-    h2{
+    h2 {
       text-align: center;
       font-size: 18px;
     }
@@ -126,8 +134,8 @@ export default {
           margin: 0;
           width: 130px;
           color: #000;
-          &:hover{
-            span{
+          &:hover {
+            span {
               display: inline-block;
             }
           }
@@ -155,9 +163,9 @@ export default {
       }
     }
   }
-  .rightBox{
+  .rightBox {
     border-left: 1px solid #d3d3d3;
-    padding:0 30px ;
+    padding: 0 30px;
   }
 }
 </style>

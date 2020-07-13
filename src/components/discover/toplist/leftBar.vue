@@ -4,7 +4,7 @@
     <ul>
       <li v-for="(item,i) in list" :key="i">
         <a :href="'/#/discover/toplist?id='+item.id">
-          <div  :class="['itemBox',item.id==id?'visited':'']">
+          <div :class="['itemBox',item.id==id?'visited':'']">
             <img :src="item.coverImgUrl" alt />
             <div class="itemText">
               <p>{{item.name}}</p>
@@ -19,11 +19,12 @@
 </template>
 
 <script>
+import { getDisToplist } from "../../../utils/api/playlistApi";
 export default {
   data() {
     return {
       list: [],
-      id:0
+      id: 0
     };
   },
   created() {
@@ -31,26 +32,29 @@ export default {
   },
   methods: {
     async getData() {
-      const { data, status } = await this.$http.get("/toplist");
-      if (status !== 200) return this.$message.error("数据获取错误");
-      // console.log(data)
-      this.list = data.list;
+      getDisToplist()
+        .then(res => {
+          this.list = res.data.list;
+        })
+        .catch(() => {
+          this.$message.error("数据获取失败");
+        });
     }
   },
   watch: {
-    $route(){
-      this.id = this.$route.query.id
+    $route() {
+      this.id = this.$route.query.id;
     }
-  },
+  }
 };
 </script>
 <style lang='less' scoped>
 .leftBox {
   width: 243px;
-  .visited{
-     background-color: #f4f2f2;
+  .visited {
+    background-color: #e6e6e6;
   }
-  a:hover{
+  a:hover {
     text-decoration: none;
   }
 
@@ -76,7 +80,7 @@ export default {
         line-height: 20px;
         margin: 0;
         color: #000;
-        &:hover{
+        &:hover {
           text-decoration: underline;
         }
       }

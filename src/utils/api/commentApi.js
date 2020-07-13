@@ -10,5 +10,4 @@ export const getComment = (id,type,offset)=>{
         console.log(url)
         return axios.get(url)
     }
-    
 }
