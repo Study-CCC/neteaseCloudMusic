@@ -9,7 +9,7 @@
         <p>最近更新：{{updataTime|creatTimeFilter}}</p>
         <div class="headerBtn">
           <el-button-group class="norBtn">
-            <el-button size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
+            <el-button @click="addList(songsList)" size="mini" type="primary" icon="el-icon-video-play">播放</el-button>
             <el-button size="mini" type="primary" icon="el-icon-plus"></el-button>
           </el-button-group>
           <el-button class="norBtn" size="mini" icon="el-icon-folder-add">({{subscribedCount}})</el-button>
@@ -128,7 +128,7 @@ export default {
           this.$message.error("数据获取失败");
         });
     },
-    ...mapActions(["playInfo"])
+    ...mapActions(["playInfo","addList"])
   },
   components: {
     CommentCon,

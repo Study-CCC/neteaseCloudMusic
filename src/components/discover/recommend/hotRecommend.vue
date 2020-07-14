@@ -42,7 +42,6 @@ export default {
     async getData() {
       const { data, status } = await this.$http.get("/personalized");
       if (status !== 200) return this.$message.error("数据获取错误");
-      // console.log(data);
       data.result.length = 8;
       this.playlists = data.result;
     }

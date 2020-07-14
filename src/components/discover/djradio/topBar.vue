@@ -49,7 +49,6 @@ export default {
         .catch(() => {
           this.$message.error("数据获取失败");
         });
-      // console.log(this.categories)
     },
     cliIcon(id) {
       if (id == this.iconFlag) return;
@@ -64,7 +63,6 @@ export default {
   ul {
     display: flex;
     flex-wrap: wrap;
-    // justify-content: space-between;
     li {
       margin: 0 0 25px 33px;
       color: #888;

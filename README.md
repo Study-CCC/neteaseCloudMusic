@@ -62,6 +62,7 @@ data() {
           布局使用flex中的between
           detailPage中的djradio的type用vuex管理,传到common中related
           封装button
+          使用externals加载外部cdn资源
 难点:  点击组件外时，让组件消失
         写音乐播放功能： 1. 手动拖动进度条改变播放时间
                         2. 播放暂停功能
@@ -71,3 +72,17 @@ data() {
 关于vuex的使用要点:
     1.需要将state加入computed中,让state中数据具有响应式
     2. 不要在methods中直接修改state,这样VueDevTools检测不到
+
+项目总结:
+    这个项目是模仿网易云音乐，实现了用户的登录，修改信息，音乐播放，搜索，mv播放，歌词轮播等功能，在技术上使用了VUE作为框架语言，使用node作为后端。在技术上使用了VUEX+VUE-ROUTER进行了页面状态保存以及页面的路由跳转，用element-ui来构建页面结构,用axios来进行对后端接口的连接。
+
+通过externals外部导入cdn
+ 1. 在vue.config.js下
+    config.set('externals',{
+            vue:'Vue',
+            'vue-router':'VueRouter',
+            axios:'axios',
+            vuex:'Vuex',
+            'element-ui': 'ElementUI'
+            })
+ 2. 在public的index.html中导入cdn

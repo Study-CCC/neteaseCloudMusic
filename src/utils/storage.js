@@ -4,7 +4,6 @@ const TOKEN = 'token'
 const LIST_Max_LENGTH = 200
 const addCor = (song, type) => {
     let playlist = JSON.parse(localStorage.getItem(PLAYLIST)) || []
-    // console.log(playlist)
     const index = playlist.findIndex(item => item.id == song.id)
     if (type == 1) {
         if (index === 0) return playlist
@@ -15,7 +14,6 @@ const addCor = (song, type) => {
     playlist.unshift(song)
     if (playlist.length > LIST_Max_LENGTH) playlist.pop()
     localStorage.setItem(PLAYLIST, JSON.stringify(playlist))
-    // console.log(playlist)
     return playlist
 }
 // 设置用户信息

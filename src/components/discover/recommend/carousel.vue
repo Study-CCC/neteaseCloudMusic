@@ -25,7 +25,6 @@ export default {
     async getData() {
       const { data, status } = await this.$http.get("/banner");
       if (status !== 200) return this.$message.error("数据获取错误");
-      // console.log(data);
       this.dataimg = data.banners;
     }
   }

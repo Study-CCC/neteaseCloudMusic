@@ -28,7 +28,6 @@ const songInit = (value) => {
     let song = {};
     song.id = value.id,
         song.name = value.name;
-        // console.log(value)
     if (value.duration) {
         song.authId = value.artists[0].id,
             song.picUrl = value.artists[0].img1v1Url,
@@ -46,7 +45,6 @@ const getLyric = async (song)=>{
     if(song.type==2) return ''
     const { data } = await axios.get(`/lyric?id=${song.id}`);
     if(data.nolyric) return ''
-    // console.log(data)
     return data.lrc.lyric
 }
 // 调节声音
@@ -87,7 +85,6 @@ export const setIsPlaying = ({ commit, state }) => {
 }
 // 添加播放列表
 export const addList = async ({commit},playlist) =>{
-    // console.log(playlist)
     playlist = playlist.map(item=>{
        return songInit(item)
     })
@@ -100,15 +97,7 @@ export const addList = async ({commit},playlist) =>{
 export const getList = ({ commit }) => {
     commit(types.SET_PLAYLIST, getPlaylist())
 }
-/*
-addSong({
-    id:,
-    name:,
-    authName:,
-    authId:,
-    picUrl:,
-    duration:
-  })*/
+
 // 获取正在播放音乐
 export const getPlay = ({ commit }) => {
     commit(types.SET_ISPLAYING, false)

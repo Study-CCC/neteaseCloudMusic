@@ -23,7 +23,6 @@ export const userRecord = (id,type)=>{
 
 export const userInfo = (id,cookie) =>{
     const url = HOST + `/user/detail?uid=${id}&cookie=${cookie}`
-    console.log(url)
     return axios.get(url)
 }
 

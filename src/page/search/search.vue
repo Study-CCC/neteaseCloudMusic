@@ -74,20 +74,6 @@ export default {
       }
       this.index = e;
       this.noFind = false
-      // getSearch(this.value, e, false, this.limit)
-      //   .then(res => {
-      //     // console.log(res)
-      //     this.noFind =
-      //       res.data.result[Object.keys(res.data.result)[0]] == 0
-      //         ? true
-      //         : false;
-      //     this.data = res.data.result;
-      //     this.loading = false;
-      //     this.$router.push(`/search?s=${this.value}&type=${e}`);
-      //   })
-      //   .catch(() => {
-      //     this.$message.error("数据获取失败");
-        // });
       this.$router.push(`/search?s=${this.value}&type=${e}`);
     }
   },

@@ -44,7 +44,6 @@ export default {
  },
   methods: {
     videoInit(){
-      // console.log('updata')
       clearInterval(this.timer);
       let video = this.$refs.video;
        video.pause();
@@ -56,7 +55,6 @@ export default {
     videoPlay() {
       clearInterval(this.timer);
       let video = this.$refs.video;
-            // console.log( video.play())
       video.volume = this.soundNum / 100;
       this.playInfo.isPlaying = !this.playInfo.isPlaying;
       if (!this.playInfo.isPlaying) {
@@ -83,7 +81,6 @@ export default {
               (this.playInfo.currentTime * 100) / this.videoData.duration
             );
           }
-          // console.log("111", video.buffered.end(video.buffered.length - 1));
         }, 1000);
         video.play();
       }

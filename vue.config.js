@@ -10,11 +10,20 @@ module.exports = {
     //             }
     //         }
     //     }
+    publicPath:"./",
     chainWebpack: config => {
 
         // 修复HMR
-        
         config.resolve.symlinks(true);
+
+        // 使用externals加载外部CDN资源
+        config.set('externals',{
+            vue:'Vue',
+            'vue-router':'VueRouter',
+            axios:'axios',
+            vuex:'Vuex',
+            'element-ui': 'ElementUI'
+            })
         
         }
     // devServer:{

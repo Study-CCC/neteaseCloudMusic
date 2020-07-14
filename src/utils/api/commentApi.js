@@ -7,7 +7,6 @@ export const getComment = (id,type,offset)=>{
         return axios.get(url)
     }else{
         const url = `${HOST}/comment/${typeArr[type]}?id=${id}`
-        console.log(url)
         return axios.get(url)
     }
 }

@@ -76,7 +76,6 @@ export default {
       let nowDate = new Date()
       this.date.week = nowDate.getDay()
       this.date.day = nowDate.getDate()
-      // console.log(this.songsList);
     }
   },
   components: {
